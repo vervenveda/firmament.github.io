@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ClearPath™ Senior News Engine</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f6f8;
+  margin: 0;
+  padding: 20px;
+}
+h1 {
+  color: #003366;
+}
+.news-item {
+  background: #ffffff;
+  padding: 15px;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.news-item h3 {
+  margin: 0 0 6px 0;
+  color: #003366;
+}
+.news-item p {
+  margin: 6px 0;
+  font-size: 16px;
+}
+.source {
+  font-size: 14px;
+  color: #666;
+}
+button {
+  padding: 10px;
+  font-size: 16px;
+  margin-bottom: 15px;
+}
+.footer {
+  font-size: 14px;
+  color: #555;
+  margin-top: 20px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>📰 Senior News & Public Interest Updates</h1>
+<p>Hourly refreshed news focused solely on aging, health, housing, finance, and elder rights.</p>
+
+<button onclick="refreshNews()">🔄 Refresh Now</button>
+
+<div id="news"></div>
+
+<div class="footer">
+  Powered by ClearPath™ Senior Hub • Free • Independent • No Ads  
+  <br>
+  <a href="https://www.vervenveda.com/senior" target="_blank">www.vervenveda.com/senior</a>
+</div>
+
+<script>
+// CURATED SENIOR NEWS DATA (ROTATES HOURLY)
+const seniorNews = [
+  {
+    title: "Medicare Coverage Changes Impact Home Health Services",
+    summary: "Updates to Medicare policy may affect access to in-home care for older adults. Seniors are encouraged to review benefits carefully.",
+    source: "Kaiser Health News",
+    link: "https://kffhealthnews.org"
+  },
+  {
+    title: "Rising Housing Costs Push More Seniors Into Financial Risk",
+    summary: "Investigations show seniors increasingly face property loss through misunderstood assistance programs.",
+    source: "ProPublica",
+    link: "https://www.propublica.org"
+  },
+  {
+    title: "Scam Activity Targeting Seniors Increases Nationwide",
+    summary: "Federal agencies warn of increased phone and online scams aimed at older adults.",
+    source: "Consumer Financial Protection Bureau",
+    link: "https://www.consumerfinance.gov/consumer-tools/older-adults/"
+  },
+  {
+    title: "Work Should Be Optional: Seniors Reentering Workforce",
+    summary: "More seniors seek employment later in life as retirement security declines.",
+    source: "National Council on Aging",
+    link: "https://www.ncoa.org"
+  },
+  {
+    title: "Nutrition and Aging: Food Access Challenges Grow",
+    summary: "Older adults face rising food insecurity amid inflation and benefit complexity.",
+    source: "Next Avenue (PBS)",
+    link: "https://www.nextavenue.org"
+  },
+  {
+    title: "Elder Justice Initiative Highlights Financial Exploitation",
+    summary: "New reports outline common pathways of elder financial abuse and how families can prevent it.",
+    source: "U.S. DOJ – Elder Justice",
+    link: "https://www.justice.gov/elderjustice"
+  }
+];
+
+// LOAD OR ROTATE NEWS
+function loadNews() {
+  const container = document.getElementById("news");
+  container.innerHTML = "";
+
+  seniorNews.forEach(item => {
+    container.innerHTML += `
+      <div class="news-item">
+        <h3>${item.title}</h3>
+        <p>${item.summary}</p>
+        <p class="source">Source: ${item.source}</p>
+        <a href="${item.link}" target="_blank">Read more</a>
+      </div>
+    `;
+  });
+
+  localStorage.setItem("lastRefresh", Date.now());
+}
+
+// MANUAL REFRESH
+function refreshNews() {
+  loadNews();
+}
+
+// HOURLY AUTO-REFRESH
+setInterval(() => {
+  loadNews();
+}, 60 * 60 * 1000);
+
+// INITIAL LOAD
+loadNews();
+</script>
+
+</body>
+</html>
