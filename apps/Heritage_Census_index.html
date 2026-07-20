@@ -1,0 +1,2360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>KINDRED VAULT — Sovereign Local Tool (Tree • Census • Consensus)</title>
+<style>
+  :root{
+    --paper:#f9f2e7;
+    --paper2:#faf0dc;
+    --ink:#1f2937;
+    --muted:#6b7280;
+    --gold:#d4b483;
+    --gold2:#b2855c;
+    --card:#fff8e1;
+    --white:#ffffff;
+    --danger:#b42318;
+    --ok:#0f766e;
+  }
+  html,body{height:100%; margin:0; font-family: Georgia, serif; background:var(--paper); color:var(--ink); overflow:hidden;}
+  header{
+    text-align:center;
+    font-family: "Georgia", serif;
+    letter-spacing: 0.06em;
+    font-size: 42px;
+    padding: 18px 12px 10px;
+    position:relative;
+    user-select:none;
+  }
+  header .sub{
+    display:block;
+    font-size:12px;
+    letter-spacing:0.18em;
+    margin-top:6px;
+    color:var(--muted);
+  }
+  #adminBtn{
+    position:absolute; right:14px; top:14px;
+    width:32px; height:32px; border-radius:10px;
+    border:1px solid var(--gold);
+    background:var(--card); color:var(--ink);
+    cursor:pointer;
+    font-weight:700;
+  }
+  .controls{
+    position:absolute; top:92px; left:0; width:100%;
+    background:var(--paper2);
+    padding:10px 10px 8px;
+    z-index:1000;
+    border-top:1px solid var(--gold);
+    border-bottom:1px solid var(--gold);
+  }
+  .row{display:flex; flex-wrap:wrap; gap:6px; align-items:center; justify-content:center;}
+  .row + .row{margin-top:6px;}
+  input, select, button{
+    margin:0;
+    padding:6px 8px;
+    font-size:13px;
+    border-radius:9px;
+    border:1px solid #d9c7a2;
+    background:#fffdf6;
+    color:var(--ink);
+  }
+  button{cursor:pointer; background:var(--card);}
+  button.primary{background:#f3e6c9;}
+  button.danger{background:#ffe2dd; border-color:#ffb4a8; color:#7a160b;}
+  button.ok{background:#dff7f3; border-color:#a7efe4; color:#064e3b;}
+  button.ghost{background:#fffdf6;}
+  .pill{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:4px 10px; border:1px solid #e4d2b0; border-radius:999px;
+    background:#fffdf6; color:var(--muted); font-size:12px;
+  }
+  .tabs button{font-weight:700;}
+  .tip{
+    width:100%;
+    text-align:center;
+    font-size:12px;
+    color:var(--muted);
+    margin-top:6px;
+  }
+
+  main{
+    position:absolute; left:0; right:0; bottom:0;
+    top:190px;
+    overflow:hidden;
+  }
+  .panel{position:absolute; inset:0; display:none;}
+  .panel.active{display:block;}
+
+  /* --- Tree canvas area --- */
+  #treeContainer{
+    position:absolute; inset:0;
+    overflow:auto;
+    background:var(--paper2);
+    cursor:grab;
+  }
+  #canvasWrapper{
+    position:relative;
+    transform-origin:0 0;
+    min-width:2200px;
+    min-height:1400px;
+  }
+  #treeSVG{
+    position:absolute; top:0; left:0;
+    width:100%; height:100%;
+    pointer-events:none;
+  }
+  .member-box{
+    position:absolute;
+    width:160px;
+    padding:6px 6px 8px;
+    background:var(--card);
+    border:1px solid var(--gold);
+    border-radius:12px;
+    text-align:center;
+    cursor:grab;
+    user-select:none;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  }
+  .member-box.dragging{opacity:0.65; cursor:grabbing;}
+  .member-photo{
+    width:64px; height:64px;
+    border-radius:50%;
+    display:block;
+    margin:4px auto 6px;
+    object-fit:cover;
+    border:1px solid #e5d4b4;
+  }
+  .member-mini{
+    display:flex; gap:6px; justify-content:center; align-items:center;
+    color:var(--muted); font-size:12px; margin-top:4px;
+  }
+  .highlight{
+    border-color:var(--gold2);
+    box-shadow:0 0 10px rgba(178,133,92,0.35);
+  }
+
+  /* --- Map strip --- */
+  .mapStrip{
+    position:absolute; left:0; right:0; bottom:0;
+    height:280px;
+    background:#fffdf6;
+    border-top:1px solid var(--gold);
+    display:flex;
+    flex-direction:column;
+  }
+  .mapTop{
+    display:flex; gap:8px; align-items:center; justify-content:space-between;
+    padding:8px 10px;
+  }
+  .mapTop .title{font-weight:700; letter-spacing:0.04em;}
+  .mapTop .meta{color:var(--muted); font-size:12px;}
+  #mapCanvas{
+    flex:1;
+    width:100%;
+    display:block;
+    background:linear-gradient(180deg,#fffdf6,#fff7ea);
+  }
+
+  /* --- Census / Consensus layout --- */
+  .scrollArea{
+    position:absolute; inset:0;
+    overflow:auto;
+    padding:14px 12px 18px;
+    background:var(--paper2);
+  }
+  .card{
+    max-width:980px;
+    margin:0 auto 12px;
+    background:var(--card);
+    border:1px solid var(--gold);
+    border-radius:14px;
+    padding:12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  }
+  .card h3{margin:0 0 8px; font-size:16px; letter-spacing:0.04em;}
+  .grid2{display:grid; grid-template-columns: 1fr 1fr; gap:10px;}
+  .grid3{display:grid; grid-template-columns: 1fr 1fr 1fr; gap:10px;}
+  .grid4{display:grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap:10px;}
+  @media (max-width: 860px){ .grid2,.grid3,.grid4{grid-template-columns:1fr;} }
+  .small{font-size:12px; color:var(--muted);}
+  .hr{height:1px; background:#ead9b8; margin:10px 0;}
+  .list{margin:8px 0 0; padding-left:18px; color:var(--ink);}
+  .table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:13px;
+  }
+  .table th,.table td{
+    padding:8px;
+    border-bottom:1px solid #eddcbe;
+    text-align:left;
+    vertical-align:top;
+  }
+  .bar{
+    height:10px;
+    border-radius:999px;
+    background:#ead9b8;
+    overflow:hidden;
+  }
+  .bar > i{
+    display:block; height:100%;
+    background:#b2855c;
+    width:0%;
+  }
+
+  /* --- Modals --- */
+  .modal{
+    display:none;
+    position:fixed;
+    top:50%; left:50%;
+    transform:translate(-50%,-50%);
+    background:var(--card);
+    border:2px solid var(--gold);
+    border-radius:14px;
+    padding:14px;
+    min-width:320px;
+    max-width: 92vw;
+    max-height: 86vh;
+    overflow:auto;
+    z-index:3000;
+    box-shadow: 0 18px 60px rgba(0,0,0,0.22);
+  }
+  .modal.show{display:block;}
+  .modal h3{margin:0 0 10px;}
+  .modal label{display:block; font-size:12px; color:var(--muted); margin:8px 0 4px;}
+  .modal input,.modal select,.modal textarea{width:100%;}
+  .modal textarea{min-height:70px; resize:vertical;}
+  .modal .btnRow{display:flex; gap:8px; justify-content:flex-end; flex-wrap:wrap; margin-top:10px;}
+  .modal .inline{display:flex; gap:8px;}
+  .modal .inline > *{flex:1;}
+  .linkList{list-style:none; padding-left:0; margin:8px 0 0;}
+  .linkList li{padding:6px 0; border-bottom:1px dashed #ead9b8;}
+  .linkList a{color:#1d4ed8; text-decoration:none;}
+  .linkList a:hover{text-decoration:underline;}
+  .kbd{
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    font-size:12px;
+    background:#fffdf6;
+    border:1px solid #ead9b8;
+    border-radius:8px;
+    padding:2px 6px;
+    color:#374151;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  KINDRED VAULT
+  <span class="sub">SOVEREIGN • LOCAL ONLY • PRIVATE BY DESIGN</span>
+  <button id="adminBtn" title="Admin">A</button>
+</header>
+
+<div class="controls">
+  <div class="row">
+    <span class="pill" id="statusPill">Not signed in</span>
+
+    <input type="text" id="username" placeholder="Username" autocomplete="username" />
+    <input type="password" id="password" placeholder="Password" autocomplete="current-password" />
+    <button class="primary" id="btnRegister">Register</button>
+    <button class="primary" id="btnLogin">Login</button>
+    <button id="btnLogout">Logout</button>
+
+    <span class="pill">Data stays in your browser <span class="kbd">localStorage</span></span>
+  </div>
+
+  <div class="row tabs">
+    <button class="ghost" data-tab="tree" id="tabBtnTree">Family Tree</button>
+    <button class="ghost" data-tab="census" id="tabBtnCensus">Heritage Census</button>
+    <button class="ghost" data-tab="consensus" id="tabBtnConsensus">Khaemenes Consensus</button>
+    <button class="ghost" id="btnResources">Resources</button>
+
+    <button class="ghost" id="btnExportAll">Export All</button>
+    <label class="pill" style="cursor:pointer;">
+      Import All <input type="file" id="importAllFile" accept="application/json" style="display:none;" />
+    </label>
+    <button class="danger" id="btnClearWorkspace">Clear My Data</button>
+  </div>
+
+  <!-- Tree quick-add row -->
+  <div class="row" id="treeQuickAdd">
+    <input type="text" id="memberName" placeholder="Name" style="min-width:180px;" />
+    <select id="memberRelation">
+      <option value="child">Child</option>
+      <option value="spouse">Spouse</option>
+      <option value="parent">Parent</option>
+      <option value="sibling">Sibling</option>
+      <option value="other">Other</option>
+    </select>
+    <select id="memberParent"><option value="">Select Parent</option></select>
+    <select id="memberSpouse"><option value="">Select Spouse</option></select>
+    <input type="text" id="memberBirthplace" placeholder="Birthplace (City, Country)" />
+    <input type="text" id="memberResidence" placeholder="Current Residence" />
+    <input type="text" id="memberEthnicity" placeholder="Ethnicity" />
+    <input type="text" id="memberTribal" placeholder="Tribal/Clan" />
+    <button class="ok" id="btnAddMember">Add Member</button>
+
+    <input type="text" id="searchInput" placeholder="Search..." />
+    <button id="btnResetZoom">Reset Zoom</button>
+    <button id="btnToggleMap">Toggle Map</button>
+    <button id="btnExportTree">Export Tree</button>
+    <label class="pill" style="cursor:pointer;">
+      Import Tree <input type="file" id="importTreeFile" accept="application/json" style="display:none;" />
+    </label>
+    <button id="btnPrintTree">Print</button>
+  </div>
+
+  <div class="tip" id="tipLine">Tip: mousewheel zoom • drag background to pan • drag a person to reposition • click a person to edit</div>
+</div>
+
+<main>
+  <!-- TREE PANEL -->
+  <section class="panel active" id="panelTree">
+    <div id="treeContainer" aria-label="Family Tree Canvas">
+      <div id="canvasWrapper">
+        <svg id="treeSVG"></svg>
+      </div>
+    </div>
+
+    <div class="mapStrip" id="mapStrip">
+      <div class="mapTop">
+        <div>
+          <div class="title">Migration Map</div>
+          <div class="meta">Pins are drawn from your saved Place Index (optional). Unknown places fall back to a local hash (not geographic).</div>
+        </div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
+          <button id="btnPlaces">Place Index</button>
+          <button id="btnRedrawMap">Redraw</button>
+          <button id="btnResetMap">Reset Map</button>
+        </div>
+      </div>
+      <canvas id="mapCanvas"></canvas>
+    </div>
+  </section>
+
+  <!-- CENSUS PANEL -->
+  <section class="panel" id="panelCensus">
+    <div class="scrollArea">
+      <div class="card">
+        <h3>Heritage Census (Local Only)</h3>
+        <div class="small">Capture household structure and heritage notes, then optionally import into the Tree. Keep it private: you control what you type.</div>
+        <div class="hr"></div>
+
+        <div class="grid3">
+          <div>
+            <div class="small">Household Label</div>
+            <input id="censusHouseholdLabel" placeholder="e.g., 1940 Tampa Household (Private)" />
+          </div>
+          <div>
+            <div class="small">Country</div>
+            <input id="censusCountry" placeholder="e.g., United States" />
+          </div>
+          <div>
+            <div class="small">Region Marker (ZIP3 / Postal Prefix / Province)</div>
+            <input id="censusRegion" placeholder="e.g., 346 • ON • NSW • 101" />
+          </div>
+        </div>
+
+        <div class="hr"></div>
+
+        <div class="grid2">
+          <div>
+            <div class="small">Ethnicity / Heritage (general)</div>
+            <input id="censusHeritage" placeholder="e.g., Irish • Afro-Caribbean • Levantine • Mixed" />
+          </div>
+          <div>
+            <div class="small">Migration Notes (optional)</div>
+            <input id="censusMigration" placeholder="e.g., 1912 → 1935 → 1950 moves (no exact addresses)" />
+          </div>
+        </div>
+
+        <div class="hr"></div>
+
+        <h3 style="margin-top:0;">Add Household Member</h3>
+        <div class="grid4">
+          <input id="censusMemberName" placeholder="Name (or 'Anonymous')" />
+          <select id="censusMemberRole">
+            <option value="head">Head</option>
+            <option value="spouse">Spouse</option>
+            <option value="child">Child</option>
+            <option value="parent">Parent</option>
+            <option value="other">Other</option>
+          </select>
+          <select id="censusMemberAgeBand">
+            <option value="u18">&lt;18</option>
+            <option value="18_24">18–24</option>
+            <option value="25_34">25–34</option>
+            <option value="35_44">35–44</option>
+            <option value="45_54">45–54</option>
+            <option value="55_64">55–64</option>
+            <option value="65p">65+</option>
+          </select>
+          <input id="censusMemberBirthplace" placeholder="Birthplace (City, Country)" />
+        </div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:10px;">
+          <button class="ok" id="btnCensusAddMember">Add To Household</button>
+          <button id="btnCensusNew">New Household</button>
+          <button class="primary" id="btnCensusFinish">Finish Household</button>
+          <button id="btnCensusExport">Export Census</button>
+          <label class="pill" style="cursor:pointer;">
+            Import Census <input type="file" id="importCensusFile" accept="application/json" style="display:none;" />
+          </label>
+        </div>
+
+        <div class="hr"></div>
+        <div class="small"><b>Current Household Members:</b></div>
+        <ul class="list" id="censusHouseholdList"></ul>
+      </div>
+
+      <div class="card">
+        <h3>Saved Households</h3>
+        <div class="small">You can re-import any household into the Tree (creates nodes and links).</div>
+        <div class="hr"></div>
+        <div id="censusSavedWrap" class="small">No households yet.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONSENSUS PANEL -->
+  <section class="panel" id="panelConsensus">
+    <div class="scrollArea">
+      <div class="card">
+        <h3>Khaemenes Academy Consensus (Aggregates Only)</h3>
+        <div class="small">
+          This module stores <b>no names</b> and <b>no free-text</b>. It only increments aggregate counters by region and time bucket.
+          Heat Index only displays regions with <b>n ≥ k-min</b>.
+        </div>
+        <div class="hr"></div>
+
+        <div class="grid4">
+          <div>
+            <div class="small">Country Code</div>
+            <select id="consCountry">
+              <option value="US">US</option>
+              <option value="CA">CA</option>
+              <option value="GB">GB</option>
+              <option value="IE">IE</option>
+              <option value="AU">AU</option>
+              <option value="NZ">NZ</option>
+              <option value="DE">DE</option>
+              <option value="FR">FR</option>
+              <option value="IN">IN</option>
+              <option value="BR">BR</option>
+              <option value="MX">MX</option>
+              <option value="OTHER">OTHER</option>
+            </select>
+          </div>
+          <div>
+            <div class="small">ZIP (US only)</div>
+            <input id="consZip" placeholder="e.g., 34683" />
+          </div>
+          <div>
+            <div class="small">Region Marker (Intl)</div>
+            <input id="consRegion" placeholder="e.g., ON • NSW • 101 • 'Berlin'" />
+          </div>
+          <div>
+            <div class="small">Age Band</div>
+            <select id="consAge">
+              <option value="u18">&lt;18</option>
+              <option value="18_24">18–24</option>
+              <option value="25_34">25–34</option>
+              <option value="35_44">35–44</option>
+              <option value="45_54">45–54</option>
+              <option value="55_64">55–64</option>
+              <option value="65p">65+</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid3" style="margin-top:10px;">
+          <div>
+            <div class="small">Primary Issue</div>
+            <select id="consIssue">
+              <option value="housing">Housing</option>
+              <option value="healthcare">Healthcare</option>
+              <option value="education">Education</option>
+              <option value="safety">Safety</option>
+              <option value="jobs">Jobs / Unemployment</option>
+              <option value="wages">Wages / Inflation</option>
+              <option value="family">Family / Caregiving</option>
+              <option value="transport">Transportation</option>
+              <option value="discrimination">Discrimination</option>
+              <option value="mental_health">Mental Health</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div>
+            <div class="small">Work-related Marker (optional)</div>
+            <select id="consWork">
+              <option value="">(none)</option>
+              <option value="workplace_safety">Workplace safety</option>
+              <option value="burnout">Burnout / overload</option>
+              <option value="harassment">Harassment</option>
+              <option value="wage_theft">Wage theft</option>
+              <option value="scheduling">Scheduling instability</option>
+              <option value="unpaid_leave">Unpaid leave / no benefits</option>
+              <option value="injury">Injury / disability</option>
+              <option value="other_work">Other work issue</option>
+            </select>
+          </div>
+          <div>
+            <div class="small">Severity (1–5)</div>
+            <select id="consSeverity">
+              <option value="1">1 — mild</option>
+              <option value="2">2</option>
+              <option value="3" selected>3</option>
+              <option value="4">4</option>
+              <option value="5">5 — extreme</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:10px;">
+          <button class="ok" id="btnConsSubmit">Submit Aggregate</button>
+          <button id="btnConsExport">Export Aggregates</button>
+          <label class="pill" style="cursor:pointer;">
+            Import/Merge Aggregates <input type="file" id="consImportFile" accept="application/json" style="display:none;" />
+          </label>
+          <span class="pill">k-min: <input id="kMin" type="number" min="2" max="50" value="5" style="width:70px; padding:4px 6px;" /></span>
+          <button class="danger" id="btnConsClear">Clear Consensus</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Consensus Heat Index (ZIP3/Region)</h3>
+        <div class="small">Only regions with <b>n ≥ k-min</b> are shown. Heat = avg severity × log₂(n+1).</div>
+        <div class="hr"></div>
+        <div id="heatWrap" class="small">No data yet.</div>
+      </div>
+
+      <div class="card">
+        <h3>Trend Snapshots (Aggregates)</h3>
+        <div class="small">Weekly and monthly rollups (no raw submissions retained).</div>
+        <div class="hr"></div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
+          <button id="btnTrendWeekly" class="primary">Weekly</button>
+          <button id="btnTrendMonthly">Monthly</button>
+          <span class="pill">Showing last 12 buckets</span>
+        </div>
+        <div class="hr"></div>
+        <div id="trendWrap" class="small">No trend data yet.</div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- MEMBER MODAL -->
+<div class="modal" id="memberModal" role="dialog" aria-modal="true">
+  <h3>Edit Member</h3>
+
+  <label>Name</label>
+  <input type="text" id="modalName" />
+
+  <div class="inline">
+    <div>
+      <label>Relation</label>
+      <select id="modalRelation">
+        <option value="child">Child</option>
+        <option value="spouse">Spouse</option>
+        <option value="parent">Parent</option>
+        <option value="sibling">Sibling</option>
+        <option value="other">Other</option>
+        <option value="head">Head</option>
+      </select>
+    </div>
+    <div>
+      <label>Birth (YYYY-MM-DD)</label>
+      <input type="text" id="modalBirth" placeholder="YYYY-MM-DD" />
+    </div>
+  </div>
+
+  <div class="inline">
+    <div>
+      <label>Death (YYYY-MM-DD)</label>
+      <input type="text" id="modalDeath" placeholder="YYYY-MM-DD" />
+    </div>
+    <div>
+      <label>Ethnicity</label>
+      <input type="text" id="modalEthnicity" />
+    </div>
+  </div>
+
+  <div class="inline">
+    <div>
+      <label>Tribal/Clan</label>
+      <input type="text" id="modalTribal" />
+    </div>
+    <div>
+      <label>Adoption Info</label>
+      <input type="text" id="modalAdoption" />
+    </div>
+  </div>
+
+  <label>Birthplace</label>
+  <input type="text" id="modalBirthplace" placeholder="City, Country" />
+
+  <label>Current Residence</label>
+  <input type="text" id="modalResidence" placeholder="City, Country" />
+
+  <label>Notes (local)</label>
+  <textarea id="modalNotes" placeholder="Sources, memories, or notes (kept local)"></textarea>
+
+  <div class="hr"></div>
+
+  <label>Photo</label>
+  <input type="file" id="modalPhoto" accept="image/*" />
+  <div id="photoPreview"></div>
+
+  <div class="hr"></div>
+
+  <h3 style="margin:0 0 8px;">Attach DNA Result (Local Only)</h3>
+  <input type="file" id="modalDNAFile" accept=".txt,.csv,.zip,.json" />
+  <label>DNA Notes (local)</label>
+  <textarea id="modalDNANotes" placeholder="Notes or lineage evidence for this file"></textarea>
+  <div id="dnaFilePreview" class="small"></div>
+
+  <div class="hr"></div>
+
+  <h3 style="margin:0 0 8px;">Record Story (Local Only)</h3>
+  <div style="display:flex; gap:8px; flex-wrap:wrap;">
+    <button id="btnRecStart" class="ok">Start Recording</button>
+    <button id="btnRecStop">Stop Recording</button>
+    <button id="btnRecClear" class="danger">Clear Recording</button>
+  </div>
+  <div id="audioPreview" style="margin-top:8px;"></div>
+
+  <div class="hr"></div>
+
+  <h3 style="margin:0 0 8px;">Heritage Search (opens new tab)</h3>
+  <div class="small">These searches use the name you entered. Only click if you want to search externally.</div>
+  <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:8px;">
+    <button id="btnSearchFamilySearch">FamilySearch</button>
+    <button id="btnSearchWikiTree">WikiTree</button>
+    <button id="btnSearchFindGrave">Find a Grave</button>
+    <button id="btnSearchLegacy">Legacy</button>
+  </div>
+
+  <div class="btnRow">
+    <button class="danger" id="btnDeleteMember">Delete</button>
+    <button id="btnModalCancel">Cancel</button>
+    <button class="ok" id="btnModalSave">Save</button>
+  </div>
+</div>
+
+<!-- RESOURCES MODAL -->
+<div class="modal" id="resourcesModal" role="dialog" aria-modal="true">
+  <h3>Resources Library</h3>
+  <div class="small">All links open in a new tab. Expand this library anytime by editing the <span class="kbd">RESOURCES</span> object in code.</div>
+
+  <div class="hr"></div>
+
+  <div class="inline">
+    <div>
+      <label>Category</label>
+      <select id="resCategory"></select>
+    </div>
+    <div>
+      <label>Filter</label>
+      <input id="resFilter" placeholder="type to filter..." />
+    </div>
+  </div>
+
+  <ul class="linkList" id="resList"></ul>
+
+  <div class="btnRow">
+    <button id="btnResClose">Close</button>
+  </div>
+</div>
+
+<!-- PLACES MODAL -->
+<div class="modal" id="placesModal" role="dialog" aria-modal="true">
+  <h3>Place Index (Optional)</h3>
+  <div class="small">Map becomes geographic only when you provide coordinates. Add a place → lat/lon, and the map will pin it.</div>
+
+  <div class="hr"></div>
+
+  <div class="grid3">
+    <input id="placeName" placeholder="Place label (match your Birthplace/Residence text)" />
+    <input id="placeLat" placeholder="Latitude (e.g., 28.0)" />
+    <input id="placeLon" placeholder="Longitude (e.g., -82.7)" />
+  </div>
+  <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:10px;">
+    <button class="ok" id="btnPlaceAdd">Add / Update</button>
+    <button id="btnPlaceExport">Export Places</button>
+    <label class="pill" style="cursor:pointer;">
+      Import Places <input type="file" id="placeImportFile" accept="application/json" style="display:none;" />
+    </label>
+    <button class="danger" id="btnPlaceClear">Clear Places</button>
+  </div>
+
+  <div class="hr"></div>
+  <div class="small"><b>Saved Places:</b></div>
+  <div id="placesList" class="small">None yet.</div>
+
+  <div class="btnRow">
+    <button id="btnPlaceClose">Close</button>
+  </div>
+</div>
+
+<script>
+/* ===========================
+   KINDRED VAULT — V6
+   Tree + Census + Consensus (Aggregates only)
+   No external libraries.
+   =========================== */
+
+const $ = (id)=>document.getElementById(id);
+const $$ = (sel)=>Array.from(document.querySelectorAll(sel));
+const nowISO = ()=>new Date().toISOString();
+const clamp = (n,min,max)=>Math.max(min,Math.min(max,n));
+
+/* ---------- Storage Keys ---------- */
+const KV_USERS = "kv_users_v1";
+const KV_LAST_USER = "kv_last_user_v1";
+const workspaceKey = (suffix)=>`kv_${suffix}_${(state.currentUser||"guest")}_v6`;
+
+function safeJSON(key, fallback){
+  try{ return JSON.parse(localStorage.getItem(key) || JSON.stringify(fallback)); }
+  catch{ return fallback; }
+}
+function setJSON(key, val){ localStorage.setItem(key, JSON.stringify(val)); }
+
+/* ---------- State ---------- */
+const state = {
+  users: safeJSON(KV_USERS, []),
+  currentUser: localStorage.getItem(KV_LAST_USER) || null,
+
+  familyTree: [],
+  households: [],
+  places: {},
+  consensus: null,
+
+  draggedMember: null,
+  dragOffsetX: 0,
+  dragOffsetY: 0,
+
+  // pan/zoom for tree
+  scale: 1,
+  tx: 0,
+  ty: 0,
+  isPanning: false,
+  panStartX: 0,
+  panStartY: 0,
+
+  trendMode: "weekly",
+  mapVisible: true,
+};
+
+/* ---------- Resources Library (hard-wired) ---------- */
+const RESOURCES = {
+  "Start Here (Best Global Hubs)": [
+    { name:"FamilySearch — Free Records & Tree Tools", url:"https://www.familysearch.org/" },
+    { name:"FamilySearch Wiki — Country-by-country research portals", url:"https://www.familysearch.org/en/wiki/Main_Page" },
+    { name:"Cyndi’s List — Massive genealogy links directory", url:"https://www.cyndislist.com/" },
+    { name:"WikiTree — Free collaborative family tree", url:"https://www.wikitree.com/" },
+    { name:"Geni — Global collaborative tree (MyHeritage)", url:"https://www.geni.com/" }
+  ],
+
+  "Official Vital Records (Order Certificates / Government Hubs)": [
+    { name:"USA — CDC: Where to Write for Vital Records (official reference)", url:"https://www.cdc.gov/nchs/w2w/index.htm" },
+    { name:"Canada — Library & Archives Canada: Genealogy & family history guidance", url:"https://library-archives.canada.ca/eng/collectionsearch/Pages/genealogy-family-history.aspx" },
+    { name:"Australia — National Library of Australia: Births/Deaths/Marriages registry directory", url:"https://www.nla.gov.au/research-guides/birth-death-and-marriage-records" },
+    { name:"Scotland — ScotlandsPeople (official civil registration portal)", url:"https://www.scotlandspeople.gov.uk/" },
+    { name:"Ireland — IrishGenealogy (official civil records portal)", url:"https://www.irishgenealogy.ie/en/" },
+    { name:"New Zealand — BDM Historical Records (official)", url:"https://www.bdmhistoricalrecords.dia.govt.nz/" }
+  ],
+
+  "Birth Records (Search & Guides)": [
+    { name:"FamilySearch — Search Records", url:"https://www.familysearch.org/search/" },
+    { name:"FamilySearch — Catalog (church, civil, microfilm/digital collections)", url:"https://www.familysearch.org/search/catalog" },
+    { name:"UK — FreeBMD (England/Wales index)", url:"https://www.freebmd.org.uk/" },
+    { name:"UK — FreeREG (parish registers)", url:"https://www.freereg.org.uk/" },
+    { name:"France — Gallica (BNF digital library)", url:"https://gallica.bnf.fr/" }
+  ],
+
+  "Marriage Records (Search & Guides)": [
+    { name:"FamilySearch Wiki — Marriage records (country guides)", url:"https://www.familysearch.org/en/wiki/Category:Marriage_records" },
+    { name:"UK — FreeBMD (marriage index)", url:"https://www.freebmd.org.uk/" },
+    { name:"UK — FreeREG (marriage registers)", url:"https://www.freereg.org.uk/" },
+    { name:"Geneanet (strong for Europe)", url:"https://en.geneanet.org/" }
+  ],
+
+  "Death Records, Obituaries & Burial Locators": [
+    { name:"Legacy — Obituaries", url:"https://www.legacy.com/obituaries/" },
+    { name:"Echovita — Obituaries", url:"https://www.echovita.com/" },
+    { name:"Tributes — Obituaries", url:"https://www.tributes.com/" },
+    { name:"Find a Grave — Memorials", url:"https://www.findagrave.com/" },
+    { name:"BillionGraves — Cemetery records", url:"https://billiongraves.com/" },
+    { name:"U.S. National Cemetery Administration — Grave Locator", url:"https://gravelocator.cem.va.gov/" },
+    { name:"Commonwealth War Graves Commission — Find records", url:"https://www.cwgc.org/find-records/" }
+  ],
+
+  "Newspapers & Digitized Archives (Great for Obits + Clues)": [
+    { name:"Chronicling America (Library of Congress)", url:"https://chroniclingamerica.loc.gov/" },
+    { name:"Trove (Australia — newspapers & more)", url:"https://trove.nla.gov.au/" },
+    { name:"Papers Past (New Zealand newspapers)", url:"https://paperspast.natlib.govt.nz/" },
+    { name:"Europeana (EU cultural heritage portal)", url:"https://www.europeana.eu/" },
+    { name:"HathiTrust Digital Library", url:"https://www.hathitrust.org/" },
+    { name:"Internet Archive — General", url:"https://archive.org/" },
+    { name:"Internet Archive — Movies & Media", url:"https://archive.org/details/movies" },
+    { name:"Google Books", url:"https://books.google.com/" },
+    { name:"Open Library", url:"https://openlibrary.org/" },
+    { name:"WorldCat (find books, newspapers on microfilm, archives)", url:"https://www.worldcat.org/" }
+  ],
+
+  "National Archives & Libraries (Country-Level Gateways)": [
+    { name:"USA — National Archives (NARA)", url:"https://www.archives.gov/" },
+    { name:"UK — The National Archives", url:"https://www.nationalarchives.gov.uk/" },
+    { name:"Canada — Library & Archives Canada", url:"https://library-archives.canada.ca/" },
+    { name:"Australia — National Library of Australia", url:"https://www.nla.gov.au/" },
+    { name:"New Zealand — Archives NZ", url:"https://archives.govt.nz/" }
+  ],
+
+  "Immigration, Passengers, Naturalization": [
+    { name:"Ellis Island Passenger Search", url:"https://www.statueofliberty.org/discover/passenger-ship-search/" },
+    { name:"Castle Garden (pre-Ellis Island arrivals)", url:"https://www.castlegarden.org/" },
+    { name:"FamilySearch Wiki — Immigration & naturalization (guides)", url:"https://www.familysearch.org/en/wiki/Category:Immigration_and_naturalization_records" }
+  ],
+
+  "DNA Testing (Direct)": [
+    { name:"23andMe", url:"https://www.23andme.com/" },
+    { name:"AncestryDNA", url:"https://www.ancestry.com/dna/" },
+    { name:"MyHeritage DNA", url:"https://www.myheritage.com/dna" },
+    { name:"FamilyTreeDNA", url:"https://www.familytreedna.com/" },
+    { name:"Living DNA", url:"https://livingdna.com/" }
+  ],
+
+  "DNA Tools / Matching / Painting": [
+    { name:"GEDmatch", url:"https://www.gedmatch.com/" },
+    { name:"DNA Painter", url:"https://dnapainter.com/" }
+  ]
+};
+
+
+/* ---------- DOM Handles ---------- */
+const treeContainer = $("treeContainer");
+const canvasWrapper = $("canvasWrapper");
+const treeSVG = $("treeSVG");
+const mapCanvas = $("mapCanvas");
+
+/* ---------- Workspace Load/Save ---------- */
+function loadWorkspace(){
+  state.familyTree = safeJSON(workspaceKey("tree"), []);
+  state.households = safeJSON(workspaceKey("census"), []);
+  state.places = safeJSON(workspaceKey("places"), {});
+  state.consensus = safeJSON(workspaceKey("consensus"), null) || freshConsensus();
+  $("kMin").value = String(state.consensus.meta.kMin || 5);
+  renderAll();
+}
+
+function saveWorkspace(){
+  setJSON(workspaceKey("tree"), state.familyTree);
+  setJSON(workspaceKey("census"), state.households);
+  setJSON(workspaceKey("places"), state.places);
+  setJSON(workspaceKey("consensus"), state.consensus);
+}
+
+/* ---------- Consensus Model ---------- */
+function freshConsensus(){
+  return {
+    meta: { kMin: 5, createdAt: nowISO(), updatedAt: nowISO() },
+    total: 0,
+    regions: {},   // regionKey -> { n, issues:{}, age:{}, work:{}, sevSum, lastTs }
+    weekly: {},    // weekKey -> { n, issues:{}, sevSum }
+    monthly: {}    // monthKey -> { n, issues:{}, sevSum }
+  };
+}
+
+function aggInc(map, key, by=1){ map[key] = (map[key]||0) + by; }
+function aggIssue(bucket, issue, sev){
+  if(!bucket.issues) bucket.issues = {};
+  if(!bucket.issues[issue]) bucket.issues[issue] = { n:0, severitySum:0 };
+  bucket.issues[issue].n++;
+  bucket.issues[issue].severitySum += sev;
+}
+
+/* ---------- ISO Week Key ---------- */
+function isoWeekKey(d){
+  const date = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+  // Thursday in current week decides year
+  const day = date.getUTCDay() || 7;
+  date.setUTCDate(date.getUTCDate() + 4 - day);
+  const yearStart = new Date(Date.UTC(date.getUTCFullYear(),0,1));
+  const weekNo = Math.ceil((((date - yearStart) / 86400000) + 1) / 7);
+  const y = date.getUTCFullYear();
+  return `${y}-W${String(weekNo).padStart(2,"0")}`;
+}
+function monthKey(d){
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}`;
+}
+
+/* ---------- UI: Tabs ---------- */
+function switchTab(tab){
+  const mapStrip = $("mapStrip");
+  const treeQuickAdd = $("treeQuickAdd");
+  const tipLine = $("tipLine");
+
+  $$(".panel").forEach(p=>p.classList.remove("active"));
+  if(tab==="tree"){
+    $("panelTree").classList.add("active");
+    treeQuickAdd.style.display = "";
+    tipLine.style.display = "";
+  } else {
+    treeQuickAdd.style.display = "none";
+    tipLine.style.display = "none";
+  }
+  if(tab==="census") $("panelCensus").classList.add("active");
+  if(tab==="consensus") $("panelConsensus").classList.add("active");
+
+  mapStrip.style.display = (tab==="tree" && state.mapVisible) ? "flex" : "none";
+  resizeMapCanvas();
+  renderHeat();
+  renderTrends();
+}
+
+/* ---------- Auth ---------- */
+function setStatus(){
+  const pill = $("statusPill");
+  if(state.currentUser){
+    pill.textContent = `Signed in: ${state.currentUser}`;
+    pill.style.borderColor = "#a7efe4";
+  } else {
+    pill.textContent = "Not signed in";
+    pill.style.borderColor = "#e4d2b0";
+  }
+}
+
+function register(){
+  const u = $("username").value.trim();
+  const p = $("password").value;
+  if(!u || !p) return alert("Enter username + password.");
+  if(state.users.find(x=>x.username===u)) return alert("User exists.");
+  // Local-only convenience (not strong security)
+  const pw = btoa(unescape(encodeURIComponent(p)));
+  state.users.push({ username:u, password:pw });
+  setJSON(KV_USERS, state.users);
+  alert("Registered! Now login.");
+}
+
+function login(){
+  const u = $("username").value.trim();
+  const p = $("password").value;
+  if(!u || !p) return alert("Enter username + password.");
+  const pw = btoa(unescape(encodeURIComponent(p)));
+  const user = state.users.find(x=>x.username===u && x.password===pw);
+  if(!user) return alert("Invalid credentials.");
+  state.currentUser = u;
+  localStorage.setItem(KV_LAST_USER, u);
+  setStatus();
+  loadWorkspace();
+  alert("Login successful.");
+}
+
+function logout(){
+  state.currentUser = null;
+  localStorage.removeItem(KV_LAST_USER);
+  setStatus();
+  loadWorkspace(); // guest workspace
+}
+
+/* ---------- Tree: Pan/Zoom ---------- */
+function updateTransform(){
+  canvasWrapper.style.transform = `translate(${state.tx}px,${state.ty}px) scale(${state.scale})`;
+}
+function resetZoom(){
+  state.scale = 1;
+  state.tx = 0;
+  state.ty = 0;
+  updateTransform();
+}
+treeContainer.addEventListener("wheel", (e)=>{
+  e.preventDefault();
+  const delta = (e.deltaY < 0) ? 0.1 : -0.1;
+  state.scale = clamp(state.scale + delta, 0.2, 3);
+  updateTransform();
+}, { passive:false });
+
+treeContainer.addEventListener("mousedown", (e)=>{
+  // don't pan if clicking a member box
+  if(e.target.closest(".member-box")) return;
+  state.isPanning = true;
+  treeContainer.style.cursor = "grabbing";
+  state.panStartX = e.clientX - state.tx;
+  state.panStartY = e.clientY - state.ty;
+});
+window.addEventListener("mousemove", (e)=>{
+  if(!state.isPanning) return;
+  state.tx = e.clientX - state.panStartX;
+  state.ty = e.clientY - state.panStartY;
+  updateTransform();
+});
+window.addEventListener("mouseup", ()=>{
+  state.isPanning = false;
+  treeContainer.style.cursor = "grab";
+});
+
+/* ---------- Tree CRUD ---------- */
+function addMember(){
+  const name = $("memberName").value.trim();
+  if(!name) return;
+
+  const relation = $("memberRelation").value;
+  const parent = $("memberParent").value ? Number($("memberParent").value) : null;
+  const spouse = $("memberSpouse").value ? Number($("memberSpouse").value) : null;
+
+  const birthplace = $("memberBirthplace").value.trim();
+  const residence = $("memberResidence").value.trim();
+  const ethnicity = $("memberEthnicity").value.trim();
+  const tribal = $("memberTribal").value.trim();
+
+  const id = Date.now() + Math.floor(Math.random()*1000);
+
+  const member = {
+    id,
+    name,
+    relation,
+    parent: null,
+    spouseId: null,
+    x: null, y: null,
+    birth:"", death:"",
+    notes:"",
+    photoBase64:null,
+    ethnicity, tribal,
+    adoption:"",
+    dnaData:null,
+    audioStory:null,
+    birthplace,
+    residence
+  };
+
+  // link rules
+  if(relation==="child" || relation==="sibling" || relation==="other"){
+    member.parent = parent;
+  }
+  if(relation==="spouse"){
+    member.spouseId = spouse;
+    member.parent = null;
+  }
+  if(relation==="parent"){
+    // "parent" means: set selected person's parent pointer to this new member
+    if(!parent){
+      alert("Choose who this person is parent of (use Select Parent dropdown).");
+    } else {
+      const child = state.familyTree.find(x=>x.id===parent);
+      if(child && child.parent && child.parent !== id){
+        if(!confirm("That person already has a parent link. Overwrite?")) {
+          // fallback: do nothing
+        } else {
+          child.parent = id;
+        }
+      } else if(child){
+        child.parent = id;
+      }
+    }
+  }
+
+  // spouse reciprocal link (if chosen)
+  if(spouse){
+    member.spouseId = spouse;
+    const s = state.familyTree.find(x=>x.id===spouse);
+    if(s && !s.spouseId) s.spouseId = id;
+  }
+
+  state.familyTree.push(member);
+  $("memberName").value = "";
+  saveWorkspace();
+  renderTree();
+  renderMap();
+}
+
+/* ---------- Tree Layout Helpers ---------- */
+function computeLevels(){
+  const levels = {};
+  const visiting = new Set();
+
+  function getLevel(m){
+    if(!m || !m.id) return 0;
+    if(levels[m.id] !== undefined) return levels[m.id];
+    if(visiting.has(m.id)) return 0; // break cycles
+    visiting.add(m.id);
+
+    if(!m.parent) {
+      levels[m.id] = 0;
+    } else {
+      const p = state.familyTree.find(x=>x.id===m.parent);
+      levels[m.id] = (p ? getLevel(p) + 1 : 0);
+    }
+    visiting.delete(m.id);
+    return levels[m.id];
+  }
+
+  state.familyTree.forEach(m=>{ levels[m.id] = getLevel(m); });
+  return levels;
+}
+
+/* ---------- Tree Render ---------- */
+function renderTree(){
+  // clear nodes
+  $$(".member-box").forEach(e=>e.remove());
+  while(treeSVG.firstChild) treeSVG.removeChild(treeSVG.firstChild);
+
+  const levels = computeLevels();
+  const levelCounts = {};
+  const positions = {};
+  const levelSpacing = 170;
+  const siblingSpacing = 220;
+
+  // keep svg large enough
+  const bounds = { maxX: 1200, maxY: 800 };
+
+  state.familyTree.forEach(m=>{
+    const lvl = levels[m.id] || 0;
+    levelCounts[lvl] = (levelCounts[lvl]||0) + 1;
+
+    const x = (m.x !== null) ? m.x : 60 + (levelCounts[lvl]-1)*siblingSpacing;
+    const y = (m.y !== null) ? m.y : 60 + lvl*levelSpacing;
+
+    positions[m.id] = { x, y };
+
+    bounds.maxX = Math.max(bounds.maxX, x + 240);
+    bounds.maxY = Math.max(bounds.maxY, y + 240);
+
+    const div = document.createElement("div");
+    div.className = "member-box";
+    div.style.left = x + "px";
+    div.style.top = y + "px";
+    div.dataset.id = String(m.id);
+
+    div.addEventListener("mousedown", (e)=>startDragMember(e, m.id));
+    div.addEventListener("click", (e)=>{
+      // prevent click after drag
+      if(div.classList.contains("dragging")) return;
+      openMemberModal(m.id);
+    });
+
+    if(m.photoBase64){
+      const img = document.createElement("img");
+      img.src = m.photoBase64;
+      img.className = "member-photo";
+      div.appendChild(img);
+    }
+
+    const label = document.createElement("div");
+    label.style.fontWeight = "700";
+    label.textContent = m.name;
+    div.appendChild(label);
+
+    const sub = document.createElement("div");
+    sub.className = "small";
+    sub.textContent = `(${m.relation || "member"})`;
+    div.appendChild(sub);
+
+    const mini = document.createElement("div");
+    mini.className = "member-mini";
+    const dna = document.createElement("span");
+    dna.textContent = m.dnaData ? "🧬" : "";
+    dna.title = m.dnaData ? "DNA attached (local)" : "";
+    const mic = document.createElement("span");
+    mic.textContent = m.audioStory ? "🎙️" : "";
+    mic.title = m.audioStory ? "Audio story attached (local)" : "";
+    mini.appendChild(dna); mini.appendChild(mic);
+    div.appendChild(mini);
+
+    canvasWrapper.appendChild(div);
+  });
+
+  canvasWrapper.style.minWidth = Math.max(2200, bounds.maxX) + "px";
+  canvasWrapper.style.minHeight = Math.max(1400, bounds.maxY) + "px";
+
+  // lines: parent->child
+  state.familyTree.forEach(m=>{
+    if(!m.parent) return;
+    const p = state.familyTree.find(x=>x.id===m.parent);
+    if(!p) return;
+
+    let parentX = positions[p.id].x + 80;
+    if(p.spouseId){
+      const s = state.familyTree.find(x=>x.id===p.spouseId);
+      if(s && positions[s.id]){
+        parentX = ((positions[p.id].x + positions[s.id].x)/2) + 80;
+      }
+    }
+    const line = document.createElementNS("http://www.w3.org/2000/svg","line");
+    line.setAttribute("x1", parentX);
+    line.setAttribute("y1", positions[p.id].y + 28);
+    line.setAttribute("x2", positions[m.id].x + 80);
+    line.setAttribute("y2", positions[m.id].y);
+    line.setAttribute("stroke", "#b2855c");
+    line.setAttribute("stroke-width", "2");
+    treeSVG.appendChild(line);
+  });
+
+  // spouse lines
+  const seen = new Set();
+  state.familyTree.forEach(m=>{
+    if(!m.spouseId) return;
+    const key = [m.id, m.spouseId].sort().join("-");
+    if(seen.has(key)) return;
+    seen.add(key);
+
+    const s = state.familyTree.find(x=>x.id===m.spouseId);
+    if(!s || !positions[s.id]) return;
+
+    const line = document.createElementNS("http://www.w3.org/2000/svg","line");
+    line.setAttribute("x1", positions[m.id].x + 80);
+    line.setAttribute("y1", positions[m.id].y + 18);
+    line.setAttribute("x2", positions[s.id].x + 80);
+    line.setAttribute("y2", positions[s.id].y + 18);
+    line.setAttribute("stroke", "#b2855c");
+    line.setAttribute("stroke-width", "2");
+    treeSVG.appendChild(line);
+  });
+
+  // dropdowns
+  const parentSel = $("memberParent");
+  const spouseSel = $("memberSpouse");
+  parentSel.innerHTML = '<option value="">Select Parent</option>';
+  spouseSel.innerHTML = '<option value="">Select Spouse</option>';
+  state.familyTree.forEach(m=>{
+    const o1 = document.createElement("option");
+    o1.value = m.id; o1.textContent = m.name;
+    parentSel.appendChild(o1);
+    const o2 = document.createElement("option");
+    o2.value = m.id; o2.textContent = m.name;
+    spouseSel.appendChild(o2);
+  });
+
+  saveWorkspace();
+}
+
+/* ---------- Drag Member ---------- */
+function startDragMember(e, id){
+  e.preventDefault();
+  e.stopPropagation();
+
+  const box = e.target.closest(".member-box");
+  if(!box) return;
+
+  state.draggedMember = state.familyTree.find(m=>m.id===id);
+  state.dragOffsetX = e.offsetX;
+  state.dragOffsetY = e.offsetY;
+
+  box.classList.add("dragging");
+  document.addEventListener("mousemove", dragMemberMove);
+  document.addEventListener("mouseup", endDragMember, { once:true });
+}
+function dragMemberMove(e){
+  if(!state.draggedMember) return;
+
+  state.draggedMember.x = (e.pageX - state.dragOffsetX - state.tx) / state.scale;
+  state.draggedMember.y = (e.pageY - state.dragOffsetY - state.ty) / state.scale;
+
+  // fast update without full re-layout: just rerender (simple + stable)
+  renderTree();
+}
+function endDragMember(){
+  const box = document.querySelector(`.member-box.dragging`);
+  if(box) box.classList.remove("dragging");
+  state.draggedMember = null;
+  document.removeEventListener("mousemove", dragMemberMove);
+}
+
+/* ---------- Search Highlight ---------- */
+function searchMembers(){
+  const q = $("searchInput").value.trim().toLowerCase();
+  $$(".member-box").forEach(div=>{
+    div.classList.remove("highlight");
+    if(q && div.textContent.toLowerCase().includes(q)) div.classList.add("highlight");
+  });
+}
+
+/* ---------- Export/Import ---------- */
+function downloadJSON(filename, obj){
+  const blob = new Blob([JSON.stringify(obj,null,2)], { type:"application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url; a.download = filename;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+function exportTree(){ downloadJSON("kindred_tree.json", state.familyTree); }
+function exportAll(){
+  const pack = {
+    version: "KV-V6",
+    exportedAt: nowISO(),
+    user: state.currentUser || "guest",
+    tree: state.familyTree,
+    census: state.households,
+    places: state.places,
+    consensus: state.consensus
+  };
+  downloadJSON("kindred_vault_all.json", pack);
+}
+function importTreeFile(file){
+  const reader = new FileReader();
+  reader.onload = ()=>{
+    try{
+      const data = JSON.parse(reader.result);
+      if(!Array.isArray(data)) throw new Error("Expected an array");
+      // merge by id (keep newest)
+      const byId = new Map(state.familyTree.map(m=>[m.id,m]));
+      data.forEach(m=>byId.set(m.id, m));
+      state.familyTree = Array.from(byId.values());
+      saveWorkspace();
+      renderTree();
+      renderMap();
+      alert("Tree imported/merged.");
+    }catch(err){
+      alert("Import failed: " + err.message);
+    }
+  };
+  reader.readAsText(file);
+}
+function importAllFile(file){
+  const reader = new FileReader();
+  reader.onload = ()=>{
+    try{
+      const pack = JSON.parse(reader.result);
+      if(!pack || typeof pack !== "object") throw new Error("Invalid JSON");
+      if(pack.tree) state.familyTree = Array.isArray(pack.tree) ? pack.tree : state.familyTree;
+      if(pack.census) state.households = Array.isArray(pack.census) ? pack.census : state.households;
+      if(pack.places) state.places = pack.places && typeof pack.places==="object" ? pack.places : state.places;
+      if(pack.consensus) state.consensus = pack.consensus;
+      if(!state.consensus) state.consensus = freshConsensus();
+
+      $("kMin").value = String(state.consensus.meta.kMin || 5);
+
+      saveWorkspace();
+      renderAll();
+      alert("All data imported.");
+    }catch(err){
+      alert("Import failed: " + err.message);
+    }
+  };
+  reader.readAsText(file);
+}
+
+/* ---------- Print ---------- */
+function printTree(){
+  // quick print view (tree only)
+  window.print();
+}
+
+/* ---------- Clear Workspace ---------- */
+function clearWorkspace(){
+  if(!confirm("This will clear your local data for this workspace (tree, census, consensus, places). Continue?")) return;
+  state.familyTree = [];
+  state.households = [];
+  state.places = {};
+  state.consensus = freshConsensus();
+  $("kMin").value = "5";
+  saveWorkspace();
+  renderAll();
+}
+
+/* ---------- Member Modal ---------- */
+let currentModalId = null;
+let mediaRecorder = null;
+let audioChunks = [];
+
+function openMemberModal(id){
+  currentModalId = id;
+  const m = state.familyTree.find(x=>x.id===id);
+  if(!m) return;
+
+  $("modalName").value = m.name || "";
+  $("modalRelation").value = m.relation || "other";
+  $("modalBirth").value = m.birth || "";
+  $("modalDeath").value = m.death || "";
+  $("modalNotes").value = m.notes || "";
+  $("modalEthnicity").value = m.ethnicity || "";
+  $("modalTribal").value = m.tribal || "";
+  $("modalAdoption").value = m.adoption || "";
+  $("modalBirthplace").value = m.birthplace || "";
+  $("modalResidence").value = m.residence || "";
+
+  $("modalPhoto").value = "";
+  $("modalDNAFile").value = "";
+  $("modalDNANotes").value = m.dnaData ? (m.dnaData.notes||"") : "";
+  $("dnaFilePreview").textContent = m.dnaData ? `Uploaded: ${m.dnaData.name}` : "";
+
+  const pp = $("photoPreview");
+  pp.innerHTML = "";
+  if(m.photoBase64){
+    const img = document.createElement("img");
+    img.src = m.photoBase64;
+    img.style.width = "86px";
+    img.style.borderRadius = "12px";
+    img.style.border = "1px solid #e5d4b4";
+    pp.appendChild(img);
+  }
+
+  $("audioPreview").innerHTML = m.audioStory ? `<audio controls src="${m.audioStory}"></audio>` : "";
+
+  // wire external searches
+  $("btnSearchFamilySearch").onclick = ()=>openSearch("familysearch", $("modalName").value);
+  $("btnSearchWikiTree").onclick = ()=>openSearch("wikitree", $("modalName").value);
+  $("btnSearchFindGrave").onclick = ()=>openSearch("findagrave", $("modalName").value);
+  $("btnSearchLegacy").onclick = ()=>openSearch("legacy", $("modalName").value);
+
+  $("memberModal").classList.add("show");
+}
+
+function openSearch(where, name){
+  const q = encodeURIComponent((name||"").trim());
+  if(!q) return alert("Add a name first.");
+  let url = "";
+  if(where==="familysearch") url = `https://www.familysearch.org/search/record/results?q.anyPlace=&q.anyDate=&q.givenName=&q.surname=${q}`;
+  if(where==="wikitree") url = `https://www.wikitree.com/index.php?title=Special:SearchPerson&srch=&first=&last=${q}`;
+  if(where==="findagrave") url = `https://www.findagrave.com/memorial/search?firstname=&middlename=&lastname=${q}`;
+  if(where==="legacy") url = `https://www.legacy.com/obituaries/search?countryId=1&name=${q}`;
+  window.open(url, "_blank", "noopener,noreferrer");
+}
+
+function closeMemberModal(){
+  $("memberModal").classList.remove("show");
+  currentModalId = null;
+}
+
+function saveMemberModal(){
+  const m = state.familyTree.find(x=>x.id===currentModalId);
+  if(!m) return;
+
+  m.name = $("modalName").value.trim();
+  m.relation = $("modalRelation").value;
+  m.birth = $("modalBirth").value.trim();
+  m.death = $("modalDeath").value.trim();
+  m.notes = $("modalNotes").value;
+  m.ethnicity = $("modalEthnicity").value.trim();
+  m.tribal = $("modalTribal").value.trim();
+  m.adoption = $("modalAdoption").value.trim();
+  m.birthplace = $("modalBirthplace").value.trim();
+  m.residence = $("modalResidence").value.trim();
+
+  // photo
+  const photo = $("modalPhoto").files[0];
+  if(photo){
+    const r = new FileReader();
+    r.onload = (e)=>{
+      m.photoBase64 = e.target.result;
+      saveWorkspace();
+      renderTree();
+      renderMap();
+    };
+    r.readAsDataURL(photo);
+  }
+
+  // DNA file (read as text for portability)
+  const dna = $("modalDNAFile").files[0];
+  if(dna){
+    const rr = new FileReader();
+    rr.onload = (e)=>{
+      m.dnaData = { name:dna.name, content:e.target.result, notes:$("modalDNANotes").value };
+      saveWorkspace();
+      renderTree();
+    };
+    rr.readAsText(dna);
+  } else if(m.dnaData){
+    m.dnaData.notes = $("modalDNANotes").value;
+  }
+
+  saveWorkspace();
+  renderTree();
+  renderMap();
+  closeMemberModal();
+}
+
+function deleteMember(){
+  const m = state.familyTree.find(x=>x.id===currentModalId);
+  if(!m) return;
+  if(!confirm(`Delete ${m.name}?`)) return;
+
+  // clean links
+  state.familyTree.forEach(x=>{
+    if(x.parent === m.id) x.parent = null;
+    if(x.spouseId === m.id) x.spouseId = null;
+  });
+
+  state.familyTree = state.familyTree.filter(x=>x.id!==m.id);
+  saveWorkspace();
+  renderTree();
+  renderMap();
+  closeMemberModal();
+}
+
+/* ---------- Audio Recording ---------- */
+async function startRecording(){
+  try{
+    const stream = await navigator.mediaDevices.getUserMedia({ audio:true });
+    audioChunks = [];
+    mediaRecorder = new MediaRecorder(stream);
+    mediaRecorder.ondataavailable = (e)=>audioChunks.push(e.data);
+    mediaRecorder.start();
+    alert("Recording started.");
+  }catch(err){
+    alert("Mic error: " + err.message);
+  }
+}
+function stopRecording(){
+  if(!mediaRecorder) return alert("No recording in progress.");
+  mediaRecorder.onstop = ()=>{
+    const blob = new Blob(audioChunks, { type:"audio/webm" });
+    audioChunks = [];
+    const r = new FileReader();
+    r.onload = ()=>{
+      const m = state.familyTree.find(x=>x.id===currentModalId);
+      if(m){
+        m.audioStory = r.result;
+        saveWorkspace();
+        renderTree();
+        $("audioPreview").innerHTML = `<audio controls src="${r.result}"></audio>`;
+      }
+    };
+    r.readAsDataURL(blob);
+  };
+  mediaRecorder.stop();
+  alert("Recording stopped.");
+}
+function clearRecording(){
+  const m = state.familyTree.find(x=>x.id===currentModalId);
+  if(!m) return;
+  m.audioStory = null;
+  saveWorkspace();
+  renderTree();
+  $("audioPreview").innerHTML = "";
+}
+
+/* ---------- Resources Modal ---------- */
+function openResources(){
+  const catSel = $("resCategory");
+  catSel.innerHTML = "";
+  Object.keys(RESOURCES).forEach(k=>{
+    const o = document.createElement("option");
+    o.value = k; o.textContent = k;
+    catSel.appendChild(o);
+  });
+  catSel.value = Object.keys(RESOURCES)[0] || "";
+  $("resFilter").value = "";
+  renderResourcesList();
+  $("resourcesModal").classList.add("show");
+}
+function closeResources(){ $("resourcesModal").classList.remove("show"); }
+function renderResourcesList(){
+  const cat = $("resCategory").value;
+  const q = $("resFilter").value.trim().toLowerCase();
+  const list = $("resList");
+  list.innerHTML = "";
+  const items = (RESOURCES[cat] || []).filter(x=>{
+    if(!q) return true;
+    return (x.name||"").toLowerCase().includes(q) || (x.url||"").toLowerCase().includes(q);
+  });
+  if(items.length===0){
+    list.innerHTML = `<li class="small">No matches.</li>`;
+    return;
+  }
+  items.forEach(x=>{
+    const li = document.createElement("li");
+    const a = document.createElement("a");
+    a.href = x.url; a.target = "_blank"; a.rel = "noopener noreferrer";
+    a.textContent = x.name;
+    li.appendChild(a);
+    const s = document.createElement("div");
+    s.className = "small";
+    s.textContent = x.url;
+    li.appendChild(s);
+    list.appendChild(li);
+  });
+}
+
+/* ---------- Places / Map ---------- */
+function resizeMapCanvas(){
+  const strip = $("mapStrip");
+  if(strip.style.display==="none") return;
+  const rect = mapCanvas.getBoundingClientRect();
+  const dpr = window.devicePixelRatio || 1;
+  mapCanvas.width = Math.max(300, Math.floor(rect.width * dpr));
+  mapCanvas.height = Math.max(120, Math.floor(rect.height * dpr));
+  renderMap();
+}
+
+function hashToPseudoCoord(str){
+  // fallback pseudo coords (NOT real geography)
+  let h = 2166136261;
+  for(let i=0;i<str.length;i++){
+    h ^= str.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  const x = (h >>> 0) % 360; // 0..359
+  const y = ((h >>> 8) >>> 0) % 180; // 0..179
+  return { lon: x - 180, lat: 90 - y };
+}
+
+function placeToCoord(place){
+  const key = (place||"").trim();
+  if(!key) return null;
+  const hit = state.places[key];
+  if(hit && typeof hit.lat==="number" && typeof hit.lon==="number") return hit;
+  return hashToPseudoCoord(key);
+}
+
+function renderMap(){
+  if($("mapStrip").style.display==="none") return;
+
+  const ctx = mapCanvas.getContext("2d");
+  const dpr = window.devicePixelRatio || 1;
+  const w = mapCanvas.width;
+  const h = mapCanvas.height;
+
+  // background
+  ctx.clearRect(0,0,w,h);
+  ctx.fillStyle = "#fffdf6";
+  ctx.fillRect(0,0,w,h);
+
+  // subtle grid
+  ctx.strokeStyle = "rgba(178,133,92,0.18)";
+  ctx.lineWidth = 1 * dpr;
+  const step = 60 * dpr;
+  for(let x=0; x<w; x+=step){ ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,h); ctx.stroke(); }
+  for(let y=0; y<h; y+=step){ ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(w,y); ctx.stroke(); }
+
+  // projection: simple equirectangular
+  function proj(lat, lon){
+    const x = ((lon + 180) / 360) * w;
+    const y = ((90 - lat) / 180) * h;
+    return { x, y };
+  }
+
+  const members = state.familyTree || [];
+  // draw arcs birthplace -> residence
+  members.forEach(m=>{
+    const b = placeToCoord(m.birthplace||"");
+    const r = placeToCoord(m.residence||"");
+    if(!b || !r) return;
+
+    const p1 = proj(b.lat, b.lon);
+    const p2 = proj(r.lat, r.lon);
+
+    ctx.strokeStyle = "rgba(178,133,92,0.55)";
+    ctx.lineWidth = 2 * dpr;
+    ctx.beginPath();
+    ctx.moveTo(p1.x, p1.y);
+    // gentle curve
+    const cx = (p1.x + p2.x)/2;
+    const cy = (p1.y + p2.y)/2 - 30*dpr;
+    ctx.quadraticCurveTo(cx, cy, p2.x, p2.y);
+    ctx.stroke();
+
+    // pins
+    ctx.fillStyle = "rgba(15,118,110,0.9)"; // birthplace
+    ctx.beginPath(); ctx.arc(p1.x,p1.y,4*dpr,0,Math.PI*2); ctx.fill();
+
+    ctx.fillStyle = "rgba(180,35,24,0.9)"; // residence
+    ctx.beginPath(); ctx.arc(p2.x,p2.y,4*dpr,0,Math.PI*2); ctx.fill();
+  });
+
+  // legend
+  ctx.fill_toggle = "#111827";
+  ctx.fillStyle = "#111827";
+  ctx.font = `${12*dpr}px Georgia`;
+  ctx.fillText("● Birthplace", 14*dpr, 18*dpr);
+  ctx.fillStyle = "rgba(15,118,110,0.9)";
+  ctx.beginPath(); ctx.arc(8*dpr, 14*dpr, 4*dpr, 0, Math.PI*2); ctx.fill();
+
+  ctx.fillStyle = "#111827";
+  ctx.fillText("● Residence", 118*dpr, 18*dpr);
+  ctx.fillStyle = "rgba(180,35,24,0.9)";
+  ctx.beginPath(); ctx.arc(112*dpr, 14*dpr, 4*dpr, 0, Math.PI*2); ctx.fill();
+
+  ctx.fillStyle = "rgba(107,114,128,0.9)";
+  ctx.fillText("Map uses Place Index for real coords; otherwise a local hash.", 240*dpr, 18*dpr);
+}
+
+function openPlaces(){
+  renderPlacesList();
+  $("placesModal").classList.add("show");
+}
+function closePlaces(){ $("placesModal").classList.remove("show"); }
+function renderPlacesList(){
+  const wrap = $("placesList");
+  const keys = Object.keys(state.places||{}).sort((a,b)=>a.localeCompare(b));
+  if(keys.length===0){ wrap.textContent = "None yet."; return; }
+  wrap.innerHTML = keys.map(k=>{
+    const p = state.places[k];
+    return `<div style="padding:6px 0; border-bottom:1px dashed #ead9b8;">
+      <b>${escapeHTML(k)}</b> — lat: ${p.lat}, lon: ${p.lon}
+    </div>`;
+  }).join("");
+}
+function escapeHTML(s){
+  return (s||"").replace(/[&<>"']/g, c=>({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+}
+function addPlace(){
+  const name = $("placeName").value.trim();
+  const lat = Number($("placeLat").value);
+  const lon = Number($("placeLon").value);
+  if(!name) return alert("Enter a place label.");
+  if(!Number.isFinite(lat) || !Number.isFinite(lon)) return alert("Enter numeric lat/lon.");
+  state.places[name] = { lat, lon };
+  $("placeName").value = ""; $("placeLat").value = ""; $("placeLon").value = "";
+  saveWorkspace();
+  renderPlacesList();
+  renderMap();
+}
+function exportPlaces(){ downloadJSON("kindred_places.json", state.places); }
+function importPlacesFile(file){
+  const reader = new FileReader();
+  reader.onload = ()=>{
+    try{
+      const data = JSON.parse(reader.result);
+      if(!data || typeof data!=="object") throw new Error("Invalid object");
+      state.places = { ...state.places, ...data };
+      saveWorkspace();
+      renderPlacesList();
+      renderMap();
+      alert("Places imported/merged.");
+    }catch(err){
+      alert("Import failed: " + err.message);
+    }
+  };
+  reader.readAsText(file);
+}
+function clearPlaces(){
+  if(!confirm("Clear all saved places?")) return;
+  state.places = {};
+  saveWorkspace();
+  renderPlacesList();
+  renderMap();
+}
+
+/* ---------- Census ---------- */
+let workingHousehold = null;
+
+function newHousehold(){
+  workingHousehold = {
+    id: Date.now() + Math.floor(Math.random()*1000),
+    createdAt: nowISO(),
+    label: $("censusHouseholdLabel").value.trim() || "Untitled Household",
+    country: $("censusCountry").value.trim() || "",
+    region: $("censusRegion").value.trim() || "",
+    heritage: $("censusHeritage").value.trim() || "",
+    migration: $("censusMigration").value.trim() || "",
+    members: []
+  };
+  renderWorkingHousehold();
+}
+
+function addCensusMember(){
+  if(!workingHousehold) newHousehold();
+
+  const name = ($("censusMemberName").value.trim() || "Anonymous");
+  const role = $("censusMemberRole").value;
+  const ageBand = $("censusMemberAgeBand").value;
+  const birthplace = $("censusMemberBirthplace").value.trim();
+
+  workingHousehold.members.push({ name, role, ageBand, birthplace });
+  $("censusMemberName").value = "";
+  $("censusMemberBirthplace").value = "";
+  renderWorkingHousehold();
+}
+
+function finishHousehold(){
+  if(!workingHousehold || workingHousehold.members.length===0){
+    return alert("Add at least one household member.");
+  }
+  // ensure one head exists
+  if(!workingHousehold.members.some(m=>m.role==="head")){
+    workingHousehold.members.unshift({ name:"Anonymous Head", role:"head", ageBand:"25_34", birthplace:"" });
+  }
+
+  state.households.push(workingHousehold);
+  saveWorkspace();
+
+  // import to tree
+  importHouseholdToTree(workingHousehold);
+
+  workingHousehold = null;
+  renderWorkingHousehold();
+  renderSavedHouseholds();
+  alert("Household saved and imported to Tree.");
+}
+
+function renderWorkingHousehold(){
+  const ul = $("censusHouseholdList");
+  ul.innerHTML = "";
+  if(!workingHousehold){
+    ul.innerHTML = "<li class='small'>No active household. Click 'New Household' or add a member to begin.</li>";
+    return;
+  }
+  workingHousehold.members.forEach((m,i)=>{
+    const li = document.createElement("li");
+    li.textContent = `${i+1}. ${m.name} — ${m.role} — ${m.ageBand} ${m.birthplace ? ("— " + m.birthplace) : ""}`;
+    ul.appendChild(li);
+  });
+}
+
+function renderSavedHouseholds(){
+  const wrap = $("censusSavedWrap");
+  if(!state.households.length){
+    wrap.textContent = "No households yet.";
+    return;
+  }
+  wrap.innerHTML = "";
+  state.households.slice().reverse().forEach(h=>{
+    const div = document.createElement("div");
+    div.style.padding = "10px 0";
+    div.style.borderBottom = "1px dashed #ead9b8";
+    div.innerHTML = `<b>${escapeHTML(h.label)}</b> <span class="small">(${escapeHTML(h.country)} ${escapeHTML(h.region)}) • ${h.members.length} members</span><br/>
+      <span class="small">${escapeHTML(h.heritage || "")} ${h.migration ? " • " + escapeHTML(h.migration) : ""}</span>
+      <div style="margin-top:8px; display:flex; gap:8px; flex-wrap:wrap;">
+        <button class="ok">Re-import to Tree</button>
+        <button class="danger">Delete Household</button>
+      </div>`;
+    const [btnRe, btnDel] = div.querySelectorAll("button");
+    btnRe.onclick = ()=>{ importHouseholdToTree(h); renderTree(); renderMap(); alert("Imported to Tree."); switchTab("tree"); };
+    btnDel.onclick = ()=>{
+      if(!confirm("Delete this household?")) return;
+      state.households = state.households.filter(x=>x.id!==h.id);
+      saveWorkspace();
+      renderSavedHouseholds();
+    };
+    wrap.appendChild(div);
+  });
+}
+
+function exportCensus(){ downloadJSON("kindred_census.json", state.households); }
+
+function importCensusFile(file){
+  const reader = new FileReader();
+  reader.onload = ()=>{
+    try{
+      const data = JSON.parse(reader.result);
+      if(!Array.isArray(data)) throw new Error("Expected an array");
+      // merge by id
+      const byId = new Map(state.households.map(h=>[h.id,h]));
+      data.forEach(h=>byId.set(h.id,h));
+      state.households = Array.from(byId.values());
+      saveWorkspace();
+      renderSavedHouseholds();
+      alert("Census imported/merged.");
+    }catch(err){
+      alert("Import failed: " + err.message);
+    }
+  };
+  reader.readAsText(file);
+}
+
+function importHouseholdToTree(h){
+  // create head
+  const head = h.members.find(m=>m.role==="head") || { name:"Anonymous Head", role:"head", ageBand:"25_34", birthplace:"" };
+  const headId = Date.now() + Math.floor(Math.random()*1000);
+
+  const headNode = {
+    id: headId,
+    name: head.name || "Anonymous Head",
+    relation: "head",
+    parent: null,
+    spouseId: null,
+    x: null, y: null,
+    birth:"", death:"",
+    notes: `Census: ${h.label}\nCountry/Region: ${h.country} ${h.region}\nHeritage: ${h.heritage}\nMigration: ${h.migration}`.trim(),
+    photoBase64:null,
+    ethnicity: h.heritage || "",
+    tribal:"",
+    adoption:"",
+    dnaData:null,
+    audioStory:null,
+    birthplace: head.birthplace || "",
+    residence: `${h.country} ${h.region}`.trim()
+  };
+  state.familyTree.push(headNode);
+
+  let spouseId = null;
+
+  h.members.forEach(m=>{
+    if(m === head) return;
+    const id = Date.now() + Math.floor(Math.random()*1000);
+
+    const node = {
+      id,
+      name: m.name || "Anonymous",
+      relation: m.role || "other",
+      parent: null,
+      spouseId: null,
+      x: null, y: null,
+      birth:"", death:"",
+      notes: "",
+      photoBase64:null,
+      ethnicity: h.heritage || "",
+      tribal:"",
+      adoption:"",
+      dnaData:null,
+      audioStory:null,
+      birthplace: m.birthplace || "",
+      residence: `${h.country} ${h.region}`.trim()
+    };
+
+    if(m.role==="spouse"){
+      node.spouseId = headId;
+      spouseId = id;
+      headNode.spouseId = id;
+    } else if(m.role==="child" || m.role==="other"){
+      node.parent = headId;
+    } else if(m.role==="parent"){
+      // set head's parent link
+      headNode.parent = id;
+    } else {
+      node.parent = headId;
+    }
+    state.familyTree.push(node);
+  });
+
+  // if spouse exists, position spouse near head
+  if(spouseId){
+    const s = state.familyTree.find(x=>x.id===spouseId);
+    if(s){
+      s.x = (headNode.x ?? 60) + 220;
+      s.y = (headNode.y ?? 60);
+    }
+  }
+
+  saveWorkspace();
+  renderTree();
+}
+
+/* ---------- Consensus ---------- */
+function computeRegionKey(){
+  const cc = $("consCountry").value;
+  const zip = $("consZip").value.trim();
+  const region = $("consRegion").value.trim();
+
+  if(cc === "US"){
+    if(!zip || zip.length < 3 || !/^\d{3,}$/.test(zip)){
+      return null;
+    }
+    const zip3 = zip.slice(0,3);
+    return `US-${zip3}`;
+  }
+  const marker = (region || "UNK").replace(/\s+/g," ").slice(0,24);
+  const code = (cc==="OTHER") ? "XX" : cc;
+  return `${code}-${marker.toUpperCase()}`;
+}
+
+function submitConsensus(){
+  const regionKey = computeRegionKey();
+  if(!regionKey) return alert("Enter a valid US ZIP (at least 3 digits), or set Country ≠ US and provide a Region Marker.");
+
+  const age = $("consAge").value;
+  const issue = $("consIssue").value;
+  const work = $("consWork").value || "";
+  const sev = Number($("consSeverity").value);
+
+  const d = new Date();
+  const wk = isoWeekKey(d);
+  const mk = monthKey(d);
+
+  // ensure meta kMin
+  const km = clamp(Number($("kMin").value || 5), 2, 50);
+  state.consensus.meta.kMin = km;
+
+  // region bucket
+  const r = state.consensus.regions[regionKey] || { n:0, issues:{}, age:{}, work:{}, sevSum:0, lastTs:"" };
+  r.n += 1;
+  r.sevSum += sev;
+  r.lastTs = nowISO();
+  aggIssue(r, issue, sev);
+  aggInc(r.age, age, 1);
+  if(work) aggInc(r.work, work, 1);
+  state.consensus.regions[regionKey] = r;
+
+  // weekly bucket
+  const wb = state.consensus.weekly[wk] || { n:0, issues:{}, sevSum:0 };
+  wb.n += 1; wb.sevSum += sev; aggIssue(wb, issue, sev);
+  state.consensus.weekly[wk] = wb;
+
+  // monthly bucket
+  const mb = state.consensus.monthly[mk] || { n:0, issues:{}, sevSum:0 };
+  mb.n += 1; mb.sevSum += sev; aggIssue(mb, issue, sev);
+  state.consensus.monthly[mk] = mb;
+
+  state.consensus.total += 1;
+  state.consensus.meta.updatedAt = nowISO();
+
+  saveWorkspace();
+  renderHeat();
+  renderTrends();
+  alert("Aggregate submitted.");
+}
+
+function topIssue(bucket){
+  const issues = bucket.issues || {};
+  let best = { k:"", n:0 };
+  Object.keys(issues).forEach(k=>{
+    const n = issues[k].n || 0;
+    if(n > best.n) best = { k, n };
+  });
+  return best;
+}
+
+function renderHeat(){
+  const wrap = $("heatWrap");
+  const km = clamp(Number($("kMin").value || 5), 2, 50);
+  state.consensus.meta.kMin = km;
+
+  const rows = [];
+  let maxHeat = 0;
+
+  Object.keys(state.consensus.regions || {}).forEach(key=>{
+    const b = state.consensus.regions[key];
+    if(!b || (b.n||0) < km) return;
+    const avgSev = (b.sevSum||0) / (b.n||1);
+    const heat = avgSev * Math.log2((b.n||0) + 1);
+    const top = topIssue(b);
+    maxHeat = Math.max(maxHeat, heat);
+    rows.push({ key, n:b.n, avgSev, heat, top });
+  });
+
+  rows.sort((a,b)=>b.heat - a.heat);
+
+  if(rows.length===0){
+    wrap.textContent = "No regions meet k-min yet.";
+    return;
+  }
+
+  const html = [];
+  html.push(`<table class="table">
+    <thead><tr>
+      <th>Region</th>
+      <th>n</th>
+      <th>Top Issue</th>
+      <th>Avg Severity</th>
+      <th>Heat</th>
+    </tr></thead><tbody>`);
+
+  rows.slice(0, 30).forEach(r=>{
+    const pct = maxHeat ? (r.heat / maxHeat) * 100 : 0;
+    html.push(`<tr>
+      <td><b>${escapeHTML(r.key)}</b></td>
+      <td>${r.n}</td>
+      <td>${escapeHTML(r.top.k || "—")} <span class="small">(${r.top.n})</span></td>
+      <td>${r.avgSev.toFixed(2)}</td>
+      <td>
+        <div class="bar"><i style="width:${pct.toFixed(1)}%"></i></div>
+        <div class="small">${r.heat.toFixed(2)}</div>
+      </td>
+    </tr>`);
+  });
+
+  html.push(`</tbody></table>`);
+  wrap.innerHTML = html.join("");
+}
+
+function renderTrends(){
+  const wrap = $("trendWrap");
+  const mode = state.trendMode;
+  const src = (mode==="weekly") ? state.consensus.weekly : state.consensus.monthly;
+  const keys = Object.keys(src || {}).sort(); // chronological
+  if(keys.length===0){
+    wrap.textContent = "No trend data yet.";
+    return;
+  }
+
+  const last = keys.slice(-12);
+  let maxN = 1;
+  last.forEach(k=>{ maxN = Math.max(maxN, (src[k].n||0)); });
+
+  const html = [];
+  html.push(`<table class="table"><thead><tr>
+    <th>${mode==="weekly" ? "Week" : "Month"}</th>
+    <th>n</th>
+    <th>Top Issue</th>
+    <th>Avg Severity</th>
+    <th>Volume</th>
+  </tr></thead><tbody>`);
+
+  last.forEach(k=>{
+    const b = src[k];
+    const top = topIssue(b);
+    const avgSev = (b.sevSum||0) / (b.n||1);
+    const pct = (b.n||0) / maxN * 100;
+    html.push(`<tr>
+      <td><b>${escapeHTML(k)}</b></td>
+      <td>${b.n||0}</td>
+      <td>${escapeHTML(top.k || "—")} <span class="small">(${top.n||0})</span></td>
+      <td>${avgSev.toFixed(2)}</td>
+      <td>
+        <div class="bar"><i style="width:${pct.toFixed(1)}%"></i></div>
+      </td>
+    </tr>`);
+  });
+
+  html.push(`</tbody></table>`);
+  wrap.innerHTML = html.join("");
+}
+
+function exportConsensus(){ downloadJSON("khaemenes_consensus_aggregates.json", state.consensus); }
+
+function importConsensusAgg(file){
+  const reader = new FileReader();
+  reader.onload = ()=>{
+    try{
+      const incoming = JSON.parse(reader.result);
+      if(!incoming || typeof incoming !== "object") throw new Error("Invalid aggregate file.");
+
+      // merge totals
+      state.consensus.total = (state.consensus.total||0) + (incoming.total||0);
+
+      // merge regions
+      const inRegions = incoming.regions || {};
+      Object.keys(inRegions).forEach(key=>{
+        const a = state.consensus.regions[key] || { n:0, issues:{}, age:{}, work:{}, sevSum:0, lastTs:"" };
+        const b = inRegions[key];
+
+        a.n += (b.n||0);
+        a.sevSum += (b.sevSum||0);
+        a.lastTs = a.lastTs || b.lastTs || "";
+
+        // issues
+        a.issues = a.issues || {};
+        Object.keys(b.issues||{}).forEach(iss=>{
+          if(!a.issues[iss]) a.issues[iss] = { n:0, severitySum:0 };
+          a.issues[iss].n += (b.issues[iss].n||0);
+          a.issues[iss].severitySum += (b.issues[iss].severitySum||0);
+        });
+
+        // age/work
+        a.age = a.age || {};
+        Object.keys(b.age||{}).forEach(k=> aggInc(a.age, k, b.age[k]||0));
+        a.work = a.work || {};
+        Object.keys(b.work||{}).forEach(k=> aggInc(a.work, k, b.work[k]||0));
+
+        state.consensus.regions[key] = a;
+      });
+
+      // merge weekly/monthly
+      ["weekly","monthly"].forEach(bucket=>{
+        const src = incoming[bucket] || {};
+        Object.keys(src).forEach(k=>{
+          const a = state.consensus[bucket][k] || { n:0, issues:{}, sevSum:0 };
+          const b = src[k];
+          a.n += (b.n||0);
+          a.sevSum += (b.sevSum||0);
+          Object.keys(b.issues||{}).forEach(iss=>{
+            if(!a.issues[iss]) a.issues[iss] = { n:0, severitySum:0 };
+            a.issues[iss].n += (b.issues[iss].n||0);
+            a.issues[iss].severitySum += (b.issues[iss].severitySum||0);
+          });
+          state.consensus[bucket][k] = a;
+        });
+      });
+
+      // meta
+      state.consensus.meta.updatedAt = nowISO();
+      state.consensus.meta.kMin = clamp(Number($("kMin").value || state.consensus.meta.kMin || 5), 2, 50);
+
+      saveWorkspace();
+      renderHeat();
+      renderTrends();
+      alert("Aggregates imported/merged.");
+    }catch(err){
+      alert("Import failed: " + err.message);
+    }
+  };
+  reader.readAsText(file);
+}
+
+function clearConsensus(){
+  if(!confirm("Clear all consensus aggregates?")) return;
+  state.consensus = freshConsensus();
+  $("kMin").value = "5";
+  saveWorkspace();
+  renderHeat();
+  renderTrends();
+}
+
+/* ---------- Admin Button (simple) ---------- */
+function adminGate(){
+  const code = prompt("Admin code?");
+  if(code !== "3112") return alert("Not authorized.");
+  alert("Admin unlocked: k-min, clear, exports are already available.");
+}
+
+/* ---------- Render All ---------- */
+function renderAll(){
+  setStatus();
+  updateTransform();
+  renderTree();
+  renderWorkingHousehold();
+  renderSavedHouseholds();
+  renderHeat();
+  renderTrends();
+  
+  function renderAll(){
+  setStatus();
+  updateTransform();
+  renderTree();
+  renderWorkingHousehold();
+  renderSavedHouseholds();
+  renderHeat();
+  renderTrends();
+  resizeMapCanvas(); // safe: calls renderMap()
+}
+
+/* ---------- Map controls ---------- */
+function toggleMap(){
+  state.mapVisible = !state.mapVisible;
+  switchTab("tree");
+}
+function resetMap(){
+  // “Reset” here means: redraw from current saved data
+  renderMap();
+}
+
+/* ---------- Wire UI ---------- */
+function wireUI(){
+  // Tabs
+  $("tabBtnTree").onclick = ()=>switchTab("tree");
+  $("tabBtnCensus").onclick = ()=>{ renderSavedHouseholds(); switchTab("census"); };
+  $("tabBtnConsensus").onclick = ()=>{ renderHeat(); renderTrends(); switchTab("consensus"); };
+
+  // Auth
+  $("btnRegister").onclick = register;
+  $("btnLogin").onclick = login;
+  $("btnLogout").onclick = logout;
+
+  // Admin
+  $("adminBtn").onclick = adminGate;
+
+  // Resources
+  $("btnResources").onclick = openResources;
+  $("btnResClose").onclick = closeResources;
+  $("resCategory").addEventListener("change", renderResourcesList);
+  $("resFilter").addEventListener("input", renderResourcesList);
+
+  // Export/Import all
+  $("btnExportAll").onclick = exportAll;
+  $("importAllFile").addEventListener("change", (e)=>{
+    const f = e.target.files && e.target.files[0];
+    if(f) importAllFile(f);
+    e.target.value = "";
+  });
+
+  // Clear workspace
+  $("btnClearWorkspace").onclick = clearWorkspace;
+
+  // Tree actions
+  $("btnAddMember").onclick = addMember;
+  $("searchInput").addEventListener("input", searchMembers);
+  $("btnResetZoom").onclick = resetZoom;
+  $("btnToggleMap").onclick = toggleMap;
+  $("btnExportTree").onclick = exportTree;
+  $("importTreeFile").addEventListener("change", (e)=>{
+    const f = e.target.files && e.target.files[0];
+    if(f) importTreeFile(f);
+    e.target.value = "";
+  });
+  $("btnPrintTree").onclick = printTree;
+
+  // Map strip buttons
+  $("btnPlaces").onclick = openPlaces;
+  $("btnRedrawMap").onclick = renderMap;
+  $("btnResetMap").onclick = resetMap;
+
+  // Places modal
+  $("btnPlaceAdd").onclick = addPlace;
+  $("btnPlaceExport").onclick = exportPlaces;
+  $("placeImportFile").addEventListener("change", (e)=>{
+    const f = e.target.files && e.target.files[0];
+    if(f) importPlacesFile(f);
+    e.target.value = "";
+  });
+  $("btnPlaceClear").onclick = clearPlaces;
+  $("btnPlaceClose").onclick = closePlaces;
+
+  // Census
+  $("btnCensusAddMember").onclick = addCensusMember;
+  $("btnCensusNew").onclick = ()=>{
+    workingHousehold = null;
+    newHousehold();
+  };
+  $("btnCensusFinish").onclick = finishHousehold;
+  $("btnCensusExport").onclick = exportCensus;
+  $("importCensusFile").addEventListener("change", (e)=>{
+    const f = e.target.files && e.target.files[0];
+    if(f) importCensusFile(f);
+    e.target.value = "";
+  });
+
+  // Consensus
+  $("btnConsSubmit").onclick = submitConsensus;
+  $("btnConsExport").onclick = exportConsensus;
+  $("consImportFile").addEventListener("change", (e)=>{
+    const f = e.target.files && e.target.files[0];
+    if(f) importConsensusAgg(f);
+    e.target.value = "";
+  });
+  $("btnConsClear").onclick = clearConsensus;
+  $("kMin").addEventListener("change", ()=>{
+    state.consensus.meta.kMin = clamp(Number($("kMin").value || 5), 2, 50);
+    saveWorkspace();
+    renderHeat();
+  });
+  $("btnTrendWeekly").onclick = ()=>{
+    state.trendMode = "weekly";
+    $("btnTrendWeekly").classList.add("primary");
+    $("btnTrendMonthly").classList.remove("primary");
+    renderTrends();
+  };
+  $("btnTrendMonthly").onclick = ()=>{
+    state.trendMode = "monthly";
+    $("btnTrendMonthly").classList.add("primary");
+    $("btnTrendWeekly").classList.remove("primary");
+    renderTrends();
+  };
+
+  // Member modal buttons
+  $("btnModalCancel").onclick = closeMemberModal;
+  $("btnModalSave").onclick = saveMemberModal;
+  $("btnDeleteMember").onclick = deleteMember;
+
+  // Audio
+  $("btnRecStart").onclick = startRecording;
+  $("btnRecStop").onclick = stopRecording;
+  $("btnRecClear").onclick = clearRecording;
+
+  // Close modals with Esc
+  window.addEventListener("keydown", (e)=>{
+    if(e.key === "Escape"){
+      $("memberModal").classList.remove("show");
+      $("resourcesModal").classList.remove("show");
+      $("placesModal").classList.remove("show");
+    }
+  });
+
+  // Resize map on window resize
+  window.addEventListener("resize", resizeMapCanvas);
+}
+
+/* ---------- Init ---------- */
+function init(){
+  // If KV_LAST_USER points to a username that no longer exists, fall back to guest.
+  if(state.currentUser && !state.users.some(u=>u.username === state.currentUser)){
+    state.currentUser = null;
+    localStorage.removeItem(KV_LAST_USER);
+  }
+
+  setStatus();
+  wireUI();
+  loadWorkspace();     // calls renderAll()
+  switchTab("tree");   // ensures correct panel/map visibility
+  resetZoom();
+}
+
+init();
+</script>
+</body>
+</html>
+
+ 
