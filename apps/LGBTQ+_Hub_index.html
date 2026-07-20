@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LGBTQ+ Sovereign Sandbox</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --panel: #111827;
+      --card: #1f2937;
+      --text: #ffffff;
+      --muted: #ffffff;
+      --accent: #ffffff;
+      --accent2: #06b6d4;
+      --success: #10b981;
+      --border: rgba(255,255,255,0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(180deg, #0f172a, #111827);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 24px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, rgba(124,58,237,0.35), rgba(6,182,212,0.25));
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 36px;
+      margin-bottom: 24px;
+      backdrop-filter: blur(10px);
+    }
+
+    .hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 12px;
+    }
+
+    .hero p {
+      color: #ffffff;
+      line-height: 1.6;
+      max-width: 800px;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 24px 0;
+    }
+
+    .toolbar input,
+    .toolbar select {
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--panel);
+      color: var(--text);
+      min-width: 220px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      background: rgba(31,41,55,0.85);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 22px;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(124,58,237,0.5);
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(124,58,237,0.18);
+      color: #d8b4fe;
+      font-size: 0.8rem;
+      margin-bottom: 12px;
+    }
+
+    .card h3 {
+      margin-bottom: 10px;
+      font-size: 1.25rem;
+    }
+
+    .card p {
+      color: #ffffff;
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 10px 14px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      transition: opacity 0.2s ease;
+    }
+
+    .btn:hover {
+      opacity: 0.9;
+    }
+
+    .section-title {
+      margin: 32px 0 18px;
+      font-size: 1.6rem;
+    }
+
+    .journal {
+      margin-top: 32px;
+      background: rgba(17,24,39,0.9);
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      padding: 24px;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 180px;
+      margin-top: 14px;
+      padding: 16px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: #ffffff;
+      resize: vertical;
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      cursor: pointer;
+      border: none;
+    }
+
+    .secondary {
+      background: rgba(255,255,255,0.08);
+      color: white;
+    }
+
+    .footer {
+      text-align: center;
+      color: #ffffff;
+      margin-top: 40px;
+      padding-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    .safety {
+      margin-top: 24px;
+      padding: 18px;
+      border-radius: 16px;
+      background: rgba(16,185,129,0.1);
+      border: 1px solid rgba(16,185,129,0.3);
+    }
+
+    @media (max-width: 700px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+
+      .toolbar {
+        flex-direction: column;
+      }
+
+      .toolbar input,
+      .toolbar select {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <section class="hero">
+      <h1>🌈 LGBTQ+ </h1>
+      <p>
+        A private, browser-based educational and support resource hub designed to empower LGBTQ+ individuals with affirming information, wellness tools, community resources, legal education, creative expression, and personal growth activities.
+      </p>
+
+      <div class="safety">
+        <strong>Privacy First:</strong>
+        This app runs entirely in your browser. No accounts, no tracking, and no external database connections.
+      </div>
+    </section>
+
+    <div class="toolbar">
+      <input type="text" id="searchInput" placeholder="Search resources..." />
+
+      <select id="categoryFilter">
+        <option value="all">All Categories</option>
+        <option value="mental-health">Mental Health</option>
+        <option value="education">Education</option>
+        <option value="community">Community</option>
+        <option value="legal">Legal</option>
+        <option value="creative">Creative</option>
+        <option value="wellness">Wellness</option>
+      </select>
+    </div>
+
+    <h2 class="section-title">Featured Resources</h2>
+
+    <div class="grid" id="resourceGrid"></div>
+
+    <section class="journal">
+      <h2>📝 Reflection Journal</h2>
+      <p style="margin-top: 10px; color: var(--muted); line-height: 1.6;">
+        Use this space to reflect on your goals, identity, achievements, creativity, or personal growth.
+      </p>
+
+      <textarea id="journalBox" placeholder="Write your thoughts here..."></textarea>
+
+      <div class="actions">
+        <button class="btn" id="saveJournal">Save Locally</button>
+        <button class="btn secondary" id="clearJournal">Clear</button>
+      </div>
+    </section>
+
+    <section class="journal">
+      <h2>✨ Daily Affirmations</h2>
+      <p style="margin-top: 10px; color: var(--muted);">
+        Click below for a positive reminder.
+      </p>
+
+      <div style="margin-top: 18px; font-size: 1.2rem; line-height: 1.8;" id="affirmationText">
+        You deserve respect, safety, and the freedom to be yourself.
+      </div>
+
+      <div class="actions">
+        <button class="btn" id="newAffirmation">New Affirmation</button>
+      </div>
+    </section>
+
+        <section class="journal" style="background: linear-gradient(135deg, rgba(30,41,59,0.95), rgba(15,23,42,0.95)); border: 1px solid rgba(59,130,246,0.25);">
+      <h2 style="font-size: 2rem; margin-bottom: 12px;">💙 Parent & Family Support Portal</h2>
+      <p style="color: var(--muted); line-height: 1.7; margin-bottom: 24px; max-width: 900px;">
+        This dedicated family portal is designed to help parents, guardians, caregivers, and allies better understand, support, and encourage LGBTQ+ youth and loved ones. It provides educational tools, communication guidance, wellness resources, and practical ways to create safe, respectful, and affirming environments built on empathy, trust, and understanding.
+      </p>
+
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap:18px;">
+        <div class="card" style="background: rgba(30,41,59,0.9); border: 1px solid rgba(59,130,246,0.2);">
+          <div class="tag" style="background: rgba(59,130,246,0.15); color:#bfdbfe;">family education</div>
+          <h3>Understanding Identity</h3>
+          <p>
+            Educational resources to help families learn respectful terminology, identity concepts, and supportive communication strategies.
+          </p>
+          <a class="btn" href="#">Explore</a>
+        </div>
+
+        <div class="card" style="background: rgba(30,41,59,0.9); border: 1px solid rgba(59,130,246,0.2);">
+          <div class="tag" style="background: rgba(59,130,246,0.15); color:#bfdbfe;">communication</div>
+          <h3>Supportive Conversations</h3>
+          <p>
+            Conversation guides focused on empathy, active listening, trust-building, and maintaining healthy family relationships.
+          </p>
+          <a class="btn" href="#">Explore</a>
+        </div>
+
+        <div class="card" style="background: rgba(30,41,59,0.9); border: 1px solid rgba(59,130,246,0.2);">
+          <div class="tag" style="background: rgba(59,130,246,0.15); color:#bfdbfe;">wellness</div>
+          <h3>Family Wellness Hub</h3>
+          <p>
+            Wellness-focused resources covering emotional support, stress management, healthy routines, and positive encouragement.
+          </p>
+          <a class="btn" href="#">Explore</a>
+        </div>
+
+        <div class="card" style="background: rgba(30,41,59,0.9); border: 1px solid rgba(59,130,246,0.2);">
+          <div class="tag" style="background: rgba(59,130,246,0.15); color:#bfdbfe;">community</div>
+          <h3>Parent Community Network</h3>
+          <p>
+            Information about finding supportive parent groups, educational organizations, and inclusive community opportunities.
+          </p>
+          <a class="btn" href="#">Explore</a>
+        </div>
+      </div>
+    </section>
+
+    <div class="footer">
+      <p>
+        Inclusive & Educational
+      </p>
+    </div>
+  </div>
+
+  <script>
+    const resources = [
+      {
+        title: 'Mental Wellness Toolkit',
+        category: 'mental-health',
+        description: 'Grounding exercises, stress management tools, confidence building, and healthy coping strategies.',
+        link: '#'
+      },
+      {
+        title: 'LGBTQ+ History Explorer',
+        category: 'education',
+        description: 'Interactive learning modules covering civil rights milestones, influential activists, and cultural history.',
+        link: '#'
+      },
+      {
+        title: 'Community Connection Guide',
+        category: 'community',
+        description: 'Learn how to find supportive clubs, student alliances, online communities, and local events safely.',
+        link: '#'
+      },
+      {
+        title: 'Know Your Rights',
+        category: 'legal',
+        description: 'Educational overview of anti-discrimination protections, workplace rights, and school advocacy.',
+        link: '#'
+      },
+      {
+        title: 'Creative Expression Studio',
+        category: 'creative',
+        description: 'Writing prompts, digital art ideas, storytelling exercises, and music inspiration tools.',
+        link: '#'
+      },
+      {
+        title: 'Healthy Living Hub',
+        category: 'wellness',
+        description: 'Sleep habits, exercise ideas, nutrition basics, mindfulness, and personal development resources.',
+        link: '#'
+      },
+      {
+        title: 'Career & Leadership Center',
+        category: 'education',
+        description: 'Scholarship research, resume support, public speaking tips, and leadership-building activities.',
+        link: '#'
+      },
+      {
+        title: 'Supportive Conversation Starters',
+        category: 'community',
+        description: 'Guides for respectful communication, allyship, empathy, and building positive relationships.',
+        link: '#'
+      }
+    ];
+
+    const affirmations = [
+  'Your identity is valid and worthy of respect.',
+  'Growth takes time, and every step forward matters.',
+  'You are allowed to explore who you are safely and confidently.',
+  'Your voice and creativity can positively impact others.',
+  'You deserve communities that support and uplift you.',
+  'Being authentic is a strength, not a weakness.',
+  'You are capable of building a future you are proud of.',
+  'You are enough exactly as you are today.',
+  'Your perspective matters.',
+  'You deserve kindness from yourself and others.',
+  'It is okay to take up space.',
+  'You are learning and evolving every day.',
+  'Your story has value.',
+  'You can create positive change in your life.',
+  'You deserve safety, dignity, and respect.',
+  'Your dreams are worth pursuing.',
+  'You are stronger than your doubts.',
+  'You bring unique light into the world.',
+  'You are worthy of healthy friendships and support.',
+  'Your creativity deserves expression.',
+  'You do not have to hide who you are to deserve love.',
+  'Your future can be bright and meaningful.',
+  'You are allowed to grow at your own pace.',
+  'Your feelings are important.',
+  'You are capable of resilience and healing.',
+  'You deserve opportunities to succeed.',
+  'You are not alone in your experiences.',
+  'Every day is a new opportunity to grow.',
+  'You have the right to set boundaries.',
+  'You deserve to feel proud of yourself.',
+  'You are capable of overcoming challenges.',
+  'Your identity is something to honor, not fear.',
+  'You deserve spaces where you feel welcome.',
+  'Your voice deserves to be heard.',
+  'You are building strength through experience.',
+  'Your individuality is valuable.',
+  'You deserve compassion and understanding.',
+  'You can find people who appreciate the real you.',
+  'You are allowed to rest and recharge.',
+  'Your confidence can grow with practice.',
+  'You deserve joy and celebration.',
+  'You are more powerful than negative opinions.',
+  'You are capable of making a difference.',
+  'Your existence contributes something meaningful.',
+  'You deserve environments that help you thrive.',
+  'You can choose hope even during difficult moments.',
+  'Your courage matters.',
+  'You are worthy of self-respect and self-care.',
+  'You are constantly becoming a stronger version of yourself.',
+  'You deserve a future filled with possibility.'
+];
+
+    const grid = document.getElementById('resourceGrid');
+    const searchInput = document.getElementById('searchInput');
+    const categoryFilter = document.getElementById('categoryFilter');
+
+    function renderResources() {
+      const search = searchInput.value.toLowerCase();
+      const category = categoryFilter.value;
+
+      grid.innerHTML = '';
+
+      const filtered = resources.filter(resource => {
+        const matchesSearch = resource.title.toLowerCase().includes(search) ||
+          resource.description.toLowerCase().includes(search);
+
+        const matchesCategory = category === 'all' || resource.category === category;
+
+        return matchesSearch && matchesCategory;
+      });
+
+      if (filtered.length === 0) {
+        grid.innerHTML = '<p>No matching resources found.</p>';
+        return;
+      }
+
+      filtered.forEach(resource => {
+        const card = document.createElement('div');
+        card.className = 'card';
+
+        card.innerHTML = `
+          <div class="tag">${resource.category.replace('-', ' ')}</div>
+          <h3>${resource.title}</h3>
+          <p>${resource.description}</p>
+          <a class="btn" href="${resource.link}">Explore</a>
+        `;
+
+        grid.appendChild(card);
+      });
+    }
+
+    searchInput.addEventListener('input', renderResources);
+    categoryFilter.addEventListener('change', renderResources);
+
+    renderResources();
+
+    const journalBox = document.getElementById('journalBox');
+    const saveJournal = document.getElementById('saveJournal');
+    const clearJournal = document.getElementById('clearJournal');
+
+    journalBox.value = localStorage.getItem('sandboxJournal') || '';
+
+    saveJournal.addEventListener('click', () => {
+      localStorage.setItem('sandboxJournal', journalBox.value);
+      alert('Journal saved locally to your browser.');
+    });
+
+    clearJournal.addEventListener('click', () => {
+      journalBox.value = '';
+      localStorage.removeItem('sandboxJournal');
+    });
+
+    const affirmationText = document.getElementById('affirmationText');
+    const newAffirmation = document.getElementById('newAffirmation');
+
+    newAffirmation.addEventListener('click', () => {
+      const random = affirmations[Math.floor(Math.random() * affirmations.length)];
+      affirmationText.textContent = random;
+    });
+  </script>
+</body>
+</html>
