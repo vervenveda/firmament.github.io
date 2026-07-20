@@ -1,0 +1,1442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Firmament Law – Sovereign Legal Console</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --brown-deep:#4b3126;
+      --brown:#6e4b37;
+      --brown-soft:#a77a58;
+      --cream:#f8f2ea;
+      --card:#fdf9f4;
+      --muted:#6b7280;
+      --border:#e0d3c3;
+      --accent:#c27a3a;
+      --danger:#b91c1c;
+      --radius-lg:20px;
+      --shadow-soft:0 14px 40px rgba(38,26,19,0.18);
+    }
+
+    *{box-sizing:border-box;}
+
+    body{
+      margin:0;
+      min-height:100vh;
+      background:var(--brown-deep);
+      font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
+      color:#111827;
+      display:flex;
+      justify-content:center;
+    }
+
+    .page{
+      width:100%;
+      max-width:1333px;
+      background:var(--cream);
+      min-height:100vh;
+      box-shadow:0 0 60px rgba(0,0,0,0.4);
+    }
+
+    /* Hero */
+
+    .hero{
+      display:flex;
+      flex-wrap:wrap;
+      padding:40px 40px 32px;
+      background:linear-gradient(135deg,#fdf7f0 0,#f6e6d3 45%,#f2dfc8 100%);
+      border-radius:0 0 32px 32px;
+      border-bottom:1px solid rgba(0,0,0,0.04);
+      position:relative;
+    }
+
+    .hero-left{
+      flex:1 1 222px;
+      max-width:620px;
+      padding-right:20px;
+    }
+
+    .logo-mark{
+      font-family:'Playfair Display',serif;
+      font-size:20px;
+      letter-spacing:0.20em;
+      text-transform:uppercase;
+      color:var(--brown);
+      margin-bottom:6px;
+    }
+
+    .logo-sub{
+      font-size:12px;
+      color:var(--muted);
+      margin-bottom:18px;
+    }
+
+    .hero-title{
+      font-family:'Playfair Display',serif;
+      font-size:32px;
+      line-height:1.25;
+      color:#2b211a;
+      margin:0 0 10px;
+    }
+    .hero-title span{
+      font-style:italic;
+      color:var(--brown-soft);
+    }
+
+    .hero-text{
+      font-size:14px;
+      color:#4b5563;
+      max-width:540px;
+      margin-bottom:18px;
+    }
+
+    .hero-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-bottom:18px;
+    }
+
+    .btn{
+      border-radius:999px;
+      border:1px solid transparent;
+      padding:9px 18px;
+      font-size:11px;
+      font-weight:500;
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      transition:background 0.18s,transform 0.08s,box-shadow 0.18s,color 0.18s;
+      font-family:inherit;
+    }
+    .btn-primary{
+      background:var(--accent);
+      color:#fff8f1;
+      box-shadow:0 10px 28px rgba(155,92,40,0.5);
+    }
+    .btn-primary:hover{
+      background:#a96329;
+      transform:translateY(-1px);
+      box-shadow:0 14px 32px rgba(119,71,32,0.55);
+    }
+    .btn-ghost{
+      background:transparent;
+      color:var(--brown);
+      border-color:rgba(111,72,55,0.25);
+    }
+    .btn-ghost:hover{
+      background:rgba(255,255,255,0.9);
+      transform:translateY(-1px);
+    }
+    .hero-footnote{
+      font-size:11px;
+      color:var(--muted);
+    }
+
+    .hero-right{
+      flex:0 0 260px;
+      max-width:320px;
+      display:flex;
+      justify-content:center;
+      align-items:flex-end;
+      margin-top:10px;
+    }
+
+    .justice-card{
+      width:100%;
+      max-width:280px;
+      border-radius:28px;
+      background:#fdfaf6;
+      border:1px solid rgba(184,145,110,0.6);
+      box-shadow:0 18px 40px rgba(64,43,32,0.35);
+      overflow:hidden;
+      display:flex;
+      flex-direction:column;
+    }
+    .justice-image{
+      width:100%;
+      aspect-ratio:3/4;
+      background:#d4b79d url('justice-hero-placeholder.jpg') center/cover no-repeat;
+    }
+    /* Replace `justice-hero-placeholder.jpg` with your Lady Justice artwork URL */
+
+    .justice-caption{
+      padding:10px 14px 11px;
+      font-size:11px;
+      color:#5b4636;
+    }
+    .justice-caption strong{
+      display:block;
+      font-family:'Playfair Display',serif;
+      font-size:13px;
+      margin-bottom:2px;
+    }
+
+    /* Top nav */
+
+    .top-nav{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:10px 40px 6px;
+      border-bottom:1px solid rgba(0,0,0,0.04);
+      background:#f6ece1;
+    }
+    .nav-links{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+    }
+    .nav-link{
+      border:none;
+      background:transparent;
+      font-size:12px;
+      padding:6px 10px;
+      border-radius:999px;
+      cursor:pointer;
+      color:#6b4a36;
+      letter-spacing:0.11em;
+      text-transform:uppercase;
+      transition:background 0.18s,color 0.18s;
+    }
+    .nav-link.active{
+      background:#4b3126;
+      color:#fdf4e6;
+    }
+    .nav-link:not(.active):hover{
+      background:#f1e2d5;
+    }
+    .nav-note{
+      font-size:11px;
+      color:var(--muted);
+    }
+
+    /* Panels */
+
+    .main{
+      padding:24px 40px 40px;
+    }
+
+    .view{
+      display:none;
+      background:var(--card);
+      border-radius:var(--radius-lg);
+      padding:18px 18px 20px;
+      box-shadow:var(--shadow-soft);
+      border:1px solid var(--border);
+      margin-bottom:20px;
+    }
+    .view.active{
+      display:block;
+    }
+
+    .view-header{
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:space-between;
+      gap:10px;
+      padding-bottom:8px;
+      border-bottom:1px solid #e5ddd1;
+      margin-bottom:8px;
+    }
+    .view-header h2{
+      margin:0;
+      font-family:'Playfair Display',serif;
+      font-size:20px;
+      letter-spacing:0.12em;
+      text-transform:uppercase;
+      color:#3b271e;
+    }
+    .view-header p{
+      margin:0;
+      font-size:12px;
+      color:var(--muted);
+      max-width:360px;
+      text-align:right;
+    }
+
+    .muted{
+      font-size:11px;
+      color:var(--muted);
+    }
+
+    .step-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:8px;
+    }
+    .step-card{
+      flex:1 1 160px;
+      background:#fbf4eb;
+      border-radius:14px;
+      padding:10px 11px;
+      border:1px solid #e4d3c0;
+      font-size:12px;
+    }
+    .step-card strong{
+      display:block;
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:0.14em;
+      color:#8b5b3a;
+      margin-bottom:3px;
+    }
+
+    .stat-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:8px;
+    }
+    .stat-card{
+      flex:1 1 160px;
+      background:#fbf7f1;
+      border-radius:14px;
+      padding:10px 11px;
+      border:1px solid #e1d4c5;
+    }
+    .stat-card h3{
+      margin:0 0 5px;
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:0.13em;
+      color:#8b5b3a;
+    }
+    .stat-card .value{
+      font-size:20px;
+      font-weight:600;
+      color:#2f1f16;
+    }
+    .stat-card .note{
+      font-size:11px;
+      color:#4b5563;
+    }
+
+    .grid-two{
+      display:grid;
+      grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);
+      gap:16px;
+      margin-top:8px;
+    }
+
+    label{
+      display:block;
+      font-size:12px;
+      font-weight:600;
+      margin-bottom:3px;
+      color:#4b301f;
+    }
+
+    input[type="text"],
+    input[type="date"],
+    textarea,
+    select{
+      width:100%;
+      padding:7px 9px;
+      border-radius:10px;
+      border:1px solid #d3c2af;
+      font-size:13px;
+      font-family:inherit;
+      background:#fefcf9;
+      outline:none;
+      transition:border 0.16s,box-shadow 0.16s,background 0.16s;
+    }
+    input:focus, textarea:focus, select:focus{
+      border-color:var(--brown-soft);
+      box-shadow:0 0 0 2px rgba(193,136,82,0.35);
+      background:#ffffff;
+    }
+    textarea{
+      min-height:130px;
+      resize:vertical;
+      line-height:1.4;
+    }
+
+    .btn-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:10px;
+    }
+
+    .btn-secondary{
+      border-radius:999px;
+      padding:7px 14px;
+      border:1px solid #d2c3b4;
+      background:#fffaf4;
+      font-size:12px;
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      transition:background 0.16s,transform 0.08s;
+    }
+    .btn-secondary:hover{
+      background:#f4e6d8;
+      transform:translateY(-1px);
+    }
+    .btn-danger{
+      border-radius:999px;
+      padding:7px 14px;
+      border:1px solid #b91c1c;
+      background:#fef2f2;
+      color:#991b1b;
+      font-size:12px;
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      transition:background 0.16s,transform 0.08s;
+    }
+    .btn-danger:hover{
+      background:#fee2e2;
+      transform:translateY(-1px);
+    }
+
+    .tag{
+      display:inline-flex;
+      padding:2px 8px;
+      border-radius:999px;
+      border:1px solid #d4c4b3;
+      font-size:10px;
+      text-transform:uppercase;
+      letter-spacing:0.11em;
+      color:#7b5640;
+      background:#fdf6ed;
+    }
+
+    .cloud-list{
+      width:100%;
+      border-collapse:collapse;
+      margin-top:6px;
+      font-size:12px;
+    }
+    .cloud-list th,
+    .cloud-list td{
+      padding:7px 6px;
+      border-bottom:1px solid #e3d3c3;
+      text-align:left;
+    }
+    .cloud-list th{
+      background:#f5ebe0;
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:0.11em;
+      color:#8d6546;
+    }
+    .cloud-list tbody tr:hover{
+      background:#fdf7f0;
+    }
+
+    .preview-box{
+      margin-top:10px;
+      padding:10px 11px;
+      border-radius:16px;
+      background:#f6efe7;
+      border:1px solid #d9c8b7;
+    }
+    .preview-title{
+      font-size:13px;
+      font-weight:600;
+      margin-bottom:5px;
+      color:#3c281c;
+    }
+    .preview-content{
+      max-height:220px;
+      overflow:auto;
+      white-space:pre-wrap;
+      font-size:12px;
+      color:#4b5563;
+      font-family:Menlo,Consolas,monospace;
+      padding-right:4px;
+    }
+
+    .resources-list{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:10px;
+      margin-top:8px;
+    }
+    .resource-card{
+      background:#fbf4eb;
+      border-radius:14px;
+      padding:10px 11px;
+      border:1px solid #e2d2c1;
+      font-size:12px;
+    }
+    .resource-card h3{
+      margin:0 0 4px;
+      font-size:13px;
+      color:#3a2518;
+      font-family:'Playfair Display',serif;
+    }
+    .resource-card p{
+      margin:0 0 4px;
+      color:#4b5563;
+    }
+    .resource-card a{
+      color:#1d4ed8;
+      text-decoration:none;
+      font-weight:500;
+    }
+    .resource-card a:hover{
+      text-decoration:underline;
+    }
+
+    ul.info-list{
+      font-size:12px;
+      color:#4b5563;
+      padding-left:18px;
+      margin-top:4px;
+    }
+
+    @media (max-width:900px){
+      .hero{
+        padding:26px 18px 20px;
+      }
+      .top-nav{
+        padding:10px 18px 4px;
+        flex-direction:column;
+        align-items:flex-start;
+        gap:4px;
+      }
+      .main{
+        padding:18px 16px 30px;
+      }
+      .grid-two{
+        grid-template-columns:minmax(0,1fr);
+      }
+      .justice-card{
+        max-width:220px;
+      }
+    }
+
+    @media (max-width:600px){
+      .hero-title{font-size:26px;}
+      .hero-text{font-size:13px;}
+      .nav-links{gap:4px;}
+      .nav-link{font-size:11px;}
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-left">
+      <div class="logo-mark">Firmament Law</div>
+      <div class="logo-sub">Sovereign Legal Console </div>
+      <h1 class="hero-title">
+        Legal documents <br>crafted with <span>integrity</span> and sovereignty.
+      </h1>
+      <p class="hero-text">
+        Draft vital documents, wills, trusts, leases, NDAs <br>Local Storage on your own device. <br>
+        Firmament Law gives you a secure space to develop your legal documents, and <br>prepare 
+        for a real conversation with a licensed attorney.
+      </p>
+      <div class="hero-actions">
+        <button class="btn btn-primary" data-target="view-generator">
+          ✨ Start a New Document
+        </button>
+        <button class="btn btn-ghost" data-target="view-cloud">
+          ☁️ Open My Firmament Cloud
+        </button>
+      </div>
+      <div class="hero-footnote">
+        Educational drafting only · Not a law firm · Every document must be reviewed by a lawyer in your jurisdiction.
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="justice-card">
+        <div class="justice-image" aria-label="Allegorical image of Justice, blindfolded, holding a sword and scales."></div>
+        <div class="justice-caption">
+          <strong>The Living Beacon of Justice</strong>
+          Local-only law drafting, guided by sovereignty, truth, and light.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOP NAV -->
+  <div class="top-nav">
+    <div class="nav-links">
+      <button class="nav-link active" data-target="view-dashboard">Dashboard</button>
+      <button class="nav-link" data-target="view-generator">Document Generator</button>
+      <button class="nav-link" data-target="view-cloud">My Cloud</button>
+      <button class="nav-link" data-target="view-templates">Templates</button>
+      <button class="nav-link" data-target="view-resources">Legal Resources</button>
+      <button class="nav-link" data-target="view-about">About & Safety</button>
+    </div>
+    <div class="nav-note">
+      Follow the path: <strong>Draft → Store → Consult Counsel</strong>.
+    </div>
+  </div>
+
+  <!-- MAIN PANELS -->
+  <main class="main">
+
+    <!-- Dashboard -->
+    <section id="view-dashboard" class="view active">
+      <div class="view-header">
+        <h2>Dashboard</h2>
+        <p>Begin your path here, then move step by step through drafting, storage, and legal support.</p>
+      </div>
+
+      <div class="step-row">
+        <div class="step-card">
+          <strong>Step 1 · Prepare</strong>
+          Use the <em>Document Generator</em> to gather details and create a clear outline of what you want.
+        </div>
+        <div class="step-card">
+          <strong>Step 2 · Store</strong>
+          Save your drafts in <em>My Firmament Cloud</em>, which lives only inside this browser and device.
+        </div>
+        <div class="step-card">
+          <strong>Step 3 · Consult</strong>
+          Bring your drafts to a qualified attorney. Use the <em>Legal Resources</em> panel to locate help.
+        </div>
+      </div>
+
+      <div class="stat-row">
+        <div class="stat-card">
+          <h3>Documents in Cloud</h3>
+          <div class="value" id="stat-doc-count">0</div>
+          <div class="note">Locally stored only; never uploaded to a server.</div>
+        </div>
+        <div class="stat-card">
+          <h3>Last Saved</h3>
+          <div class="value" id="stat-last-saved">—</div>
+          <div class="note">Time of your most recent draft save.</div>
+        </div>
+        <div class="stat-card">
+          <h3>Templates Ready</h3>
+          <div class="value">6</div>
+          <div class="note">Living Will, Trust Worksheet, NDA, Residential & Commercial Leases, Custom Notes.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Document Generator -->
+    <section id="view-generator" class="view">
+      <div class="view-header">
+        <h2>Document Generator</h2>
+        <p>Generate local-only draft outlines for key documents. Every draft must be reviewed by licensed counsel.</p>
+      </div>
+
+      <div class="grid-two">
+        <!-- Left: form -->
+        <div>
+          <label for="doc-type">Document Type</label>
+          <select id="doc-type">
+            <option value="livingWill">Living Will – Personal Care Directives</option>
+            <option value="trust">Trust Planning Worksheet</option>
+            <option value="nda">Non-Disclosure Agreement (NDA)</option>
+            <option value="leaseResidential">Residential Lease Outline</option>
+            <option value="leaseCommercial">Commercial Lease Outline</option>
+            <option value="blank">Blank Custom Document</option>
+          </select>
+
+          <div style="margin-top:8px;">
+            <label for="doc-title">Working Title</label>
+            <input type="text" id="doc-title" placeholder="e.g., Jennifer – Living Will Draft v1" />
+          </div>
+
+          <div style="margin-top:8px;">
+            <label for="your-name">Your Full Name / Entity</label>
+            <input type="text" id="your-name" placeholder="Your legal name or entity name" />
+          </div>
+
+          <div style="margin-top:8px;">
+            <label for="other-party">Second Party / Counterparty (optional)</label>
+            <input type="text" id="other-party" placeholder="Trustee, tenant, landlord, collaborator, etc." />
+          </div>
+
+          <div style="margin-top:8px;">
+            <label for="jurisdiction">Jurisdiction (City/State/Region)</label>
+            <input type="text" id="jurisdiction" placeholder="e.g., Holiday, Florida, USA" />
+          </div>
+
+          <div style="margin-top:8px;">
+            <label for="effective-date">Effective Date</label>
+            <input type="date" id="effective-date" />
+          </div>
+
+          <div style="margin-top:8px;">
+            <label for="core-details">Core Details & Notes</label>
+            <textarea id="core-details" placeholder="Assets, property address, confidentiality scope, beneficiaries, special wishes, etc."></textarea>
+          </div>
+
+          <div style="margin-top:8px;">
+            <label for="extra-notes">Questions for Your Lawyer (optional)</label>
+            <textarea id="extra-notes" placeholder="List questions or concerns you want your attorney to review."></textarea>
+          </div>
+
+          <div class="btn-row">
+            <button class="btn btn-primary" id="btn-generate">✨ Generate Draft</button>
+            <button class="btn-secondary" id="btn-clear-form">🧹 Clear Form</button>
+          </div>
+
+          <p class="muted" style="margin-top:8px;">
+            These drafts are <strong>starting points only</strong>. Laws differ widely by country and region.
+            Always ask a qualified attorney to review and finalize any document before you sign or rely on it.
+          </p>
+        </div>
+
+        <!-- Right: output -->
+        <div>
+          <label for="generated-output">Generated Draft (Plain Text)</label>
+          <textarea id="generated-output" placeholder="Your generated draft will appear here..."></textarea>
+          <div class="btn-row">
+            <button class="btn-secondary" id="btn-save-cloud">☁️ Save to Firmament Cloud</button>
+            <button class="btn-secondary" id="btn-download">⬇️ Download .txt</button>
+          </div>
+          <p class="muted" style="margin-top:8px;">
+            Saved drafts will appear under <strong>My Firmament Cloud</strong>. Downloading creates a
+            <code>.txt</code> file for your own records or to share securely with your attorney.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- My Cloud -->
+    <section id="view-cloud" class="view">
+      <div class="view-header">
+        <h2>My Firmament Cloud</h2>
+        <p>Your sovereign, local-only directory for legal drafts and notes. Nothing leaves this device unless you export it.</p>
+      </div>
+
+      <table class="cloud-list" id="cloud-table">
+        <thead>
+        <tr>
+          <th>Title</th>
+          <th>Type</th>
+          <th>Created</th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Filled by JS -->
+        </tbody>
+      </table>
+
+      <div class="preview-box" id="cloud-preview" style="display:none;">
+        <div class="preview-title" id="cloud-preview-title">Preview</div>
+        <div class="preview-content" id="cloud-preview-content"></div>
+      </div>
+
+      <div class="btn-row" style="margin-top:10px;">
+        <button class="btn-secondary" data-target="view-generator">➕ Create New Draft</button>
+      </div>
+
+      <p class="muted" style="margin-top:8px;">
+        For long-term safekeeping, download important drafts and store them in your own encrypted
+        backups in addition to this local Firmament Cloud.
+      </p>
+    </section>
+
+    <!-- Template Library -->
+    <section id="view-templates" class="view">
+      <div class="view-header">
+        <h2>Template Library</h2>
+        <p>High-level overviews of each template available in the Generator so members know what they’re drafting.</p>
+      </div>
+
+      <ul class="info-list">
+        <li><strong>Living Will</strong> – A personal directive about healthcare, life-support, and end-of-life wishes if you cannot speak for yourself.</li>
+        <li><strong>Trust Planning Worksheet</strong> – A structured outline to organize assets, trustees, and beneficiaries for a future trust instrument.</li>
+        <li><strong>Non-Disclosure Agreement (NDA)</strong> – A confidentiality structure for sharing sensitive information with collaborators, students, vendors, etc.</li>
+        <li><strong>Residential Lease</strong> – Key terms for renting homes, apartments, or rooms.</li>
+        <li><strong>Commercial Lease</strong> – High-level terms for renting studio, gallery, office, or retail space.</li>
+        <li><strong>Blank Custom Document</strong> – Free-form drafting space for any legal notes, covenants, or checklists.</li>
+      </ul>
+
+      <p class="muted" style="margin-top:8px;">
+        All templates in Firmament Law are intentionally simplified and non-jurisdictional. They are
+        meant to help you think clearly and ask better questions—never to replace a properly drafted legal instrument.
+      </p>
+    </section>
+
+    <!-- Legal Resources -->
+    <section id="view-resources" class="view">
+      <div class="view-header">
+        <h2>Legal Resources</h2>
+        <p>Reputable starting points for free / low-cost legal information and aid around the world.</p>
+      </div>
+
+      <div class="resources-list">
+        <div class="resource-card">
+          <h3>USA – Legal Aid & Forms</h3>
+          <p>Find free or affordable civil legal help and guided forms.</p>
+          <ul class="info-list" style="margin-top:4px;">
+            <li><a href="https://www.usa.gov/legal-aid" target="_blank" rel="noopener">USA.gov – Legal Aid Finder</a></li>
+            <li><a href="https://www.lawhelp.org" target="_blank" rel="noopener">LawHelp.org</a></li>
+            <li><a href="https://www.lsc.gov/about-lsc/what-legal-aid/i-need-legal-help" target="_blank" rel="noopener">Legal Services Corporation (LSC)</a></li>
+          </ul>
+        </div>
+
+        <div class="resource-card">
+          <h3>USA – Online Pro Bono Advice</h3>
+          <p>Submit civil legal questions and get answers from volunteer attorneys (income limits apply).</p>
+          <ul class="info-list" style="margin-top:4px;">
+            <li><a href="https://www.abafreelegalanswers.org" target="_blank" rel="noopener">ABA Free Legal Answers</a></li>
+          </ul>
+        </div>
+
+        <div class="resource-card">
+          <h3>Global – Refugees & Asylum</h3>
+          <p>Legal help for displaced people, refugees, and asylum seekers.</p>
+          <ul class="info-list" style="margin-top:4px;">
+            <li><a href="https://rightsinexile.org/legal-assistance-by-country/" target="_blank" rel="noopener">Rights in Exile – Legal Assistance by Country</a></li>
+          </ul>
+        </div>
+
+        <div class="resource-card">
+          <h3>Global – Legal Aid Systems</h3>
+          <p>Overview of legal aid systems and NGOs in many countries.</p>
+          <ul class="info-list" style="margin-top:4px;">
+            <li><a href="https://defensewiki.ibj.org/index.php/Legal_Aid_Systems_and_Supporting_NGOs_around_the_world" target="_blank" rel="noopener">IBJ Criminal Defense Wiki</a></li>
+          </ul>
+        </div>
+
+        <div class="resource-card">
+          <h3>Global – Rule of Law & Pro Bono</h3>
+          <p>Directories of organizations advancing rule of law and pro bono practice worldwide.</p>
+          <ul class="info-list" style="margin-top:4px;">
+            <li><a href="https://worldjusticeproject.org/resource-hub/leading-organizations" target="_blank" rel="noopener">World Justice Project – Leading Organizations</a></li>
+            <li><a href="https://www.trust.org/trustlaw/" target="_blank" rel="noopener">TrustLaw – Global Pro Bono Network</a></li>
+            <li><a href="https://www.probonocentre.org.au/information-on-pro-bono/international-pro-bono/international-pro-bono-organisations/" target="_blank" rel="noopener">International Pro Bono Organisations</a></li>
+          </ul>
+        </div>
+
+        <div class="resource-card">
+          <h3>Global – Free Legal Information</h3>
+          <p>Open access to legal information, case law, and commentary.</p>
+          <ul class="info-list" style="margin-top:4px;">
+            <li><a href="https://www.justia.com" target="_blank" rel="noopener">Justia – Free Law & Legal Info</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="muted" style="margin-top:10px;">
+        These links are external and not controlled by Firmament Law. Availability and quality can change over time.
+        Always verify that any organization you contact is legitimate and appropriate for your situation.
+      </p>
+    </section>
+
+    <!-- About & Safety -->
+    <section id="view-about" class="view">
+      <div class="view-header">
+        <h2>About & Safety</h2>
+        <p>How Firmament Law works, what it can do for you, and the limits that keep everyone safe.</p>
+      </div>
+
+      <h3 style="margin-top:4px;font-family:'Playfair Display',serif;font-size:18px;">What Firmament Law Is</h3>
+      <p class="muted">
+        Firmament Law is a <strong>sovereign, local-only drafting console</strong> for PLERA, Pearls Gamut, and
+        Archaemenes Academy members. It gives you a structured place to think through legal documents,
+        collect details, and prepare questions for your lawyer.
+      </p>
+
+      <h3 style="font-family:'Playfair Display',serif;font-size:18px;">What Firmament Law Is Not</h3>
+      <ul class="info-list">
+        <li>It is <strong>not</strong> a law firm or a substitute for a licensed attorney.</li>
+        <li>It does <strong>not</strong> give legal advice or create legally binding instruments.</li>
+        <li>It does <strong>not</strong> send your documents to any server or third party.</li>
+      </ul>
+
+      <h3 style="font-family:'Playfair Display',serif;font-size:18px;">Your Local Sovereign Cloud</h3>
+      <p class="muted">
+        All drafts are stored using your browser’s <strong>localStorage</strong> under the
+        key <code>firmamentCloudV1</code>. If you clear browser data, switch browsers, or use another device,
+        those drafts will not follow you. For anything important, download and back up your documents
+        separately in your own encrypted storage.
+      </p>
+
+      <div class="btn-row">
+        <button class="btn-danger" id="btn-clear-storage">🧨 Clear All Local Firmament Data</button>
+      </div>
+
+      <p class="muted" style="margin-top:8px;">
+        This button permanently deletes all Firmament Law drafts in this browser. It cannot be undone.
+        Use it when you want a clean slate or before sharing your device.
+      </p>
+    </section>
+
+  </main>
+</div>
+
+<script>
+(function(){
+  const STORAGE_KEY = 'firmamentCloudV1';
+  let cloud = { files: [] };
+
+  function loadCloud(){
+    try{
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if(raw){
+        const parsed = JSON.parse(raw);
+        if(parsed && Array.isArray(parsed.files)){
+          cloud = parsed;
+        }
+      }
+    }catch(e){
+      console.warn('Could not load Firmament Cloud:', e);
+    }
+    updateStats();
+    renderCloudTable();
+  }
+
+  function saveCloud(){
+    try{
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(cloud));
+    }catch(e){
+      alert('Unable to save to local storage. Your browser may be blocking it.');
+    }
+    updateStats();
+    renderCloudTable();
+  }
+
+  function formatDate(iso){
+    if(!iso) return '—';
+    try{
+      const d = new Date(iso);
+      if(isNaN(d.getTime())) return '—';
+      return d.toLocaleString();
+    }catch{
+      return '—';
+    }
+  }
+
+  function updateStats(){
+    const docCountEl = document.getElementById('stat-doc-count');
+    const lastSavedEl = document.getElementById('stat-last-saved');
+    if(!docCountEl || !lastSavedEl) return;
+
+    docCountEl.textContent = cloud.files.length.toString();
+    if(!cloud.files.length){
+      lastSavedEl.textContent = '—';
+    }else{
+      const latest = cloud.files.reduce((a,b)=> (a && a.createdAt > b.createdAt) ? a : b);
+      lastSavedEl.textContent = formatDate(latest.createdAt);
+    }
+  }
+
+  function renderCloudTable(){
+    const tbody = document.querySelector('#cloud-table tbody');
+    if(!tbody) return;
+    tbody.innerHTML = '';
+
+    if(!cloud.files.length){
+      const row = document.createElement('tr');
+      const cell = document.createElement('td');
+      cell.colSpan = 4;
+      cell.textContent = 'No documents saved yet.';
+      cell.className = 'muted';
+      row.appendChild(cell);
+      tbody.appendChild(row);
+      const preview = document.getElementById('cloud-preview');
+      if(preview) preview.style.display = 'none';
+      return;
+    }
+
+    cloud.files
+      .slice()
+      .sort((a,b)=>(b.createdAt || '').localeCompare(a.createdAt || ''))
+      .forEach(file=>{
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${file.title || 'Untitled Document'}</td>
+          <td><span class="tag">${file.type || 'Custom'}</span></td>
+          <td>${formatDate(file.createdAt)}</td>
+          <td>
+            <button class="btn-secondary" data-action="view" data-id="${file.id}" style="padding:3px 8px;font-size:11px;">View</button>
+            <button class="btn-secondary" data-action="download" data-id="${file.id}" style="padding:3px 8px;font-size:11px;">Download</button>
+            <button class="btn-danger" data-action="delete" data-id="${file.id}" style="padding:3px 8px;font-size:11px;">Delete</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+  }
+
+  function getFileById(id){
+    return cloud.files.find(f=>f.id === id);
+  }
+
+  function deleteFile(id){
+    const file = getFileById(id);
+    if(!file) return;
+    if(!confirm('Delete "' + (file.title || 'this document') + '" from your Firmament Cloud? This cannot be undone.')){
+      return;
+    }
+    cloud.files = cloud.files.filter(f=>f.id !== id);
+    saveCloud();
+    const preview = document.getElementById('cloud-preview');
+    if(preview) preview.style.display = 'none';
+  }
+
+  function downloadFile(name, content){
+    if(!content){
+      alert('There is no content to download.');
+      return;
+    }
+    const blob = new Blob([content], {type:'text/plain;charset=utf-8'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = name || 'firmament-document.txt';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  function showPreview(file){
+    const box = document.getElementById('cloud-preview');
+    const title = document.getElementById('cloud-preview-title');
+    const content = document.getElementById('cloud-preview-content');
+    if(!box || !title || !content) return;
+    title.textContent = (file.title || 'Preview') + ' – ' + (file.type || 'Custom');
+    content.textContent = file.content || '';
+    box.style.display = 'block';
+  }
+
+  // Navigation
+  function activateView(targetId){
+    document.querySelectorAll('.view').forEach(v=>{
+      v.classList.toggle('active', v.id === targetId);
+    });
+    document.querySelectorAll('.nav-link').forEach(btn=>{
+      btn.classList.toggle('active', btn.getAttribute('data-target') === targetId);
+    });
+    // Smooth scroll to panels on small screens
+    const el = document.getElementById(targetId);
+    if(el){
+      el.scrollIntoView({behavior:'smooth',block:'start'});
+    }
+  }
+
+  function handleNavClicks(){
+    document.body.addEventListener('click', function(e){
+      const btn = e.target.closest('[data-target]');
+      if(!btn) return;
+      const target = btn.getAttribute('data-target');
+      if(!target) return;
+      e.preventDefault();
+      activateView(target);
+    });
+  }
+
+  // Draft generation
+
+  function generateDraft(){
+    const type = document.getElementById('doc-type').value;
+    const title = document.getElementById('doc-title').value.trim();
+    const yourName = document.getElementById('your-name').value.trim();
+    const otherParty = document.getElementById('other-party').value.trim();
+    const jurisdiction = document.getElementById('jurisdiction').value.trim();
+    const effectiveDate = document.getElementById('effective-date').value;
+    const coreDetails = document.getElementById('core-details').value.trim();
+    const extraNotes = document.getElementById('extra-notes').value.trim();
+
+    const dateText = effectiveDate ? new Date(effectiveDate).toLocaleDateString() : '[date]';
+    const you = yourName || '[Your Full Legal Name]';
+    const other = otherParty || '[Second Party / Counterparty]';
+    const juris = jurisdiction || '[City / State / Country]';
+
+    let body = '';
+
+    if(type === 'livingWill'){
+      body = `LIVING WILL · DRAFT OUTLINE (FOR LEGAL REVIEW ONLY)
+
+Jurisdiction: ${juris}
+Working Title: ${title || 'Living Will Draft'}
+Effective Date (intended): ${dateText}
+
+IMPORTANT:
+This is an educational outline generated by Firmament Law. It is NOT legal advice,
+and it is not a valid Living Will until it is reviewed, customized, and properly
+executed according to the laws of your jurisdiction.
+
+1. DECLARATION
+   I, ${you}, being of sound mind, make this statement as a record of my wishes
+   regarding medical care and life-support if I become unable to communicate.
+
+2. PRIMARY HEALTHCARE DECISION-MAKER
+   I appoint the following person as my primary healthcare proxy / agent:
+   Name: ${other || '[Healthcare Decision-Maker]'}
+   Relationship:
+   Contact Information:
+
+3. ALTERNATE HEALTHCARE DECISION-MAKER
+   If the primary decision-maker is unable or unwilling to serve, I appoint:
+   Name:
+   Relationship:
+   Contact Information:
+
+4. TREATMENT PREFERENCES
+   The following notes summarize my current wishes regarding:
+   • Life support / ventilators
+   • Resuscitation (DNR or similar)
+   • Pain relief and comfort care
+   • Artificial nutrition and hydration
+
+   Personal notes:
+   ${coreDetails || '[Describe your wishes here]'}
+
+5. ORGAN & TISSUE DONATION
+   (Describe any wishes regarding organ / tissue donation, or refusal.)
+
+6. SPIRITUAL / PERSONAL CONSIDERATIONS
+   (Optional: list customs, beliefs, or people you want present.)
+
+7. GENERAL NOTES FOR MY ATTORNEY
+   ${extraNotes || '[List questions and concerns you want to review with counsel]'}
+
+SIGNATURE BLOCK (TO BE DRAFTED WITH YOUR ATTORNEY)
+   _____________________________
+   Signature of ${you}
+
+   _____________________________
+   Witness / Notary (as required by local law)
+
+REMINDER:
+Take this draft to a licensed attorney in ${juris} to convert it into a formal,
+binding Living Will that meets all local legal requirements.`;
+    } else if(type === 'trust'){
+      body = `TRUST PLANNING WORKSHEET · DRAFT (FOR LEGAL REVIEW ONLY)
+
+Jurisdiction: ${juris}
+Working Title: ${title || 'Trust Planning Worksheet'}
+Prepared By: ${you}
+Date: ${dateText}
+
+NOTE:
+This worksheet helps organize information for a future trust instrument.
+It is NOT a trust agreement and does not create a trust by itself.
+
+1. SETTLOR (PERSON CREATING THE TRUST)
+   Name: ${you}
+   Contact:
+   Marital Status:
+   Children / Heirs:
+
+2. TRUSTEE(S)
+   Primary Trustee: ${other || '[Trustee Name]'}
+   Alternate Trustee(s):
+
+3. BENEFICIARIES
+   List all intended beneficiaries and any special instructions:
+   ${coreDetails || '[Name each beneficiary and describe what you want them to receive]'}
+
+4. ASSETS TO BE CONSIDERED FOR THE TRUST
+   (Real estate, bank accounts, investments, business interests, intellectual property, etc.)
+   ${coreDetails || '[List properties, accounts, companies, copyrights, etc.]'}
+
+5. SPECIAL PROVISIONS TO DISCUSS WITH YOUR ATTORNEY
+   • Age or milestones when beneficiaries may access funds
+   • Protection from creditors or divorce
+   • Guardianship considerations for minor children
+   • Charitable giving
+
+6. QUESTIONS FOR YOUR ATTORNEY
+   ${extraNotes || '[Write questions you want answered about trust types, taxes, or setup]'}
+
+NEXT STEP:
+Schedule a meeting with a lawyer experienced in estate planning in ${juris}.
+Bring this worksheet and supporting documents so they can draft a valid trust
+instrument tailored to your needs and local law.`;
+    } else if(type === 'nda'){
+      body = `NON-DISCLOSURE AGREEMENT (NDA) · DRAFT OUTLINE (FOR LEGAL REVIEW ONLY)
+
+Jurisdiction: ${juris}
+Working Title: ${title || 'NDA Draft'}
+Parties:
+   Disclosing Party: ${you}
+   Receiving Party: ${other}
+
+Effective Date (intended): ${dateText}
+
+WARNING:
+This is an educational outline. It is NOT a finalized NDA. A licensed attorney
+must adapt and approve it before use.
+
+1. PURPOSE
+   The parties wish to explore a potential relationship involving:
+   ${coreDetails || '[Describe the project, collaboration, or subject matter]'}
+
+2. DEFINITION OF CONFIDENTIAL INFORMATION
+   Confidential Information includes, but is not limited to:
+   • Business plans, financial data, source code, artworks, designs, student data, etc.
+   (Your lawyer will finalize this definition.)
+
+3. OBLIGATIONS OF RECEIVING PARTY
+   • Use Confidential Information only for the Purpose stated above.
+   • Do not disclose it to anyone except as expressly permitted.
+   • Use reasonable safeguards to protect it (to be defined by your attorney).
+
+4. EXCLUSIONS
+   Confidential Information does not include information that is:
+   • Already public without breach,
+   • Independently developed,
+   • Received lawfully from another source, or
+   • Required to be disclosed by law (with notice if permitted).
+
+5. TERM & SURVIVAL
+   • Term of the NDA:
+   • Survival of confidentiality obligations after termination:
+
+6. REMEDIES
+   • Possible injunctive relief and other remedies (to be described by your attorney).
+
+7. GENERAL QUESTIONS FOR COUNSEL
+   ${extraNotes || '[List questions about duration, governing law, or enforcement]'}
+
+SIGNATURE BLOCK (TO BE COMPLETED BY YOUR ATTORNEY)
+   _____________________________       _____________________________
+   ${you}                              ${other}
+
+Your lawyer will tailor this NDA to your jurisdiction, industry, and risk level.`;
+    } else if(type === 'leaseResidential'){
+      body = `RESIDENTIAL LEASE OUTLINE · DRAFT (FOR LEGAL REVIEW ONLY)
+
+Jurisdiction: ${juris}
+Working Title: ${title || 'Residential Lease Draft'}
+Landlord: ${you}
+Tenant: ${other}
+Effective / Move-in Date (intended): ${dateText}
+
+NOTICE:
+This is a high-level outline, not a full lease. Landlord-tenant laws are
+highly local. A licensed attorney in your area must prepare the final lease.
+
+1. PROPERTY
+   Address:
+   Description (house, apartment, room, etc.):
+
+2. TERM
+   Lease Term:
+   • Start:
+   • End:
+   • Renewal options:
+
+3. RENT & PAYMENTS
+   Monthly Rent:
+   Security Deposit:
+   Due Date & Accepted Payment Methods:
+   Late Fees:
+
+4. UTILITIES & SERVICES
+   Which utilities are included?
+   Which are tenant’s responsibility?
+
+5. USE & OCCUPANCY
+   Maximum occupants:
+   Pet policy:
+   Smoking / noise policy:
+
+6. REPAIRS & MAINTENANCE
+   Landlord responsibilities:
+   Tenant responsibilities:
+   Procedure for reporting issues:
+
+7. SPECIAL NOTES & LOCAL REQUIREMENTS
+   ${coreDetails || '[Parking, HOA rules, local disclosures, etc.]'}
+
+8. QUESTIONS FOR YOUR ATTORNEY
+   ${extraNotes || '[Eviction rules, habitability, inspections, etc.]'}
+
+Your attorney will turn this outline into a compliant residential lease for
+${juris}, including all mandatory disclosures and notices.`;
+    } else if(type === 'leaseCommercial'){
+      body = `COMMERCIAL LEASE OUTLINE · DRAFT (FOR LEGAL REVIEW ONLY)
+
+Jurisdiction: ${juris}
+Working Title: ${title || 'Commercial Lease Draft'}
+Landlord: ${you}
+Tenant: ${other}
+Effective Date (intended): ${dateText}
+
+NOTE:
+Commercial leases can be complex and negotiation-heavy. This outline helps you
+prepare but does not replace a negotiated, attorney-drafted lease.
+
+1. PREMISES
+   Address:
+   Description (studio, gallery, office, retail, warehouse, etc.):
+   Approximate square footage:
+
+2. TERM
+   Initial Term:
+   Renewal Options:
+   Rent Escalation (if any):
+
+3. RENT & OPERATING COSTS
+   Base Rent:
+   Common Area Maintenance (CAM) / triple-net (NNN) charges:
+   Utilities, taxes, insurance responsibilities:
+
+4. USE CLAUSE
+   Permitted use of the premises:
+   Any exclusive use or non-compete protections for tenant:
+
+5. BUILD-OUT / IMPROVEMENTS
+   Who pays for build-out?
+   Allowances, approvals, timelines:
+
+6. SIGNAGE, PARKING & ACCESS
+   Sign rights:
+   Parking spaces:
+   Hours of access:
+
+7. SPECIAL NOTES & RISK POINTS
+   ${coreDetails || '[Personal guarantees, early termination, subleasing, etc.]'}
+
+8. QUESTIONS FOR YOUR ATTORNEY
+   ${extraNotes || '[List negotiations or clauses you want explained or strengthened]'}
+
+Bring this outline to a commercial real estate attorney in ${juris} before signing any lease.`;
+    } else {
+      body = `CUSTOM LEGAL NOTES · DRAFT
+
+Working Title: ${title || 'Untitled Legal Notes'}
+Author: ${you || '[Your Name]'}
+Jurisdiction: ${juris}
+Date: ${dateText}
+
+SUMMARY / CONTEXT
+${coreDetails || '[Describe what these notes are about]'}
+
+QUESTIONS FOR COUNSEL
+${extraNotes || '[List what you want a lawyer to review or advise you on]'}
+
+REMINDER:
+These notes are not legal advice. Use them as a preparation tool when speaking
+with a qualified attorney.`;
+    }
+
+    document.getElementById('generated-output').value = body;
+  }
+
+  function clearForm(){
+    ['doc-title','your-name','other-party','jurisdiction','effective-date','core-details','extra-notes']
+      .forEach(id=>{
+        const el = document.getElementById(id);
+        if(el) el.value = '';
+      });
+    document.getElementById('generated-output').value = '';
+  }
+
+  function saveToCloudFromOutput(){
+    const content = document.getElementById('generated-output').value;
+    if(!content.trim()){
+      alert('There is no generated content to save yet.');
+      return;
+    }
+    const typeSelect = document.getElementById('doc-type');
+    const titleInput = document.getElementById('doc-title');
+    const typeLabel = typeSelect.options[typeSelect.selectedIndex].text || 'Custom Draft';
+    const title = titleInput.value.trim() || 'Untitled Draft – ' + typeLabel;
+
+    const file = {
+      id:'doc-'+Date.now(),
+      title,
+      type:typeLabel,
+      content,
+      createdAt:new Date().toISOString()
+    };
+    cloud.files.push(file);
+    saveCloud();
+    alert('Saved to your Firmament Cloud in this browser.');
+  }
+
+  function downloadFromOutput(){
+    const content = document.getElementById('generated-output').value;
+    if(!content.trim()){
+      alert('There is no generated content to download yet.');
+      return;
+    }
+    const title = document.getElementById('doc-title').value.trim() || 'firmament-document';
+    const safeName = title.replace(/[^a-z0-9\-]+/gi,'_') + '.txt';
+    downloadFile(safeName, content);
+  }
+
+  function clearStorage(){
+    if(!confirm('This will permanently delete all Firmament Law documents stored in this browser. Continue?')){
+      return;
+    }
+    try{
+      localStorage.removeItem(STORAGE_KEY);
+    }catch(e){
+      console.warn('Could not clear local storage:', e);
+    }
+    cloud = {files:[]};
+    saveCloud();
+    const preview = document.getElementById('cloud-preview');
+    if(preview) preview.style.display = 'none';
+    alert('All local Firmament Law data in this browser has been cleared.');
+  }
+
+  document.addEventListener('DOMContentLoaded', function(){
+    handleNavClicks();
+    loadCloud();
+
+    const btnGen = document.getElementById('btn-generate');
+    if(btnGen) btnGen.addEventListener('click', function(e){
+      e.preventDefault();
+      generateDraft();
+    });
+
+    const btnClearForm = document.getElementById('btn-clear-form');
+    if(btnClearForm) btnClearForm.addEventListener('click', function(e){
+      e.preventDefault();
+      clearForm();
+    });
+
+    const btnSaveCloud = document.getElementById('btn-save-cloud');
+    if(btnSaveCloud) btnSaveCloud.addEventListener('click', function(e){
+      e.preventDefault();
+      saveToCloudFromOutput();
+    });
+
+    const btnDownload = document.getElementById('btn-download');
+    if(btnDownload) btnDownload.addEventListener('click', function(e){
+      e.preventDefault();
+      downloadFromOutput();
+    });
+
+    const btnClearStorage = document.getElementById('btn-clear-storage');
+    if(btnClearStorage) btnClearStorage.addEventListener('click', function(e){
+      e.preventDefault();
+      clearStorage();
+    });
+
+    const cloudTable = document.getElementById('cloud-table');
+    if(cloudTable){
+      cloudTable.addEventListener('click', function(e){
+        const btn = e.target.closest('button[data-action]');
+        if(!btn) return;
+        const action = btn.getAttribute('data-action');
+        const id = btn.getAttribute('data-id');
+        const file = getFileById(id);
+        if(!file) return;
+
+        if(action === 'view'){
+          showPreview(file);
+        }else if(action === 'download'){
+          downloadFile((file.title || 'firmament-document') + '.txt', file.content || '');
+        }else if(action === 'delete'){
+          deleteFile(id);
+        }
+      });
+    }
+  });
+})();
+</script>
+</body>
+</html>
