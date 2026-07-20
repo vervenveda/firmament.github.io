@@ -1,0 +1,1874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Firmament Law – Sovereign Legal Console</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Title fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Cinzel:wght@777;777&display=swap" rel="stylesheet">
+  
+ <style>
+/* ============================
+   FIRMAMENT LAW — REGAL STYLE v2.0
+   Midnight • Gold • Parchment • Sovereign Serif
+   ============================ */
+
+:root {
+  --midnight: #020414;
+  --midnight-soft: #0b1020;
+  --ink: #000000;
+  --ink-soft: #000000;
+  --parchment: #f7f3ea;
+  --parchment-soft: #f0e9dc;
+
+  --gold: #d9b878;
+  --gold-deep: #b89252;
+  --gold-soft: #e8d5a4;
+
+  --accent: #000000;
+
+  --radius: 9px;
+  --bevel: 6px;
+  --shadow-soft: 0 14px 40px rgba(0, 0, 0, 0.42);
+
+  --font-heading: "Cinzel", serif;
+  --font-body: "brandon grotesque", "Brandon Grotesque", serif;
+}
+
+/* ============================
+   GLOBAL
+   ============================ */
+* { box-sizing: border-box; }
+
+body {
+  margin: 7px;
+  background:
+    radial-gradient(circle at 40% 0%, #091020 0%, #020414 60%, #000 100%);
+  background-attachment: fixed;
+  font-family: var(--font-body);
+  color: var(--parchment);
+  min-height: 88vh;
+  max-height: 99vh;
+  display: flex;
+  justify-content: center;
+}
+
+/* subtle stars */
+body::before {
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  background:
+    url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="180" height="180" viewBox="0 0 180 180"><circle cx="3" cy="3" r="1" fill="white" opacity="0.4"/><circle cx="90" cy="40" r="1" fill="white" opacity="0.45"/><circle cx="160" cy="120" r="1" fill="white" opacity="0.4"/></svg>')
+    repeat;
+  opacity: 0.15;
+}
+
+/* ============================
+   SIDEBAR
+   ============================ */
+.app-shell {
+  display: flex;
+  width: 99%;
+  max-width: 999px;
+  min-height: 88vh;
+}
+
+.sidebar {
+  width: 555px;
+  background: linear-gradient(180deg, #0b1224, #050814);
+  border-right: 1px solid rgba(217,184,120,.25);
+  padding: 33px 44px;
+  display: flex;
+  flex-direction: column;
+  gap: 38px;
+}
+
+/* BRAND BADGE */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-bottom: 18px;
+  margin-bottom: 22px;
+  border-bottom: 1px solid rgba(217,184,120,.25);
+}
+
+.brand-badge {
+  width: 77px;
+  height: 77px;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 30% 10%, #fff1b8, #e0bb65 55%, #7a5a28 100%);
+  box-shadow: 0 0 28px rgba(255,222,140,0.55);
+  font-size: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.brand-text h1 {
+  margin: 0;
+  font-size: 33px;
+  letter-spacing: 0.06em;
+  color: #f8f9fb;
+  font-family: var(--font-heading);
+  text-transform: uppercase;
+}
+
+.brand-text p {
+  margin: 0;
+  color: #ffffff;
+  font-size: 33px;
+  align-items: center;
+  justify-content: center;
+}
+
+/* NAV */
+.nav-label {
+  font-size: 22px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #ffffff;
+  margin-left: 11px;
+}
+
+.nav-link {
+  padding: 11px 22px;
+  border-radius: 8px;
+  background: transparent;
+  color: #ffffff;
+  display: flex;
+  gap: 10px;
+  font-size: 11px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: 0.2s;
+}
+
+.nav-link:hover {
+  background: rgba(217,184,120,.08);
+  border-color: rgba(217,184,120,.20);
+}
+
+
+
+
+/* ============================
+   MAIN AREA
+   ============================ */
+.main {
+  flex: 1;
+  padding: 24px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+/* TOPBAR */
+.topbar {
+  background: rgba(10,16,32,0.85);
+  border: 1px solid rgba(217,184,120,.25);
+  border-radius: 14px;
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.top-title {
+  font-family: var(--font-heading);
+  font-size: 22px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold-soft);
+}
+
+.top-meta {
+  font-size: 22px;
+  color: #c9ceda;
+}
+   
+   /* === FIRMAMENT — Sidebar alignment hard-lock (final override) === */
+.sidebar nav{
+  display:flex;
+  flex-direction:column;
+  gap:7px;                /* consistent vertical rhythm */
+}
+
+/* Reset UA styles on buttons so every item behaves identically */
+.sidebar .nav-link{
+  all: unset;             /* wipe browser default button styles */
+  display:block;
+  width:100%;
+  padding:12px 22px;      /* single left edge for all */
+  border-radius:11px;
+  border:1px solid transparent;
+  background:transparent;
+  color:#ffffff;
+  font: 15px/1.33 var(--font-body, serif);
+  letter-spacing:.02em;
+  cursor:pointer;
+  box-sizing:border-box;
+  text-align:left;        /* no centered oddities */
+  white-space:normal;     /* wrap long labels */
+}
+
+/* Remove leftover icon offsets everywhere */
+.sidebar .nav-link .icon{ display:none !important; }
+.sidebar .nav-link > * { vertical-align:middle; }
+
+/* Hover/active kept subtle and identical */
+.sidebar .nav-link:hover{
+  background:rgba(217,184,120,.08);
+  border-color:rgba(217,184,120,.20);
+}
+.sidebar .nav-link.active{
+  background:var(--gold-soft);
+  color:#09101a;
+  border-color:var(--gold-deep);
+  box-shadow:none;
+}
+
+/* Section labels: align to the same left edge as links */
+.sidebar .nav-label{
+  display:block;
+  margin:14px 0 7px;
+  padding-left:22px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  font-size:12px;
+  color:#ffffff;
+}
+
+/* ============================
+   CARD VIEW
+   ============================ */
+.view {
+  display: none;
+  background: var(--parchment);
+  color: var(--ink);
+  border-radius: var(--radius);
+  padding: 28px 26px;
+  border: 1px solid rgba(217,184,120,.45);
+  box-shadow: var(--shadow-soft);
+}
+
+.view.active {
+  display: block;
+}
+
+.view-header {
+  border-bottom: 1px solid rgba(217,184,120,.4);
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.view-header h2 {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: var(--ink);
+}
+
+.view-header p {
+  margin: 2;
+  font-size: 11px;
+  color: var(--ink-soft);
+}
+
+/* ============================
+   BUTTONS
+   ============================ */
+.btn {
+  background: linear-gradient(135deg, var(--gold), var(--gold-soft));
+  border: 1px solid var(--gold-deep);
+  border-radius: 6px;
+  padding: 6px 6px;
+  color: #09101a;
+  font-weight: 444;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn:hover {
+  background: linear-gradient(135deg, var(--gold-deep), var(--gold));
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(217,184,120,.45);
+}
+   
+   <style>
+/* =========================================================
+   FIRMAMENT — FRONT PAGE POLISH (Dashboard-only visuals)
+   Safe CSS overrides — no markup or JS changes required
+   Uses PLERA Sacred numbers for spacing/radii where possible
+   ========================================================= */
+
+/* ——— Global legibility (gentle scale-up) ——— */
+body { font-size: 22px; }                         /* sacred body size */
+.view-header h2 { font-size: 33px; }              /* sacred t1tle size */
+.top-title { font-size: 22px; letter-spacing:.18em; } /* keep uppercase, slightly tighter */
+
+/* ——— Even, consistent buttons ——— */
+.btn {
+  padding: 22px 21px;             /* sacred spacing */
+  border-radius: 11px;            /* sacred radius */
+  font-size: 16px;
+  line-height: 1.33;
+  min-height: 42px;
+  display: inline-flex; align-items: center; gap: 9px;
+}
+.btn.secondary{
+  background: var(--parchment-soft);
+  color: var(--ink);
+  border: 1px solid rgba(217,184,120,.45);
+  box-shadow: 0 3px 7px rgba(0,0,0,.08);
+}
+.btn.secondary:hover{
+  background: var(--parchment);
+  box-shadow: 0 7px 21px rgba(0,0,0,.12);
+}
+.btn.danger{
+  background: linear-gradient(135deg,#a32020,#d33);
+  color: #fff;
+  border: 1px solid rgba(0,0,0,.15);
+}
+.btn.danger:hover{ filter: brightness(1.05); }
+
+/* ——— Sidebar nav legibility & rhythm ——— */
+.nav-link{
+  padding: 22px 22px;
+  border-radius: 22px;
+  font-size: 12px;
+}
+.nav-link .icon{ opacity:.9; transform: translateY(1px); }
+
+/* ——— Dashboard card grid ——— */
+#view-dashboard .stat-row{
+  display: grid;
+  grid-template-columns: repeat(3,minmax(0,1fr));
+  gap: 21px;                                     /* sacred gap */
+  margin-top: 14px;
+}
+@media (max-width: 999px){
+  #view-dashboard .stat-row{ grid-template-columns: 1fr; }
+}
+
+/* Gloss for each stat card (markup already present) */
+#view-dashboard .stat-card{
+  background: var(--parchment);
+  color: var(--ink);
+  border: 1px solid rgba(217,184,120,.45);
+  border-radius: 11px;                           /* sacred radius */
+  padding: 21px;
+  box-shadow: 0 7px 21px rgba(0,0,0,.12);
+}
+#view-dashboard .stat-card h3{
+  margin: 0 0 7px;
+  font-family: var(--font-heading, "Cinzel", serif);
+  font-size: 22px;                               /* sacred title */
+  letter-spacing: .11em;
+  color: var(--ink);
+}
+#view-dashboard .stat-card .value{
+  font-size: 33px;                               /* sacred highlight */
+  font-weight: 777;
+  color: #0b1224;
+  line-height: 1.5;
+  margin: 44px 0 11px;
+}
+#view-dashboard .stat-card .note{
+  font-size: 22px;
+  color: var(--ink-soft);
+}
+
+/* ——— Dashboard button row spacing ——— */
+#view-dashboard .btn-row{
+  display: flex; flex-wrap: wrap; gap: 22px;
+}
+
+/* ——— General card polish for all .view blocks (keeps your scheme) ——— */
+.view{
+  border-radius: 22px;                           /* sacred radius */
+  padding: 22px;                                 /* sacred padding */
+  box-shadow: 0 9px 27px rgba(0,0,0,.18);
+}
+.view-header{
+  padding-bottom: 13px;
+  margin-bottom: 16px;
+}
+
+/* ——— Inputs & textareas: easier to read (optional but helpful) ——— */
+select, input[type="text"], input[type="date"], textarea{
+  font-size: 11px;
+  border-radius: 9px;                            /* sacred radius */
+  padding: 11px 22px;                             
+  border: 1px solid rgba(0,0,0,.18);
+}
+textarea{
+  min-height: 144px;                             /* sacred grid unit feel */
+  line-height: 1.44;
+}
+
+/* ——— Table legibility (Cloud list) ——— */
+.cloud-list{
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11px;
+}
+.cloud-list th, .cloud-list td{
+  padding: 11px 14px;
+  border-bottom: 1px solid rgba(0,0,0,.07);
+}
+.cloud-list th{
+  text-align: center;
+  font-family: var(--font-heading, "Cinzel", serif);
+  letter-spacing: .06em;
+  color: var(--ink);
+}
+
+/* ——— Preview box subtle frame ——— */
+.preview-box{
+  margin-top: 14px;
+  border: 1px solid rgba(217,184,120,.45);
+  border-radius: 11px;
+  padding: 21px;
+  background: var(--parchment-soft);
+  box-shadow: 0 7px 21px rgba(0,0,0,.08);
+}
+.preview-title{
+  font-family: var(--font-heading, "Cinzel", serif);
+  font-size: 22px;
+  margin-bottom: 7px;
+}
+
+/* ——— Muted helper ——— */
+.muted{ color: var(--ink-soft); }
+.tag{
+  display:inline-block; padding: 3px 9px; border-radius: 21px;
+  background: rgba(217,184,120,.18); border: 1px solid rgba(217,184,120,.44);
+  font-size: 22px;
+}
+<style>
+/* === FIRMAMENT — High-End Law Firm Polish (visual only) === */
+
+/* 1) Clean field: drop the stars for a museum-quiet canvas */
+body::before{opacity:0}
+
+/* 2) Center content width for a composed first impression */
+.app-shell{max-width:1200px;margin:0 auto}
+.views{max-width:980px;margin:0 auto}
+
+/* 3) Topbar: quieter, refined */
+.topbar{
+  background: rgba(9,16,32,.82);
+  border:1px solid rgba(217,184,120,.25);
+  border-radius:11px;
+  padding:14px 18px;
+}
+.top-title{
+  font-variant: small-caps;
+  letter-spacing:.18em;
+  font-size:44px;
+  color: var(--gold-soft);
+}
+
+/* 4) Sidebar: remove playful emojis, keep clear labels */
+.nav-link .icon{display:none}
+.nav-link{font-size:22px;padding:13px 14px;border:1px solid transparent}
+.nav-link:hover{background:rgba(217,184,120,.08);border-color:rgba(217,184,120,.20)}
+.nav-link.active{
+  background:#e8d5a4; color:#09101a; border-color:var(--gold-deep);
+  box-shadow:0 0 0 rgba(0,0,0,0) /* remove glow for a legal feel */
+}
+
+/* 5) Buttons: flatter, more grown-up */
+.btn{
+  background:#e8d5a4;
+  border:1px solid var(--gold);
+  color:#000000;
+  border-radius:11px;
+  padding:11px 21px;
+  line-height:1.33;
+  box-shadow:0 3px 7px rgba(0,0,0,.12);
+}
+.btn:hover{filter:brightness(1.03);box-shadow:0 7px 21px rgba(0,0,0,.16)}
+.btn.secondary{background:var(--parchment-soft);color:var(--ink)}
+.btn.secondary:hover{background:var(--parchment)}
+
+/* 6) Cards & stats: crisp edges, softer depth */
+.view{border-radius:9px;padding:21px;box-shadow:0 7px 21px rgba(0,0,0,.12)}
+#view-dashboard .stat-card{border-radius:9px;box-shadow:0 7px 21px rgba(0,0,0,.08)}
+#view-dashboard .stat-card .value{font-size:44px}
+
+/* 7) Primary CTA row stays big and even */
+#view-dashboard .btn-row .btn{
+  min-height:56px; font-size:18px; padding:14px 21px;
+}
+<style>
+/* ===== Center & contain the main column ===== */
+.app-shell{ max-width: 1100px; margin: 0 auto; }
+.main{ align-items: left; }                /* center child blocks */
+.topbar, .view{ width: clamp(320px, 92vw, 820px); }  /* stay inside guides */
+
+/* ===== Dashboard card: make it taller & balanced ===== */
+#view-dashboard.view{
+  min-height: 777px;                         /* taller beige box */
+  display: flex; flex-direction: column;
+  justify-content: flex-start;
+}
+
+/* ===== Sidebar alignment fixes (two items off) ===== */
+.sidebar{ padding-inline: 12px; }
+.sidebar nav{ display:flex; flex-direction:column; gap:7px; }
+.nav-link{ width:100%; padding:22px 22px; border-radius:5px; box-sizing:border-box; }
+.nav-link .icon{ display:none !important; }  /* remove emoji gutter so labels align */
+.nav-label{ display:block; margin:11px 0 7px; padding-left:2px; letter-spacing:.14em; }
+
+/* ===== Keep CTA row centered and even ===== */
+#view-dashboard .btn-row{ justify-content: left; }
+#view-dashboard .btn-row .btn{
+  flex: 1 1 222px; min-width: 222px; max-width: 333px;
+}
+
+/* ===== Mobile safety: no overflow, neat stack ===== */
+@media (max-width: 888px){
+  .topbar, .view{ width: 92vw; }
+}
+@media (max-width: 720px){
+  .app-shell{ max-width: 100%; }
+  .topbar, .view{ width: min(100%, 94vw); }
+  /* optional: tighten sidebar a touch on small screens */
+  .sidebar{ width: 222px; }
+}
+</style>
+
+</style>
+</head>
+<body>
+<div class="app-shell">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-badge">⚖️</div>
+      <div class="brand-text">
+        <h1>Justice</h1>
+        <p>Legal Hub</p>
+      </div>
+    </div>
+
+    <span class="nav-label"></span>
+    <nav>
+      <button class="nav-link active" data-target="view-dashboard">
+        <span class="icon">🏛️</span> 
+      </button>
+      <button class="nav-link" data-target="view-generator">
+        <span class="icon">📄</span> Document Generator
+      </button>
+      <button class="nav-link" data-target="view-cloud">
+        <span class="icon">☁️</span> My Firmament Cloud
+      </button>
+      <button class="nav-link" data-target="view-templates">
+        <span class="icon">📚</span> Template Library
+      </button>
+      <button class="nav-link" data-target="view-resources">
+        <span class="icon">🌍</span> Legal Resources
+      </button>
+      <button class="nav-link" data-target="view-about">
+        <span class="icon">🛡️</span> About &amp; Safety
+      </button>
+<span class="nav-label"></span>
+      <button class="nav-link" data-target="view-legalization">
+        <span class="icon">📜</span> Legalization &amp; Status Hub
+      </button>
+      <button class="nav-link" data-target="view-immigration">
+        <span class="icon">🧭</span> Immigration Hub
+      </button>
+      <button class="nav-link" data-target="view-creatives">
+        <span class="icon">🎨</span> Creatives – Arts &amp; Music
+      </button>
+      
+      <button class="nav-link" data-target="view-Parents & Child Protection">
+        <span class="icon">🧭</span> Parents &amp; Child Protection
+      </button>
+      <button class="nav-link" data-target="view-law-students">
+        <span class="icon">📚</span> Law Students Hub
+      </button>
+      <button class="nav-link" data-target="view-elder">
+        <span class="icon">🕊️</span> Elder Law &amp; Seniors
+      </button>
+      <button class="nav-link" data-target="view-cannabis">
+        <span class="icon">🌿</span> Cannabis Law Hub
+      </button>
+      <button class="nav-link" data-target="view-business-ip">
+        <span class="icon">💼</span> Business, Copyright &amp; IP
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <strong>Local-Only:</strong> Documents are stored in your browser’s local storage.
+      Clearing browser data or switching devices will remove your Firmament Cloud.
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+    <header class="topbar">
+      <div>
+        <div class="top-title">FIRMAMENT LAW <br> SOVEREIGN LEGAL CONSOLE</div><br>
+        <div><br>
+        <div class="muted">A local-only legal document drafting and resource hub.</div>
+      </div>
+      <div class="top-meta">
+        All drafting here is <strong>educational only and must be reviewed by a licensed attorney.
+      </div>
+    </header>
+
+    <div class="views">
+
+      <!-- Dashboard -->
+      <section id="view-dashboard" class="view active">
+        <div class="view-header">
+          <h2>Dashboard</h2>
+          <br>
+        </div><br>
+        <div><br>
+         <h3>Start new documents, inspect your Firmament Cloud, and keep sight of the Beacon of Justice.</p>
+        </div>
+        <div class="stat-row">
+          <div class="stat-card">
+            <h3>Documents in Cloud</h3>
+            <div class="value" id="stat-doc-count">0</div>
+            <div class="note">Locally stored, never uploaded.</div>
+          </div>
+          <div class="stat-card">
+            <h3>Last Saved</h3>
+            <div class="value" id="stat-last-saved">—</div>
+            <div class="note">Time of most recent document save.<br></div>
+          </div>
+          <div class="stat-card">
+            <h3>Templates Ready</h3>
+            <div class="value">6</div>
+            <div class="note">Wills, Trusts, NDAs, Leases &amp; more.</div>
+          </div>
+        </div>
+
+        <div class="btn-row" style="margin-top:14px;">
+          <button class="btn" data-target="view-generator">
+            <span>➕</span> New Document
+          </button>
+          <button class="btn secondary" data-target="view-cloud">
+            </span> Open My Firmament Cloud
+          </button>
+          <button class="btn secondary" data-target="view-resources">
+            </span> Free Legal Aid Links
+          </button>
+        </div>
+
+        <p class="muted" style="margin-top:10px;">
+          <br>
+          Reminder: <br>Firmament Law does not replace a lawyer. It helps you
+          organize your thoughts and questions so a licensed attorney can
+          protect you, your family, your work, and your sovereign platforms.
+        </p>
+      </section>
+
+      <!-- Document Generator -->
+      <section id="view-generator" class="view">
+        <div class="view-header">
+          <h2>Document Generator</h2>
+          <p>Generate draft outlines for key documents. Everything is stored locally and should be reviewed by counsel.</p>
+        </div>
+
+        <div class="grid-two">
+          <!-- Left: form -->
+          <div>
+            <div class="pill">Drafting Space · Local Only · Educational Use</div>
+            <div style="margin-top:10px;">
+              <label for="doc-type">Document Type</label>
+              <select id="doc-type">
+                <option value="livingWill">Living Will – Personal Care Directives</option>
+                <option value="trust">Trust Planning Worksheet</option>
+                <option value="nda">Non-Disclosure Agreement (NDA)</option>
+                <option value="leaseResidential">Residential Lease Outline</option>
+                <option value="leaseCommercial">Commercial Lease Outline</option>
+                <option value="blank">Blank Custom Document</option>
+              </select>
+            </div>
+
+            <div style="margin-top:8px;">
+              <label for="doc-title">Working Title</label>
+              <input type="text" id="doc-title" placeholder="e.g., Jennifer – Living Will Draft v1" />
+            </div>
+
+            <div style="margin-top:8px;">
+              <label for="your-name">Your Full Name / Entity</label>
+              <input type="text" id="your-name" placeholder="Your legal name or entity name" />
+            </div>
+
+            <div style="margin-top:8px;">
+              <label for="other-party">Second Party / Counterparty (optional)</label>
+              <input type="text" id="other-party" placeholder="e.g., Trustee, Recipient, Tenant, Landlord, etc." />
+            </div>
+
+            <div style="margin-top:8px;">
+              <label for="jurisdiction">Jurisdiction (City/State/Region)</label>
+              <input type="text" id="jurisdiction" placeholder="e.g., Holiday, Florida, USA" />
+            </div>
+
+            <div style="margin-top:8px;">
+              <label for="effective-date">Effective Date</label>
+              <input type="date" id="effective-date" />
+            </div>
+
+            <div style="margin-top:8px;">
+              <label for="core-details">Core Details &amp; Notes</label>
+              <textarea id="core-details" placeholder="Assets, property address, confidentiality scope, beneficiaries, special wishes, etc."></textarea>
+            </div>
+
+            <div style="margin-top:8px;">
+              <label for="extra-notes">Questions for Your Lawyer (optional)</label>
+              <textarea id="extra-notes" placeholder="List questions or concerns you want your attorney to review."></textarea>
+            </div>
+
+            <div class="btn-row">
+              <button class="btn" id="btn-generate">
+                <span>✨</span> Generate Draft
+              </button>
+              <button class="btn secondary" id="btn-clear-form">
+                <span>🧹</span> Clear Form
+              </button>
+            </div>
+
+            <p class="muted" style="margin-top:8px;">
+              These drafts are <strong>starting points only</strong>. Laws differ widely by country and region.
+              Always ask a qualified attorney to review and finalize any document before you sign or rely on it.
+            </p>
+          </div>
+
+          <!-- Right: output -->
+          <div>
+            <label for="generated-output">Generated Draft (Plain Text)</label>
+            <textarea id="generated-output" placeholder="Your generated draft will appear here..."></textarea>
+            <div class="btn-row">
+              <button class="btn" id="btn-save-cloud">
+                <span>☁️</span> Save to Firmament Cloud
+              </button>
+              <button class="btn secondary" id="btn-download">
+                <span>⬇️</span> Download .txt
+              </button>
+            </div>
+            <p class="muted" style="margin-top:8px;">
+              Saved drafts will appear under <strong>My Firmament Cloud</strong>. You can delete them
+              at any time from this browser. Downloading creates a <code>.txt</code> file for your own records
+              or to share with your attorney.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- My Cloud -->
+      <section id="view-cloud" class="view">
+        <div class="view-header">
+          <h2>My Firmament Cloud</h2>
+          <p>Your sovereign, local-only directory for legal drafts and notes. Nothing leaves this device unless you export it.</p>
+        </div>
+
+        <table class="cloud-list" id="cloud-table">
+          <thead>
+          <tr>
+            <th>Title</th>
+            <th>Type</th>
+            <th>Created</th>
+            <th>Actions</th>
+          </tr>
+          </thead>
+          <tbody>
+          <!-- Filled by JS -->
+          </tbody>
+        </table>
+
+        <div class="preview-box" id="cloud-preview" style="display:none;">
+          <div class="preview-title" id="cloud-preview-title">Preview</div>
+          <div class="preview-content" id="cloud-preview-content"></div>
+        </div>
+
+        <div class="btn-row" style="margin-top:10px;">
+          <button class="btn secondary" data-target="view-generator">
+            <span>➕</span> Create New Draft
+          </button>
+        </div>
+
+        <p class="muted" style="margin-top:8px;">
+          Tip: For long-term safekeeping, download important drafts and store them in your own encrypted
+          backups in addition to this local Firmament Cloud.
+        </p>
+      </section>
+
+      <!-- Template Library -->
+      <section id="view-templates" class="view">
+        <div class="view-header">
+          <h2>Template Library</h2>
+          <p>High-level overviews of each template available in the Generator so members know what they’re drafting.</p>
+        </div>
+
+        <ul class="muted" style="font-size:12px; padding-left:18px; margin-top:4px;">
+          <li><strong>Living Will</strong> – A personal directive about healthcare, life-support, and end-of-life wishes if you cannot speak for yourself.</li>
+          <li><strong>Trust Planning Worksheet</strong> – A structured outline to organize assets, trustees, and beneficiaries for a future trust instrument.</li>
+          <li><strong>Non-Disclosure Agreement (NDA)</strong> – A confidentiality structure for sharing sensitive information with collaborators, students, vendors, etc.</li>
+          <li><strong>Residential Lease</strong> – Key terms for renting homes, apartments, or rooms.</li>
+          <li><strong>Commercial Lease</strong> – High-level terms for renting studio, gallery, office, or retail space.</li>
+          <li><strong>Blank Custom Document</strong> – Free-form drafting space for any legal notes, covenants, or checklists.</li>
+        </ul>
+
+        <p class="muted" style="margin-top:8px;">
+          All templates in Firmament Law are intentionally simplified and non-jurisdictional. They are meant to help
+          you think clearly and ask better questions—never to replace a properly drafted legal instrument.
+        </p>
+      </section>
+
+      <!-- Legal Resources -->
+      <section id="view-resources" class="view">
+        <div class="view-header">
+          <h2>Legal Resources</h2>
+          <p>Reputable starting points for free / low-cost legal information and aid around the world.</p>
+        </div>
+
+        <div class="resources-list">
+          <div class="resource-card">
+            <h3>USA – Legal Aid &amp; Forms</h3>
+            <p>Find free or affordable civil legal help and guided forms.</p>
+            <ul>
+              <li><a href="https://www.usa.gov/legal-aid" target="_blank" rel="noopener">USA.gov – Legal Aid Finder</a></li>
+              <li><a href="https://www.lawhelp.org" target="_blank" rel="noopener">LawHelp.org</a></li>
+              <li><a href="https://www.lsc.gov/about-lsc/what-legal-aid/i-need-legal-help" target="_blank" rel="noopener">Legal Services Corporation (LSC)</a></li>
+            </ul>
+          </div>
+
+          <div class="resource-card">
+            <h3>USA – Online Pro Bono Advice</h3>
+            <p>Submit civil legal questions and get answers from volunteer attorneys (income limits apply).</p>
+            <ul>
+              <li><a href="https://www.abafreelegalanswers.org" target="_blank" rel="noopener">ABA Free Legal Answers</a></li>
+            </ul>
+          </div>
+
+          <div class="resource-card">
+            <h3>Global – Refugees &amp; Asylum</h3>
+            <p>Legal help for displaced people, refugees, and asylum seekers.</p>
+            <ul>
+              <li><a href="https://help.unhcr.org" target="_blank" rel="noopener">UNHCR – Help Portal</a></li>
+            </ul>
+          </div>
+
+          <div class="resource-card">
+            <h3>Global – Legal Aid Systems</h3>
+            <p>Overview of legal aid systems and NGOs in many countries.</p>
+            <ul>
+              <li><a href="https://defensewiki.ibj.org/index.php/Legal_Aid_Systems_and_Supporting_NGOs_around_the_world" target="_blank" rel="noopener">IBJ Criminal Defense Wiki</a></li>
+            </ul>
+          </div>
+
+          <div class="resource-card">
+            <h3>Global – Rule of Law &amp; Pro Bono</h3>
+            <p>Directories of organizations advancing rule of law and pro bono practice worldwide.</p>
+            <ul>
+              <li><a href="https://worldjusticeproject.org/resource-hub/leading-organizations" target="_blank" rel="noopener">World Justice Project – Leading Organizations</a></li>
+              <li><a href="https://www.trust.org/trustlaw/" target="_blank" rel="noopener">TrustLaw – Global Pro Bono Network</a></li>
+            </ul>
+          </div>
+
+          <div class="resource-card">
+            <h3>Global – Free Legal Information</h3>
+            <p>Open access to legal information, case law, and commentary.</p>
+            <ul>
+              <li><a href="https://www.justia.com" target="_blank" rel="noopener">Justia – Free Law &amp; Legal Info</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <p class="muted" style="margin-top:10px;">
+          These links are external and not controlled by Firmament Law. Availability and quality can change over time.
+          Always verify that any organization you contact is legitimate and appropriate for your situation.
+        </p>
+      </section>
+
+      <!-- About & Safety -->
+      <section id="view-about" class="view">
+        <div class="view-header">
+          <h2>About &amp; Safety</h2>
+          <p>How Firmament Law works, what it can do for you, and the limits that keep everyone safe.</p>
+        </div>
+
+        <h3 style="margin-top:4px;">What Firmament Law Is</h3>
+        <p class="muted">
+          Firmament Law is a <strong>sovereign, local-only drafting console</strong> for PLERA, Pearls Gamut and
+          Archaemenes Academy members. It gives you a structured place to think through legal documents,
+          collect details, and prepare questions for your lawyer.
+        </p>
+
+        <h3>What Firmament Law Is Not</h3>
+        <ul class="muted" style="font-size:12px; padding-left:18px;">
+          <li>It is <strong>not</strong> a law firm or a substitute for a licensed attorney.</li>
+          <li>It does <strong>not</strong> give legal advice or create legally binding instruments.</li>
+          <li>It does <strong>not</strong> send your documents to any server or third party.</li>
+        </ul>
+
+        <h3>Your Local Sovereign Cloud</h3>
+        <p class="muted">
+          All drafts are stored using your browser’s <strong>localStorage</strong> under the
+          key <code>firmamentCloudV1</code>. If you clear browser data, switch browsers, or use another device,
+          those drafts will not follow you. For anything important, download and back up your documents
+          separately in your own encrypted storage.
+        </p>
+
+        <div class="btn-row">
+          <button class="btn danger" id="btn-clear-storage">
+            <span>🧨</span> Clear All Local Firmament Data
+          </button>
+        </div>
+
+        <p class="muted" style="margin-top:8px;">
+          This button permanently deletes all Firmament Law drafts in this browser. It cannot be undone.
+          Use it when you want a clean slate or before sharing your device.
+        </p>
+      </section>
+
+      <!-- Legalization & Status Hub -->
+      <section id="view-legalization" class="view">
+        <div class="view-header">
+          <h2>Legalization &amp; Status Hub</h2>
+          <p>Starting points for apostilles, document authentication, and record status checks.</p>
+        </div>
+
+        <p class="muted">
+          Use this hub to learn how to legalize documents (apostilles, authentications) and understand status
+          requirements when you are moving documents across borders. Always confirm requirements with the
+          official authority in your country or region.
+        </p>
+
+        <div class="resources-list">
+          <div class="resource-card">
+            <h3>USA – Apostilles &amp; Authentication</h3>
+            <p>Official guidance on how to get a U.S. document certified for use abroad.</p>
+            <ul>
+              <li><a href="https://www.usa.gov/authenticate-us-document" target="_blank" rel="noopener">USA.gov – Authenticate a U.S. Document</a></li>
+              <li><a href="https://travel.state.gov/content/travel/en/replace-certify-docs/authenticate-your-document/office-of-authentications.html" target="_blank" rel="noopener">U.S. Dept. of State – Office of Authentications</a></li>
+            </ul>
+          </div>
+
+          <div class="resource-card">
+            <h3>Hague Apostille Convention</h3>
+            <p>Information on the Apostille Convention and member countries.</p>
+            <ul>
+              <li><a href="https://www.hcch.net/en/instruments/conventions/specialised-sections/apostille" target="_blank" rel="noopener">HCCH – Apostille Section</a></li>
+            </ul>
+          </div>
+
+          <div class="resource-card">
+            <h3>State &amp; Local Apostille Offices</h3>
+            <p>Each U.S. state usually has its own apostille / authentication office (often the Secretary of State).</p>
+            <p>Search: <em>“[Your State] Secretary of State apostille”</em> for the official website and instructions.</p>
+          </div>
+        </div>
+
+        <p class="muted" style="margin-top:10px;">
+          Document legalization can be technical and time-sensitive. For high-stakes matters (marriage, adoption,
+          business filings), consider asking a local attorney or notary specialist to review everything before you submit.
+        </p>
+      </section>
+
+      <!-- Immigration Hub -->
+      <section id="view-immigration" class="view">
+        <div class="view-header">
+          <h2>Immigration Hub</h2>
+          <p>Official information channels and nonprofit supports for migration, visas, and asylum.</p>
+        </div>
+
+        <p class="muted">
+          Immigration law changes often and depends heavily on country and status. These links are starting points only.
+          For any application, appeal, or asylum request, consult a qualified immigration attorney or accredited
+          representative.
+        </p>
+
+        <div class="resources-list">
+          <div class="resource-card">
+            <h3>United States – USCIS</h3>
+            <p>Official U.S. government immigration and naturalization information.</p>
+            <ul>
+              <li><a href="https://www.uscis.gov" target="_blank" rel="noopener">USCIS – Official Site</a></li>
+              <li><a href="https://i94.cbp.dhs.gov" target="_blank" rel="noopener">CBP – I-94 Travel History</a></li>
+            </ul>
+          </div>
+
+          <div class="resource-card">
+            <h3>Refugees &amp; Asylum Seekers</h3>
+            <p>Information and referrals for refugees, asylum-seekers, and stateless people.</p>
+            <ul>
+              <li><a href="https://help.unhcr.org" target="_blank" rel="noopener">UNHCR – Help Portal</a></li>
+              <li><a href="https://refugees.org/legal-services/" target="_blank" rel="noopener">USCRI – Humanitarian Legal Services (USA)</a></li>
+            </ul>
+          </div>
+
+          <div class="resource-card">
+            <h3>Visa Bulletins &amp; Quotas</h3>
+            <p>For those tracking U.S. immigrant visa availability and priority dates.</p>
+            <ul>
+              <li><a href="https://travel.state.gov/content/travel/en/legal/visa-law0/visa-bulletin.html" target="_blank" rel="noopener">U.S. Visa Bulletin</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <p class="muted" style="margin-top:10px;">
+          Be cautious of unlicensed “consultants” or notarios who promise guaranteed results. In many countries,
+          only licensed lawyers or accredited representatives can give immigration advice.
+        </p>
+      </section>
+
+      <!-- Creatives – Arts & Music Hub -->
+      <section id="view-creatives" class="view">
+        <div class="view-header">
+          <h2>Creatives – Arts &amp; Music</h2>
+          <p>Legal support and learning tools for artists, musicians, writers, and creative entrepreneurs.</p>
+        </div>
+
+        <p class="muted">
+          This hub focuses on contracts, copyright, and creative rights. It is especially relevant to Pearls Gamut,
+          My Art Gallery, BazaarArt, and GamutStudio members.
+        </p>
+
+        <div class="resources-list">
+          <div class="resource-card">
+            <h3>Volunteer Lawyers for the Arts</h3>
+            <p>Pro bono and low-cost legal help for artists and arts organizations (primarily USA).</p>
+            <ul>
+              <li><a href="https://vlany.org" target="_blank" rel="noopener">VLA – New York</a></li>
+              <li><a href="https://vlaa.org/get-help/other-vlas/" target="_blank" rel="noopener">National VLA Directory</a></li>
+            </ul>
+          </div>
+
+          <div class="resource-card">
+            <h3>Creative Commons</h3>
+            <p>Licenses and tools for sharing creative work while keeping some rights reserved.</p>
+            <ul>
+              <li><a href="https://creativecommons.org" target="_blank" rel="noopener">Creative Commons – Homepage</a></li>
+              <li><a href="https://creativecommons.org/chooser/" target="_blank" rel="noopener">CC License Chooser</a></li>
+            </ul>
+          </div>
+
+          <div class="resource-card">
+            <h3>WIPO for Creators</h3>
+            <p>Global copyright and IP resources for creators and creative industries.</p>
+            <ul>
+              <li><a href="https://www.wipo.int/en/web/wipo-for-creators" target="_blank" rel="noopener">WIPO for Creators</a></li>
+              <li><a href="https://www.wipo.int/en/web/copyright" target="_blank" rel="noopener">WIPO – Copyright Portal</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <p class="muted" style="margin-top:10px;">
+          For any contract you are asked to sign (recording, gallery, publishing, licensing), save a copy into your
+          Firmament Cloud and have an experienced attorney review it before you agree.
+        </p>
+      </section>
+
+      <!-- Parents & Child Protection Hub -->
+      <section id="view-parents" class="view">
+        <div class="view-header">
+          <h2>Parents &amp; Child Protection</h2>
+          <p>Information hubs for custody, child welfare, and navigating agencies like CPS.</p>
+        </div>
+
+        <p class="muted">
+          If you are facing custody disputes, CPS involvement, or safety concerns, it is important to speak with a
+          qualified family law or child welfare attorney as soon as possible. These links offer education and referrals.
+        </p>
+
+        <div class="resources-list">
+          <div class="resource-card">
+            <h3>Child Welfare Information Gateway (USA)</h3>
+            <p>Trusted information on child welfare laws, CPS processes, and family support programs.</p>
+            <ul>
+              <li><a href="https://www.childwelfare.gov" target="_blank" rel="noopener">Child Welfare Information Gateway – Main Site</a></li>
+              <li><a href="https://www.childwelfare.gov/find-help-personal-situation/" target="_blank" rel="noopener">“Find Help With a Personal Situation”</a></li>
+            </ul>
+          </div>
+
+          <div class="resource-card">
+            <h3>Legal Aid &amp; Family Law</h3>
+            <p>Family-law focused legal aid for low-income parents and caregivers.</p>
+            <ul>
+              <li><a href="https://www.lawhelp.org" target="_blank" rel="noopener">LawHelp.org – Find Local Help</a></li>
+            </ul>
+          </div>
+
+          <div class="resource-card">
+            <h3>Documentation Tips</h3>
+            <p>Use your Firmament Cloud to:</p>
+            <ul>
+              <li>Keep a timeline of key events and contacts.</li>
+              <li>Store questions for your attorney or advocate.</li>
+              <li>Draft proposed parenting plans to review with counsel.</li>
+            </ul>
+          </div>
+        </div>
+
+        <p class="muted" style="margin-top:10px;">
+          Never record children or professionals in violation of local law. Before sharing any information online,
+          ask your attorney how to protect your and your children’s privacy.
+        </p>
+      </section>
+
+      <!-- Law Students Hub -->
+      <section id="view-law-students" class="view">
+        <div class="view-header">
+          <h2>Law Students Hub</h2>
+          <p>Study tools, open casebooks, and practice resources for current and future law students.</p>
+        </div>
+
+        <p class="muted">
+          This hub is for Archaemenes Academy upper grades, university students, and any learner studying law,
+          policy, or justice. Always follow your school’s academic honesty rules when using external materials.
+        </p>
+
+        <div class="resources-list">
+          <div class="resource-card">
+            <h3>CALI – Lessons &amp; Casebooks</h3>
+            <p>Interactive law school lessons and many free/open casebooks (membership required for full access).</p>
+            <ul>
+              <li><a href="https://www.cali.org" target="_blank" rel="noopener">CALI – Home</a></li>
+            </ul>
+          </div>
+
+          <div class="resource-card">
+            <h3>Open Access Case Law</h3>
+            <p>Use open case law databases to read judgments and build your understanding of doctrine.</p>
+            <ul>
+              <li><a href="https://www.justia.com" target="_blank" rel="noopener">Justia – Case Law</a></li>
+            </ul>
+          </div>
+
+          <div class="resource-card">
+            <h3>Personal Learning Vault</h3>
+            <p>Use Firmament Cloud as your private outline space:</p>
+            <ul>
+              <li>Store case briefs, issue lists, and rule summaries.</li>
+              <li>Draft exam hypotheticals and practice answers.</li>
+              <li>Track questions for professors or mentors.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Elder Law & Seniors Hub -->
+      <section id="view-elder" class="view">
+        <div class="view-header">
+          <h2>Elder Law &amp; Seniors</h2>
+          <p>Resources for older adults, caregivers, and those planning around aging, disability, and long-term care.</p>
+        </div>
+
+        <p class="muted">
+          Elder law often involves guardianship, long-term care planning, Medicare/Medicaid, and protection from
+          abuse or exploitation. Specialized attorneys can be very helpful in this area.
+        </p>
+
+        <div class="resources-list">
+          <div class="resource-card">
+            <h3>NAELA – Elder Law Attorneys (USA)</h3>
+            <p>Professional organization devoted to elder and special needs law.</p>
+            <ul>
+              <li><a href="https://www.naela.org" target="_blank" rel="noopener">National Academy of Elder Law Attorneys</a></li>
+            </ul>
+          </div>
+
+          <div class="resource-card">
+            <h3>Florida Example – AFELA</h3>
+            <p>For Florida-based matters, an example of a state-level elder law organization.</p>
+            <ul>
+              <li><a href="https://afela.org" target="_blank" rel="noopener">Academy of Florida Elder Law Attorneys</a></li>
+            </ul>
+          </div>
+
+          <div class="resource-card">
+            <h3>Care Planning Notes</h3>
+            <p>In your Firmament Cloud you can:</p>
+            <ul>
+              <li>List assets, income sources, and care needs.</li>
+              <li>Record preferred care arrangements and caregivers.</li>
+              <li>Draft questions about powers of attorney, guardianship, and benefits.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Cannabis Law Hub -->
+      <section id="view-cannabis" class="view">
+        <div class="view-header">
+          <h2>Cannabis Law Hub</h2>
+          <p>High-level information hubs on marijuana/cannabis legalization and compliance.</p>
+        </div>
+
+        <p class="muted">
+          Cannabis laws change frequently and can differ sharply between countries, states, provinces, and even cities.
+          In many places, possession, use, or sales remain illegal. Always rely on official statutes and speak with a
+          qualified attorney before making any decision with legal risk.
+        </p>
+
+        <div class="resources-list">
+          <div class="resource-card">
+            <h3>State-By-State Law Summaries (USA)</h3>
+            <p>Advocacy site tracking U.S. state cannabis laws and penalties.</p>
+            <ul>
+              <li><a href="https://norml.org/laws/" target="_blank" rel="noopener">NORML – Marijuana Laws by State</a></li>
+            </ul>
+          </div>
+
+          <div class="resource-card">
+            <h3>Official Government Sources</h3>
+            <p>For the most accurate rules, search each jurisdiction’s official code:</p>
+            <ul>
+              <li>Search: <em>“[Your State] controlled substances act cannabis”</em></li>
+              <li>Search: <em>“[Your Country] cannabis legislation government site”</em></li>
+            </ul>
+          </div>
+
+          <div class="resource-card">
+            <h3>Compliance &amp; Business Licensing</h3>
+            <p>For any business activity around cannabis, seek a lawyer focused on regulatory and licensing law in
+              that specific jurisdiction before acting.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Business, Copyright & IP Hub -->
+      <section id="view-business-ip" class="view">
+        <div class="view-header">
+          <h2>Business, Copyright &amp; IP</h2>
+          <p>Anchoring for entrepreneurs, platform builders, and anyone protecting brands, inventions, or creative work.</p>
+        </div>
+
+        <p class="muted">
+          This hub serves Pearls Gamut™, BazaarArt, HTURT.org, Archaemenes Academy, and all business or IP
+          initiatives attached to your ecosystem.
+        </p>
+
+        <div class="resources-list">
+          <div class="resource-card">
+            <h3>Business Compliance (USA)</h3>
+            <p>Guidance on staying legally compliant as a small business.</p>
+            <ul>
+              <li><a href="https://www.sba.gov/business-guide/manage-your-business/stay-legally-compliant" target="_blank" rel="noopener">U.S. Small Business Administration – Stay Legally Compliant</a></li>
+            </ul>
+          </div>
+
+          <div class="resource-card">
+            <h3>Patents &amp; Trademarks (USA)</h3>
+            <p>Official resources for U.S. patents and trademarks.</p>
+            <ul>
+              <li><a href="https://www.uspto.gov" target="_blank" rel="noopener">USPTO – Official Site</a></li>
+            </ul>
+          </div>
+
+          <div class="resource-card">
+            <h3>Global IP – WIPO</h3>
+            <p>International information on patents, trademarks, designs, and copyright.</p>
+            <ul>
+              <li><a href="https://www.wipo.int" target="_blank" rel="noopener">WIPO – IP Portal</a></li>
+            </ul>
+          </div>
+
+          <div class="resource-card">
+            <h3>European Union – EUIPO</h3>
+            <p>For EU-wide trademarks and designs.</p>
+            <ul>
+              <li><a href="https://www.euipo.europa.eu/en" target="_blank" rel="noopener">EUIPO – Intellectual Property Office of the EU</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <p class="muted" style="margin-top:10px;">
+          Use the Document Generator to draft business checklists, IP inventories, and question lists for your lawyer.
+          For any filing (trademark, patent, incorporation), check deadlines carefully and confirm instructions on the
+          official government site.
+        </p>
+      </section>
+
+    </div>
+  </main>
+</div>
+
+<script>
+(function() {
+  const STORAGE_KEY = 'firmamentCloudV1';
+  let cloud = { files: [] };
+
+  function loadCloud() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (parsed && Array.isArray(parsed.files)) {
+          cloud = parsed;
+        }
+      }
+    } catch (e) {
+      console.warn('Could not load Firmament Cloud:', e);
+    }
+    updateStats();
+    renderCloudTable();
+  }
+
+  function saveCloud() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(cloud));
+    } catch (e) {
+      alert('Unable to save to local storage. Your browser may be blocking it.');
+    }
+    updateStats();
+    renderCloudTable();
+  }
+
+  function formatDate(iso) {
+    if (!iso) return '—';
+    try {
+      const d = new Date(iso);
+      if (isNaN(d.getTime())) return '—';
+      return d.toLocaleString();
+    } catch {
+      return '—';
+    }
+  }
+
+  function updateStats() {
+    const docCountEl = document.getElementById('stat-doc-count');
+    const lastSavedEl = document.getElementById('stat-last-saved');
+    if (!docCountEl || !lastSavedEl) return;
+
+    docCountEl.textContent = cloud.files.length.toString();
+    if (cloud.files.length === 0) {
+      lastSavedEl.textContent = '—';
+    } else {
+      const latest = cloud.files.reduce((a, b) => {
+        return (a && a.createdAt > b.createdAt) ? a : b;
+      });
+      lastSavedEl.textContent = formatDate(latest.createdAt);
+    }
+  }
+
+  function renderCloudTable() {
+    const tbody = document.querySelector('#cloud-table tbody');
+    if (!tbody) return;
+    tbody.innerHTML = '';
+    if (!cloud.files.length) {
+      const row = document.createElement('tr');
+      const cell = document.createElement('td');
+      cell.colSpan = 4;
+      cell.textContent = 'No documents saved yet.';
+      cell.className = 'muted';
+      row.appendChild(cell);
+      tbody.appendChild(row);
+      document.getElementById('cloud-preview').style.display = 'none';
+      return;
+    }
+
+    cloud.files
+      .slice()
+      .sort((a, b) => (b.createdAt || '').localeCompare(a.createdAt || ''))
+      .forEach(file => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${file.title || 'Untitled Document'}</td>
+          <td><span class="tag">${file.type || 'Custom'}</span></td>
+          <td>${formatDate(file.createdAt)}</td>
+          <td>
+            <button class="btn secondary" data-action="view" data-id="${file.id}" style="padding:3px 8px;font-size:11px;">View</button>
+            <button class="btn secondary" data-action="download" data-id="${file.id}" style="padding:3px 8px;font-size:11px;">Download</button>
+            <button class="btn danger" data-action="delete" data-id="${file.id}" style="padding:3px 8px;font-size:11px;">Delete</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+  }
+
+  function getFileById(id) {
+    return cloud.files.find(f => f.id === id);
+  }
+
+  function deleteFile(id) {
+    const file = getFileById(id);
+    if (!file) return;
+    if (!confirm('Delete "' + (file.title || 'this document') + '" from your Firmament Cloud? This cannot be undone.')) {
+      return;
+    }
+    cloud.files = cloud.files.filter(f => f.id !== id);
+    saveCloud();
+    const preview = document.getElementById('cloud-preview');
+    if (preview) preview.style.display = 'none';
+  }
+
+  function downloadFile(name, content) {
+    if (!content) {
+      alert('There is no content to download.');
+      return;
+    }
+    const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = name || 'firmament-document.txt';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  function showPreview(file) {
+    const box = document.getElementById('cloud-preview');
+    const title = document.getElementById('cloud-preview-title');
+    const content = document.getElementById('cloud-preview-content');
+    if (!box || !title || !content) return;
+    title.textContent = (file.title || 'Preview') + ' – ' + (file.type || 'Custom');
+    content.textContent = file.content || '';
+    box.style.display = 'block';
+  }
+
+  // Navigation
+  function activateView(targetId) {
+    document.querySelectorAll('.view').forEach(v => {
+      v.classList.toggle('active', v.id === targetId);
+    });
+    document.querySelectorAll('.nav-link').forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('data-target') === targetId);
+    });
+  }
+
+  function handleNavClicks() {
+    document.body.addEventListener('click', function(e) {
+      const btn = e.target.closest('[data-target]');
+      if (!btn) return;
+      const target = btn.getAttribute('data-target');
+      if (!target) return;
+      e.preventDefault();
+      activateView(target);
+    });
+  }
+
+  // Document generation logic
+  function generateDraft() {
+    const type = document.getElementById('doc-type').value;
+    const title = document.getElementById('doc-title').value.trim();
+    const yourName = document.getElementById('your-name').value.trim();
+    const otherParty = document.getElementById('other-party').value.trim();
+    const jurisdiction = document.getElementById('jurisdiction').value.trim();
+    const effectiveDate = document.getElementById('effective-date').value;
+    const coreDetails = document.getElementById('core-details').value.trim();
+    const extraNotes = document.getElementById('extra-notes').value.trim();
+
+    const dateText = effectiveDate ? new Date(effectiveDate).toLocaleDateString() : '[date]';
+    const you = yourName || '[Your Full Legal Name]';
+    const other = otherParty || '[Second Party / Counterparty]';
+    const juris = jurisdiction || '[City / State / Country]';
+
+    let body = '';
+
+    if (type === 'livingWill') {
+      body =
+`LIVING WILL · DRAFT OUTLINE (FOR LEGAL REVIEW ONLY)
+
+Jurisdiction: ${juris}
+Working Title: ${title || 'Living Will Draft'}
+Effective Date (intended): ${dateText}
+
+IMPORTANT:
+This is an educational outline generated by Firmament Law. It is NOT legal advice,
+and it is not a valid Living Will until it is reviewed, customized, and properly
+executed according to the laws of your jurisdiction.
+
+1. DECLARATION
+   I, ${you}, being of sound mind, make this statement as a record of my wishes
+   regarding medical care and life-support if I become unable to communicate.
+
+2. PRIMARY HEALTHCARE DECISION-MAKER
+   I appoint the following person as my primary healthcare proxy / agent:
+   Name: ${other || '[Healthcare Decision-Maker]'}
+   Relationship:
+   Contact Information:
+
+3. ALTERNATE HEALTHCARE DECISION-MAKER
+   If the primary decision-maker is unable or unwilling to serve, I appoint:
+   Name:
+   Relationship:
+   Contact Information:
+
+4. TREATMENT PREFERENCES
+   The following notes summarize my current wishes regarding:
+   • Life support / ventilators
+   • Resuscitation (DNR or similar)
+   • Pain relief and comfort care
+   • Artificial nutrition and hydration
+
+   Personal notes:
+   ${coreDetails || '[Describe your wishes here]'}
+
+5. ORGAN & TISSUE DONATION
+   (Describe any wishes regarding organ / tissue donation, or refusal.)
+
+6. SPIRITUAL / PERSONAL CONSIDERATIONS
+   (Optional: list customs, beliefs, or people you want present.)
+
+7. GENERAL NOTES FOR MY ATTORNEY
+   ${extraNotes || '[List questions and concerns you want to review with counsel]'}
+
+SIGNATURE BLOCK (TO BE DRAFTED WITH YOUR ATTORNEY)
+   _____________________________
+   Signature of ${you}
+
+   _____________________________
+   Witness / Notary (as required by local law)
+
+REMINDER:
+Take this draft to a licensed attorney in ${juris} to convert it into a formal,
+binding Living Will that meets all local legal requirements.`;
+    } else if (type === 'trust') {
+      body =
+`TRUST PLANNING WORKSHEET · DRAFT (FOR LEGAL REVIEW ONLY)
+
+Jurisdiction: ${juris}
+Working Title: ${title || 'Trust Planning Worksheet'}
+Prepared By: ${you}
+Date: ${dateText}
+
+NOTE:
+This worksheet helps organize information for a future trust instrument.
+It is NOT a trust agreement and does not create a trust by itself.
+
+1. SETTLOR (PERSON CREATING THE TRUST)
+   Name: ${you}
+   Contact:
+   Marital Status:
+   Children / Heirs:
+
+2. TRUSTEE(S)
+   Primary Trustee: ${other || '[Trustee Name]'}
+   Alternate Trustee(s):
+
+3. BENEFICIARIES
+   List all intended beneficiaries and any special instructions:
+   ${coreDetails || '[Name each beneficiary and describe what you want them to receive]'}
+
+4. ASSETS TO BE CONSIDERED FOR THE TRUST
+   (Real estate, bank accounts, investments, business interests, intellectual property, etc.)
+   ${coreDetails || '[List properties, accounts, companies, copyrights, etc.]'}
+
+5. SPECIAL PROVISIONS TO DISCUSS WITH YOUR ATTORNEY
+   • Age or milestones when beneficiaries may access funds
+   • Protection from creditors or divorce
+   • Guardianship considerations for minor children
+   • Charitable giving
+
+6. QUESTIONS FOR YOUR ATTORNEY
+   ${extraNotes || '[Write questions you want answered about trust types, taxes, or setup]'}
+
+NEXT STEP:
+Schedule a meeting with a lawyer experienced in estate planning in ${juris}.
+Bring this worksheet and supporting documents so they can draft a valid trust
+instrument tailored to your needs and local law.`;
+    } else if (type === 'nda') {
+      body =
+`NON-DISCLOSURE AGREEMENT (NDA) · DRAFT OUTLINE (FOR LEGAL REVIEW ONLY)
+
+Jurisdiction: ${juris}
+Working Title: ${title || 'NDA Draft'}
+Parties:
+   Disclosing Party: ${you}
+   Receiving Party: ${other}
+
+Effective Date (intended): ${dateText}
+
+WARNING:
+This is an educational outline. It is NOT a finalized NDA. A licensed attorney
+must adapt and approve it before use.
+
+1. PURPOSE
+   The parties wish to explore a potential relationship involving:
+   ${coreDetails || '[Describe the project, collaboration, or subject matter]'}
+
+2. DEFINITION OF CONFIDENTIAL INFORMATION
+   Confidential Information includes, but is not limited to:
+   • Business plans, financial data, source code, artworks, designs, student data, etc.
+   (Your lawyer will finalize this definition.)
+
+3. OBLIGATIONS OF RECEIVING PARTY
+   • Use Confidential Information only for the Purpose stated above.
+   • Do not disclose it to anyone except as expressly permitted.
+   • Use reasonable safeguards to protect it (to be defined by your attorney).
+
+4. EXCLUSIONS
+   Confidential Information does not include information that is:
+   • Already public without breach,
+   • Independently developed,
+   • Received lawfully from another source, or
+   • Required to be disclosed by law (with notice if permitted).
+
+5. TERM & SURVIVAL
+   • Term of the NDA:
+   • Survival of confidentiality obligations after termination:
+
+6. REMEDIES
+   • Possible injunctive relief and other remedies (to be described by your attorney).
+
+7. GENERAL QUESTIONS FOR COUNSEL
+   ${extraNotes || '[List questions about duration, governing law, or enforcement]'}
+
+SIGNATURE BLOCK (TO BE COMPLETED BY YOUR ATTORNEY)
+   _____________________________       _____________________________
+   ${you}                              ${other}
+
+Your lawyer will tailor this NDA to your jurisdiction, industry, and risk level.`;
+    } else if (type === 'leaseResidential') {
+      body =
+`RESIDENTIAL LEASE OUTLINE · DRAFT (FOR LEGAL REVIEW ONLY)
+
+Jurisdiction: ${juris}
+Working Title: ${title || 'Residential Lease Draft'}
+Landlord: ${you}
+Tenant: ${other}
+Effective / Move-in Date (intended): ${dateText}
+
+NOTICE:
+This is a high-level outline, not a full lease. Landlord-tenant laws are
+highly local. A licensed attorney in your area must prepare the final lease.
+
+1. PROPERTY
+   Address:
+   Description (house, apartment, room, etc.):
+
+2. TERM
+   Lease Term:
+   • Start:
+   • End:
+   • Renewal options:
+
+3. RENT & PAYMENTS
+   Monthly Rent:
+   Security Deposit:
+   Due Date & Accepted Payment Methods:
+   Late Fees:
+
+4. UTILITIES & SERVICES
+   Which utilities are included?
+   Which are tenant’s responsibility?
+
+5. USE & OCCUPANCY
+   Maximum occupants:
+   Pet policy:
+   Smoking / noise policy:
+
+6. REPAIRS & MAINTENANCE
+   Landlord responsibilities:
+   Tenant responsibilities:
+   Procedure for reporting issues:
+
+7. SPECIAL NOTES & LOCAL REQUIREMENTS
+   ${coreDetails || '[Parking, HOA rules, local disclosures, etc.]'}
+
+8. QUESTIONS FOR YOUR ATTORNEY
+   ${extraNotes || '[Eviction rules, habitability, inspections, etc.]'}
+
+Your attorney will turn this outline into a compliant residential lease for
+${juris}, including all mandatory disclosures and notices.`;
+    } else if (type === 'leaseCommercial') {
+      body =
+`COMMERCIAL LEASE OUTLINE · DRAFT (FOR LEGAL REVIEW ONLY)
+
+Jurisdiction: ${juris}
+Working Title: ${title || 'Commercial Lease Draft'}
+Landlord: ${you}
+Tenant: ${other}
+Effective Date (intended): ${dateText}
+
+NOTE:
+Commercial leases can be complex and negotiation-heavy. This outline helps you
+prepare but does not replace a negotiated, attorney-drafted lease.
+
+1. PREMISES
+   Address:
+   Description (studio, gallery, office, retail, warehouse, etc.):
+   Approximate square footage:
+
+2. TERM
+   Initial Term:
+   Renewal Options:
+   Rent Escalation (if any):
+
+3. RENT & OPERATING COSTS
+   Base Rent:
+   Common Area Maintenance (CAM) / triple-net (NNN) charges:
+   Utilities, taxes, insurance responsibilities:
+
+4. USE CLAUSE
+   Permitted use of the premises:
+   Any exclusive use or non-compete protections for tenant:
+
+5. BUILD-OUT / IMPROVEMENTS
+   Who pays for build-out?
+   Allowances, approvals, timelines:
+
+6. SIGNAGE, PARKING & ACCESS
+   Sign rights:
+   Parking spaces:
+   Hours of access:
+
+7. SPECIAL NOTES & RISK POINTS
+   ${coreDetails || '[Personal guarantees, early termination, subleasing, etc.]'}
+
+8. QUESTIONS FOR YOUR ATTORNEY
+   ${extraNotes || '[List negotiations or clauses you want explained or strengthened]'}
+
+Bring this outline to a commercial real estate attorney in ${juris} before signing any lease.`;
+    } else {
+      body =
+`CUSTOM LEGAL NOTES · DRAFT
+
+Working Title: ${title || 'Untitled Legal Notes'}
+Author: ${you || '[Your Name]'}
+Jurisdiction: ${juris}
+Date: ${dateText}
+
+SUMMARY / CONTEXT
+${coreDetails || '[Describe what these notes are about]'}
+
+QUESTIONS FOR COUNSEL
+${extraNotes || '[List what you want a lawyer to review or advise you on]'}
+
+REMINDER:
+These notes are not legal advice. Use them as a preparation tool when speaking
+with a qualified attorney.`;
+    }
+
+    document.getElementById('generated-output').value = body;
+  }
+
+  function clearForm() {
+    ['doc-title','your-name','other-party','jurisdiction','effective-date','core-details','extra-notes']
+      .forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = '';
+      });
+    document.getElementById('generated-output').value = '';
+  }
+
+  function saveToCloudFromOutput() {
+    const content = document.getElementById('generated-output').value;
+    if (!content.trim()) {
+      alert('There is no generated content to save yet.');
+      return;
+    }
+    const typeSelect = document.getElementById('doc-type');
+    const titleInput = document.getElementById('doc-title');
+    const typeLabel = typeSelect.options[typeSelect.selectedIndex].text || 'Custom Draft';
+    const title = titleInput.value.trim() || 'Untitled Draft – ' + typeLabel;
+
+    const file = {
+      id: 'doc-' + Date.now(),
+      title: title,
+      type: typeLabel,
+      content: content,
+      createdAt: new Date().toISOString()
+    };
+    cloud.files.push(file);
+    saveCloud();
+    alert('Saved to your Firmament Cloud in this browser.');
+  }
+
+  function downloadFromOutput() {
+    const content = document.getElementById('generated-output').value;
+    if (!content.trim()) {
+      alert('There is no generated content to download yet.');
+      return;
+    }
+    const title = document.getElementById('doc-title').value.trim() || 'firmament-document';
+    downloadFile(title.replace(/[^a-z0-9\-]+/gi,'_') + '.txt', content);
+  }
+
+  function clearStorage() {
+    if (!confirm('This will permanently delete all Firmament Law documents stored in this browser. Continue?')) {
+      return;
+    }
+    try {
+      localStorage.removeItem(STORAGE_KEY);
+    } catch (e) {
+      console.warn('Could not clear local storage:', e);
+    }
+    cloud = { files: [] };
+    saveCloud();
+    const preview = document.getElementById('cloud-preview');
+    if (preview) preview.style.display = 'none';
+    alert('All local Firmament Law data in this browser has been cleared.');
+  }
+
+  // Event wiring
+  document.addEventListener('DOMContentLoaded', function() {
+    handleNavClicks();
+    loadCloud();
+
+    const btnGen = document.getElementById('btn-generate');
+    if (btnGen) btnGen.addEventListener('click', function(e) {
+      e.preventDefault();
+      generateDraft();
+    });
+
+    const btnClearForm = document.getElementById('btn-clear-form');
+    if (btnClearForm) btnClearForm.addEventListener('click', function(e) {
+      e.preventDefault();
+      clearForm();
+    });
+
+    const btnSaveCloud = document.getElementById('btn-save-cloud');
+    if (btnSaveCloud) btnSaveCloud.addEventListener('click', function(e) {
+      e.preventDefault();
+      saveToCloudFromOutput();
+    });
+
+    const btnDownload = document.getElementById('btn-download');
+    if (btnDownload) btnDownload.addEventListener('click', function(e) {
+      e.preventDefault();
+      downloadFromOutput();
+    });
+
+    const btnClearStorage = document.getElementById('btn-clear-storage');
+    if (btnClearStorage) btnClearStorage.addEventListener('click', function(e) {
+      e.preventDefault();
+      clearStorage();
+    });
+
+    // Cloud table actions
+    const cloudTable = document.getElementById('cloud-table');
+    if (cloudTable) {
+      cloudTable.addEventListener('click', function(e) {
+        const btn = e.target.closest('button[data-action]');
+        if (!btn) return;
+        const action = btn.getAttribute('data-action');
+        const id = btn.getAttribute('data-id');
+        const file = getFileById(id);
+        if (!file) return;
+
+        if (action === 'view') {
+          showPreview(file);
+        } else if (action === 'download') {
+          downloadFile((file.title || 'firmament-document') + '.txt', file.content || '');
+        } else if (action === 'delete') {
+          deleteFile(id);
+        }
+      });
+    }
+  });
+})();
+</script>
+</body>
+</html>
