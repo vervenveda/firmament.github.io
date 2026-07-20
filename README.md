@@ -16,3 +16,15 @@ ARSHIF is built around the principles of intellectual honesty, privacy, and evid
 ​
 
 Important: ARSHIF is an analytical aid, not a judge or decision-maker. Its observations are intended to support research and critical thinking, not to establish plagiarism, fraud, criminal conduct, authorship, or factual truth. Users should independently verify important findings using reliable sources and professional judgment before making decisions based on the information presented.
+
+This Homeless Hub
+is a compassionate national resource guide created
+to help individuals, families, veterans, youth, community helpers
+and non-profits find support in one place.
+Whether someone needs shelter, food, healthcare, mental health support,
+legal aid, crisis assistance, documents, transportation,
+employment resources, or veteran services,
+this hub brings trusted pathways together in a simple, searchable format.
+​Here are some of the strongest partners to consider if you're building or growing a non-profit to help the homeless.​
+
+
