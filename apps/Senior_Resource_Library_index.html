@@ -1,0 +1,754 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>ClearPath™ Seniors — Resource Library (150 Links)</title>
+<style>
+  :root{
+    --bg:#f3f6fb; --card:#ffffff; --ink:#0a1a2b; --muted:#365169;
+    --brand:#0b4a8b; --brand2:#0f62b3; --accent:#1565d8;
+    --good:#156f3a; --warn:#a35a00; --risk:#a00000;
+    --ring:rgba(21,101,216,.22);
+    --shadow:0 14px 34px rgba(10,26,43,.12);
+    --r:16px;
+    --base:20px;
+    --font:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;font-family:var(--font);font-size:var(--base);line-height:1.35;
+    color:var(--ink);background:var(--bg);
+  }
+  header{
+    background:linear-gradient(90deg,var(--brand),var(--brand2));
+    color:#fff;padding:18px 14px;
+  }
+  .hdr{
+    max-width:1120px;margin:0 auto;
+    display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap
+  }
+  .hdr h1{margin:0;font-size:1.55rem;letter-spacing:.02em}
+  .hdr p{margin:6px 0 0;opacity:.92}
+  .badge{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:8px 12px;border-radius:999px;
+    border:1px solid rgba(255,255,255,.25);
+    background:rgba(255,255,255,.12);
+    font-weight:900;
+  }
+
+  .wrap{max-width:1120px;margin:0 auto;padding:14px}
+  .grid{display:grid;gap:12px}
+  .two{grid-template-columns:1.25fr .75fr}
+  @media (max-width:980px){.two{grid-template-columns:1fr}}
+
+  .card{
+    background:var(--card);border-radius:var(--r);
+    box-shadow:var(--shadow);
+    border:1px solid rgba(10,26,43,.10);
+    padding:14px;
+  }
+  h2{margin:0 0 8px;color:var(--brand)}
+  .muted{color:var(--muted);font-weight:700}
+  .tiny{font-size:.92rem;color:rgba(10,26,43,.72);font-weight:700}
+
+  label{display:block;font-weight:900;margin:0 0 6px}
+  input,select,button,textarea{
+    width:100%;font:inherit;padding:12px 12px;border-radius:12px;
+    border:1px solid rgba(10,26,43,.18);background:#fff;outline:none;
+  }
+  input:focus,select:focus,textarea:focus{box-shadow:0 0 0 4px var(--ring);border-color:rgba(21,101,216,.55)}
+  textarea{min-height:92px;resize:vertical}
+
+  .controls{display:grid;grid-template-columns:1.2fr .8fr .8fr;gap:12px;align-items:end}
+  @media (max-width:980px){.controls{grid-template-columns:1fr}}
+
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .btn{
+    cursor:pointer;border:none;font-weight:900;background:var(--accent);color:#fff;
+    box-shadow:0 8px 18px rgba(21,101,216,.18);
+  }
+  .btn:hover{filter:brightness(1.06)}
+  .btn:active{transform:translateY(1px)}
+  .btn.secondary{background:#fff;color:var(--ink);border:1px solid rgba(10,26,43,.18);box-shadow:none}
+  .btn.danger{background:var(--risk)}
+  .btn.small{width:auto;padding:10px 12px;border-radius:12px}
+
+  .toggles{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:10px}
+  .toggle{
+    display:flex;gap:10px;align-items:center;
+    padding:10px 12px;border-radius:12px;
+    border:1px solid rgba(10,26,43,.12);
+    background:rgba(255,255,255,.7);
+  }
+  .toggle input{width:22px;height:22px;margin:0}
+  .toggle span{font-weight:900}
+
+  .pill{
+    display:inline-flex;align-items:center;gap:6px;
+    border-radius:999px;padding:6px 10px;
+    font-weight:900;font-size:.92rem;
+    border:1px solid rgba(10,26,43,.16);background:#fff;white-space:nowrap;
+  }
+  .pill.gov{border-color:rgba(21,101,216,.35);color:var(--accent)}
+  .pill.hotline{border-color:rgba(160,0,0,.35);color:var(--risk)}
+  .pill.nonprofit{border-color:rgba(19,111,58,.35);color:var(--good)}
+  .pill.state{border-color:rgba(163,90,0,.35);color:var(--warn)}
+  .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+
+  .list{display:grid;gap:12px}
+  .res{
+    background:#fff;border-radius:16px;border:1px solid rgba(10,26,43,.10);
+    padding:14px;
+  }
+  .resTop{display:flex;gap:10px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}
+  .res h3{margin:0;font-size:1.12rem}
+  .res a{color:inherit}
+  .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+  .actions a{
+    display:inline-flex;align-items:center;justify-content:center;
+    padding:12px 12px;border-radius:12px;text-decoration:none;font-weight:900;
+    border:1px solid rgba(10,26,43,.18);background:#fff;color:var(--ink);
+  }
+  .actions a.primary{background:var(--accent);color:#fff;border:none}
+  .hr{height:1px;background:rgba(10,26,43,.12);margin:12px 0}
+  .note{
+    padding:12px;border-radius:14px;border:1px solid rgba(10,26,43,.10);
+    background:rgba(243,246,251,.8);
+  }
+
+  /* Modal */
+  .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);padding:16px;z-index:9999}
+  .panel{
+    max-width:760px;margin:6vh auto 0;background:#fff;border-radius:16px;
+    box-shadow:0 24px 70px rgba(0,0,0,.35);
+    border:1px solid rgba(10,26,43,.16);overflow:hidden;
+  }
+  .panelHead{
+    padding:14px;background:linear-gradient(90deg,#0b4a8b,#0f62b3);
+    color:#fff;display:flex;align-items:center;justify-content:space-between;gap:10px
+  }
+  .panelBody{padding:14px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hdr">
+    <div>
+      <h1>🧭 GoldenPath™ Seniors - Resource Library</h1>
+      <p>150 high-value links across health, housing, benefits, safety, food, and more — searchable, printable, and saveable.</p>
+    </div>
+    <div class="badge">Offline-friendly • No accounts • Saves on this device</div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="grid two">
+    <section class="card">
+      <h2>Find what you need</h2>
+      <div class="controls">
+        <div>
+          <label for="q">Search</label>
+          <input id="q" placeholder="Try: Medicare, SNAP, housing, scams, caregiver, utility…" />
+        </div>
+        <div>
+          <label for="cat">Category</label>
+          <select id="cat"></select>
+        </div>
+        <div>
+          <label for="sort">Sort</label>
+          <select id="sort">
+            <option value="relevance">Relevance</option>
+            <option value="name">Name (A→Z)</option>
+            <option value="category">Category</option>
+            <option value="favorites">Favorites first</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="toggles">
+        <label class="toggle"><input type="checkbox" id="onlyOfficial"><span>Official (.gov / public)</span></label>
+        <label class="toggle"><input type="checkbox" id="onlyHotlines"><span>Hotlines only</span></label>
+        <label class="toggle"><input type="checkbox" id="onlyFav"><span>Favorites only</span></label>
+      </div>
+
+      <div class="row" style="margin-top:12px">
+        <button class="btn small secondary" id="printBtn">🖨 Print</button>
+        <button class="btn small secondary" id="exportBtn">⬇ Export JSON</button>
+        <button class="btn small secondary" id="copyBtn">📋 Copy visible links</button>
+        <button class="btn small" id="addBtn">➕ Add your own link</button>
+        <button class="btn small danger" id="signBtn">⚠️ Before You Sign Anything</button>
+      </div>
+
+      <div class="hr"></div>
+      <div class="note">
+        <div class="muted">Safety note</div>
+        <div class="tiny">
+          ClearPath™ is an educational hub. Always confirm details on the official site and ask a trusted advocate for help when decisions affect property, money, or healthcare.
+        </div>
+      </div>
+    </section>
+
+    <aside class="card">
+      <h2>Status</h2>
+      <div class="note">
+        <div class="muted" id="countLine">Loading…</div>
+        <div class="tiny" id="tipLine" style="margin-top:6px"></div>
+      </div>
+
+      <div class="hr"></div>
+
+      <h2>Text size</h2>
+      <label for="size">Adjust for comfort</label>
+      <input id="size" type="range" min="18" max="26" value="20" />
+      <div class="tiny">Tip: larger text helps reduce mis-clicks.</div>
+
+      <div class="hr"></div>
+
+      <h2>Favorites</h2>
+      <div class="tiny">Star links you use often. Favorites stay on this device.</div>
+    </aside>
+  </div>
+
+  <section class="card" style="margin-top:12px">
+    <h2>Resources</h2>
+    <div class="tiny">Click “Open” to visit a resource in a new tab. Use ★ to favorite.</div>
+    <div class="list" id="list" style="margin-top:12px"></div>
+  </section>
+</div>
+
+<!-- Modal: Before you sign anything -->
+<div class="modal" id="modal">
+  <div class="panel">
+    <div class="panelHead">
+      <div style="font-weight:900">Before You Sign Anything</div>
+      <button class="btn small secondary" id="closeModal">Close</button>
+    </div>
+    <div class="panelBody">
+      <p style="margin-top:0"><b>Some programs can place a lien, mortgage, or repayment obligation on a home.</b> Pause and ask these questions:</p>
+      <ul>
+        <li>Does this create a debt, lien, or mortgage against the property?</li>
+        <li>What happens if I move, need long-term care, or pass away?</li>
+        <li>Can my family keep the home? Is there a repayment clause?</li>
+        <li>Are there fees, penalties, or “contractor” requirements?</li>
+        <li>Can I get this in writing and review it with a trusted person?</li>
+      </ul>
+      <p class="tiny">If you feel pressured, stop. Get a second opinion from a trusted counselor or legal aid office.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Add a custom link -->
+<div class="modal" id="addModal">
+  <div class="panel">
+    <div class="panelHead">
+      <div style="font-weight:900">Add your own link</div>
+      <button class="btn small secondary" id="closeAdd">Close</button>
+    </div>
+    <div class="panelBody">
+      <div class="grid" style="gap:10px">
+        <div>
+          <label for="addName">Title</label>
+          <input id="addName" placeholder="Example: County Senior Services Office" />
+        </div>
+        <div>
+          <label for="addCat">Category</label>
+          <select id="addCat"></select>
+        </div>
+        <div>
+          <label for="addUrl">URL</label>
+          <input id="addUrl" placeholder="https://…" />
+        </div>
+        <div>
+          <label for="addFlags">Tags (optional)</label>
+          <input id="addFlags" placeholder="Example: gov|hotline|state|nonprofit" />
+          <div class="tiny">Use tags like <b>gov</b>, <b>hotline</b>, <b>state</b>, <b>nonprofit</b>.</div>
+        </div>
+        <button class="btn" id="saveAdd">Save link</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* =======================
+   150-RESOURCE DATASET
+   format: Category|Title|URL|flags (pipe-separated)
+   ======================= */
+const DATA = `
+Local Help|Eldercare Locator (Area Agencies on Aging & local services)|https://eldercare.acl.gov/home|gov|hotline
+Benefits|USA.gov Benefit Finder|https://www.usa.gov/benefit-finder|gov
+Health|Medicare.gov — Get Started with Medicare|https://www.medicare.gov/basics/get-started-with-medicare|gov
+Caregiving|ACL — Long-Term Care (LTC) resources|https://acl.gov/ltc|gov
+Food|USDA FNS — SNAP main page|https://www.fns.usda.gov/snap/supplemental-nutrition-assistance-program|gov
+Housing|HUD — Senior housing information|https://www.hud.gov/program_offices/housing/sfh/ins/seniors|gov
+Energy|ACF/OCS — LIHEAP program page|https://acf.gov/ocs/programs/liheap|gov
+Finance|Social Security Administration (SSA) — Home|https://www.ssa.gov/|gov
+Legal|Legal Services Corporation — Find legal aid|https://www.lsc.gov/about-lsc/what-legal-aid/find-legal-aid|gov
+Fraud|ReportFraud.ftc.gov (FTC reporting)|https://reportfraud.ftc.gov/|gov
+Safety|National Center on Elder Abuse (NCEA)|https://ncea.acl.gov/|gov-partner
+Community|NAMI (National Alliance on Mental Illness)|https://www.nami.org/|nonprofit
+Civic|Vote.gov (registration info)|https://vote.gov/|gov
+Transport|NHTSA — Older drivers|https://www.nhtsa.gov/road-safety/older-drivers|gov
+Tech|FCC Lifeline (phone/internet discount)|https://www.fcc.gov/lifeline-consumers|gov
+Emergency|Ready.gov — Older adults preparedness|https://www.ready.gov/older-adults|gov
+Veterans|VA Health Care eligibility|https://www.va.gov/health-care/eligibility/|gov
+Disability|Disability services (USA.gov)|https://www.usa.gov/disability-services|gov
+
+Local Help|ACL: Finding Local Services (government guide)|https://acl.gov/ltc/basic-needs/finding-local-services|gov
+Benefits|USA.gov Benefit Finder — All Benefits view|https://www.usa.gov/benefit-finder/all-benefits|gov
+Health|Medicare Care Compare (providers & facilities)|https://www.medicare.gov/care-compare/|gov
+Caregiving|Medicare — Caregiver resources|https://www.medicare.gov/what-medicare-covers/caregivers|gov
+Food|Meals on Wheels America|https://www.mealsonwheelsamerica.org/|nonprofit
+Housing|HUD — Rental assistance (general)|https://www.hud.gov/topics/rental_assistance|gov
+Energy|DOE — Weatherization Assistance Program|https://www.energy.gov/scep/wap/weatherization-assistance-program|gov
+Finance|SSA — Retirement benefits|https://www.ssa.gov/benefits/retirement/|gov
+Legal|CFPB — Resources for older adults|https://www.consumerfinance.gov/consumer-tools/educator-tools/resources-for-older-adults/|gov
+Fraud|FTC Scam Alerts|https://consumer.ftc.gov/scams|gov
+Safety|Elder Justice Initiative — Find help/report abuse|https://www.justice.gov/elderjustice/find-help-or-report-abuse|gov|hotline
+Community|988 Suicide & Crisis Lifeline|https://988lifeline.org/|hotline
+Civic|USA.gov — Voting and elections|https://www.usa.gov/voting-and-elections|gov
+Transport|FTA — Transit grants for older adults & disabilities (5310)|https://www.transit.dot.gov/funding/grants/grants-older-adults-and-people-disabilities-section-5310|gov
+Tech|GCFGlobal (free computer tutorials)|https://edu.gcfglobal.org/en/|nonprofit
+Emergency|DisasterAssistance.gov|https://www.disasterassistance.gov/|gov
+Veterans|VA Caregiver Support Program|https://www.caregiver.va.gov/|gov
+Disability|National Disability Rights Network|https://www.ndrn.org/|nonprofit
+
+Local Help|211 (United Way) — Local help directory|https://www.211.org/|nonprofit
+Benefits|Benefits.gov (Federal benefits portal)|https://www.benefits.gov/|gov
+Health|Medicare Plan Compare (Part C & D plans)|https://www.medicare.gov/plan-compare/|gov
+Caregiving|ACL — Long-Term Care Ombudsman Program|https://acl.gov/programs/aging-and-disability-networks/long-term-care-ombudsman-program|gov
+Food|USDA FNS — Commodity Supplemental Food Program (CSFP)|https://www.fns.usda.gov/csfp/commodity-supplemental-food-program|gov
+Housing|HUD — Find affordable rental housing (Resource Locator)|https://resources.hud.gov/|gov
+Energy|Energy Star (home energy savings)|https://www.energystar.gov/|gov-partner
+Finance|SSA — Disability benefits|https://www.ssa.gov/benefits/disability/|gov
+Legal|USA.gov — Find legal help|https://www.usa.gov/legal-aid|gov
+Fraud|FBI IC3 Elder Fraud info|https://www.ic3.gov/crimeinfo/elderfraud|gov
+Safety|Poison Control (US) — Help line|https://www.poisonhelp.org/|hotline
+Community|SAMHSA — Find treatment|https://findtreatment.gov/|gov
+Civic|Election Assistance Commission|https://www.eac.gov/|gov
+Transport|National Aging and Disability Transportation Center|https://www.nadtc.org/|nonprofit
+Tech|AARP Technology guides|https://www.aarp.org/home-family/personal-technology/|nonprofit
+Emergency|Ready.gov — Alerts|https://www.ready.gov/alerts|gov
+Veterans|VA Pension benefits|https://www.va.gov/pension/|gov
+Health|Medicaid.gov — Medicaid & CHIP overview|https://www.medicaid.gov/|gov
+
+Benefits|NCOA BenefitsCheckUp|https://www.benefitscheckup.org/|nonprofit
+Health|What Medicare covers|https://www.medicare.gov/what-medicare-covers|gov
+Health|Medicare Savings Programs (help paying premiums)|https://www.medicare.gov/basics/costs/help/medicare-savings-programs|gov
+Health|SHIP: State Health Insurance Assistance Program (get Medicare help)|https://www.shiphelp.org/|nonprofit
+Health|Healthcare.gov (ACA marketplace)|https://www.healthcare.gov/|gov
+Health|Find local Marketplace help|https://localhelp.healthcare.gov/|gov
+Health|NIH MedlinePlus — Senior health|https://medlineplus.gov/olderadulthealth.html|gov
+Health|NIH National Institute on Aging — Health info|https://www.nia.nih.gov/health|gov
+Health|CDC — Healthy aging|https://www.cdc.gov/aging/index.html|gov
+Health|CDC — Falls prevention|https://www.cdc.gov/falls/index.html|gov
+Health|FDA — Medication safety|https://www.fda.gov/drugs/special-features/medication-safety|gov
+Health|MedlinePlus — Drugs & supplements|https://medlineplus.gov/druginformation.html|gov
+Health|NIMH — Find help (mental health)|https://www.nimh.nih.gov/health/find-help|gov
+Health|SAMHSA National Helpline|https://www.samhsa.gov/find-help/national-helpline|gov|hotline
+Health|HHS Telehealth|https://telehealth.hhs.gov/|gov
+Health|VA Telehealth|https://telehealth.va.gov/|gov
+Health|Alzheimer's Association|https://www.alz.org/|nonprofit
+Health|American Heart Association|https://www.heart.org/|nonprofit
+Health|American Diabetes Association|https://diabetes.org/|nonprofit
+Health|Parkinson's Foundation|https://www.parkinson.org/|nonprofit
+Health|Arthritis Foundation|https://www.arthritis.org/|nonprofit
+Health|Go4Life (NIA exercise)|https://go4life.nia.nih.gov/|gov
+Health|NIA — Exercise and physical activity|https://www.nia.nih.gov/health/exercise-physical-activity|gov
+Health|NIA — Healthy eating|https://www.nia.nih.gov/health/healthy-eating|gov
+Health|NIA — Falls & prevention|https://www.nia.nih.gov/health/falls-and-falls-prevention|gov
+
+Housing|HUD — Housing counseling (find a counselor)|https://www.hud.gov/program_offices/housing/sfh/hcc/hcs|gov
+Housing|HUD — Housing Choice Voucher (Section 8) overview|https://www.hud.gov/program_offices/public_indian_housing/programs/hcv/about|gov
+Housing|HUD — Public housing overview|https://www.hud.gov/topics/public_housing|gov
+Housing|HUD — Public Housing Agency (PHA) contacts|https://www.hud.gov/program_offices/public_indian_housing/pha/contacts|gov
+Housing|USDA Rural Development — Home repair loans & grants|https://www.rd.usda.gov/programs-services/single-family-housing-programs/single-family-housing-repair-loans-grants|gov
+Housing|Habitat for Humanity — Aging in place|https://www.habitat.org/volunteer/near-you/aging-in-place|nonprofit
+Housing|Rebuilding Together (home repairs)|https://rebuildingtogether.org/|nonprofit
+Housing|ADA.gov (Americans with Disabilities Act)|https://www.ada.gov/|gov
+Housing|US Access Board (accessibility guidelines)|https://www.access-board.gov/|gov
+Housing|HUD — Fair Housing & equal opportunity|https://www.hud.gov/program_offices/fair_housing_equal_opp|gov
+Housing|Find housing help (USA.gov)|https://www.usa.gov/housing-help|gov
+
+Energy|Get help with utility bills (USA.gov)|https://www.usa.gov/help-with-utility-bills|gov
+Energy|LIHEAP (national info)|https://www.liheap.org/|nonprofit
+Energy|FloridaJobs — LIHEAP (Florida)|https://www.floridajobs.org/community-planning-and-development/community-services/low-income-home-energy-assistance-program|gov|state
+Energy|WAP: Weatherization Assistance Program|https://www.energy.gov/scep/wap/weatherization-assistance-program|gov
+Energy|CFPB — High utility bills tips|https://www.consumerfinance.gov/about-us/blog/how-to-avoid-being-overwhelmed-by-high-utility-bills/|gov
+
+Food|USDA FNS — SNAP facts|https://www.fns.usda.gov/snap/facts|gov
+Food|USDA FNS — SNAP EBT overview|https://www.fns.usda.gov/snap/ebt|gov
+Food|USDA FNS — State Directory of SNAP agencies|https://www.fns.usda.gov/snap/state-directory|gov
+Food|USDA FNS — Senior Farmers’ Market Nutrition Program|https://www.fns.usda.gov/sfmnp/senior-farmers-market-nutrition-program|gov
+Food|USDA FNS — TEFAP (Emergency Food Assistance)|https://www.fns.usda.gov/tefap/emergency-food-assistance-program|gov
+Food|Feeding America — Find a food bank|https://www.feedingamerica.org/find-your-local-foodbank|nonprofit
+Food|USDA MyPlate|https://www.myplate.gov/|gov
+Food|Dietary Guidelines for Americans|https://www.dietaryguidelines.gov/|gov
+Food|Find food help (USA.gov)|https://www.usa.gov/food-help|gov
+Food|ACL — Nutrition services|https://acl.gov/programs/health-wellness/nutrition-services|gov
+
+Finance|my Social Security sign-in|https://www.ssa.gov/myaccount/|gov
+Finance|SSA — Replace Social Security card|https://www.ssa.gov/number-card/replace-card|gov
+Finance|SSA — SSI (Supplemental Security Income)|https://www.ssa.gov/ssi/|gov
+Finance|SSA — Medicare (via SSA)|https://www.ssa.gov/medicare/|gov
+Finance|IdentityTheft.gov (FTC)|https://www.identitytheft.gov/|gov
+Finance|MyMoney.gov (financial education)|https://www.mymoney.gov/|gov
+Finance|TreasuryDirect — Savings Bonds|https://www.treasurydirect.gov/savings-bonds/|gov
+Finance|CFPB — File a complaint|https://www.consumerfinance.gov/complaint/|gov
+Finance|FDIC Consumer Resource Center|https://www.fdic.gov/consumer-resource-center|gov
+Finance|SEC Investor.gov|https://www.investor.gov/|gov
+Finance|Get help paying bills (USA.gov)|https://www.usa.gov/help-with-bills|gov
+
+Legal|CFPB — Protecting against fraud|https://www.consumerfinance.gov/consumer-tools/educator-tools/resources-for-older-adults/protecting-against-fraud/|gov
+Legal|CFPB — Financial security as you age|https://www.consumerfinance.gov/consumer-tools/educator-tools/resources-for-older-adults/financial-security-as-you-age/|gov
+Legal|CFPB — Elder protection networks|https://www.consumerfinance.gov/consumer-tools/educator-tools/resources-for-older-adults/elder-protection-networks/|gov
+Legal|USA.gov — Wills|https://www.usa.gov/wills|gov
+Legal|NAELA — Find an elder law attorney|https://www.naela.org/findlawyer|nonprofit
+
+Fraud|AARP Fraud Watch Network|https://www.aarp.org/money/scams-fraud/|nonprofit
+Fraud|DOJ Elder Justice: Find help or report abuse|https://www.justice.gov/elderjustice/find-help-or-report-abuse|gov|hotline
+Fraud|FTC — Scams (consumer)|https://consumer.ftc.gov/scams|gov
+Fraud|FTC — Identity theft|https://www.identitytheft.gov/|gov
+Fraud|IC3 — Elder Fraud|https://www.ic3.gov/crimeinfo/elderfraud|gov
+Fraud|Report fraud (FTC)|https://reportfraud.ftc.gov/|gov
+
+Safety|NIJ — Elder abuse|https://nij.ojp.gov/topics/articles/elder-abuse|gov
+Safety|Adult Protective Services (APS) directory|https://ncea.acl.gov/Resources/State.aspx|gov-partner
+Safety|National Domestic Violence Hotline|https://www.thehotline.org/|hotline
+Safety|PoisonHelp.org|https://www.poisonhelp.org/|hotline
+
+Community|AmeriCorps Seniors (volunteer)|https://americorps.gov/serve/americorps-seniors|gov
+Community|Senior centers overview (NCOA)|https://www.ncoa.org/article/senior-centers-and-facilities|nonprofit
+Community|Family Caregiver Alliance|https://www.caregiver.org/|nonprofit
+Community|YMCA — Find your Y|https://www.ymca.org/find-your-y|nonprofit
+
+Civic|USA.gov — Voting and elections|https://www.usa.gov/voting-and-elections|gov
+Civic|Vote.gov|https://vote.gov/|gov
+Civic|EAC (Election Assistance Commission)|https://www.eac.gov/|gov
+
+Transport|DOT — Older driver safety|https://www.transportation.gov/mission/health/older-driver|gov
+Transport|NHTSA — Older drivers|https://www.nhtsa.gov/road-safety/older-drivers|gov
+Transport|National RTAP (rural transit)|https://www.nationalrtap.org/|nonprofit
+Transport|NADTC|https://www.nadtc.org/|nonprofit
+
+Tech|FCC Lifeline|https://www.fcc.gov/lifeline-consumers|gov
+Tech|FCC ACP updates|https://www.fcc.gov/acp|gov
+Tech|GCFGlobal tutorials|https://edu.gcfglobal.org/en/|nonprofit
+Tech|AARP technology|https://www.aarp.org/home-family/personal-technology/|nonprofit
+
+Emergency|Ready.gov — Older adults|https://www.ready.gov/older-adults|gov
+Emergency|DisasterAssistance.gov|https://www.disasterassistance.gov/|gov
+Emergency|Ready.gov — Alerts|https://www.ready.gov/alerts|gov
+Emergency|CDC — Emergency preparedness|https://www.cdc.gov/cpr/index.htm|gov
+
+Veterans|VA eligibility|https://www.va.gov/health-care/eligibility/|gov
+Veterans|VA caregiver support|https://www.caregiver.va.gov/|gov
+Veterans|VA pension|https://www.va.gov/pension/|gov
+
+Disability|Disability services (USA.gov)|https://www.usa.gov/disability-services|gov
+Disability|NDRN|https://www.ndrn.org/|nonprofit
+`.trim();
+
+/* =======================
+   Storage keys
+   ======================= */
+const LS = {
+  custom: "cp_custom_links_v1",
+  fav: "cp_favs_v1",
+  baseSize: "cp_text_size_v1"
+};
+
+/* =======================
+   Parse + Merge
+   ======================= */
+function parseData(text){
+  return text.split("\n").map(line=>{
+    const [category,name,url,flags=""] = line.split("|");
+    return { category, name, url, flags };
+  }).filter(x=>x.name && x.url);
+}
+function loadCustom(){
+  try{ return JSON.parse(localStorage.getItem(LS.custom)||"[]"); }catch(e){ return []; }
+}
+function saveCustom(list){
+  localStorage.setItem(LS.custom, JSON.stringify(list));
+}
+function loadFav(){
+  try{ return JSON.parse(localStorage.getItem(LS.fav)||"{}"); }catch(e){ return {}; }
+}
+function saveFav(map){
+  localStorage.setItem(LS.fav, JSON.stringify(map));
+}
+const base = parseData(DATA);
+let custom = loadCustom();
+let favMap = loadFav();
+
+function allItems(){
+  return [...base, ...custom];
+}
+
+/* =======================
+   UI elements
+   ======================= */
+const qEl = document.getElementById("q");
+const catEl = document.getElementById("cat");
+const sortEl = document.getElementById("sort");
+const onlyOfficialEl = document.getElementById("onlyOfficial");
+const onlyHotlinesEl = document.getElementById("onlyHotlines");
+const onlyFavEl = document.getElementById("onlyFav");
+const listEl = document.getElementById("list");
+const countLine = document.getElementById("countLine");
+const tipLine = document.getElementById("tipLine");
+const sizeEl = document.getElementById("size");
+
+/* Modals */
+const modal = document.getElementById("modal");
+document.getElementById("signBtn").onclick = ()=> modal.style.display="block";
+document.getElementById("closeModal").onclick = ()=> modal.style.display="none";
+modal.addEventListener("click",(e)=>{ if(e.target===modal) modal.style.display="none"; });
+
+const addModal = document.getElementById("addModal");
+document.getElementById("addBtn").onclick = ()=> { addModal.style.display="block"; };
+document.getElementById("closeAdd").onclick = ()=> addModal.style.display="none";
+addModal.addEventListener("click",(e)=>{ if(e.target===addModal) addModal.style.display="none"; });
+
+/* Populate categories */
+function uniqueCategories(){
+  const set = new Set(allItems().map(x=>x.category));
+  return ["All", ...Array.from(set).sort((a,b)=>a.localeCompare(b))];
+}
+function populateCats(){
+  const cats = uniqueCategories();
+  catEl.innerHTML = cats.map(c=>`<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join("");
+  const addCatEl = document.getElementById("addCat");
+  addCatEl.innerHTML = cats.filter(c=>c!=="All").map(c=>`<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join("");
+}
+populateCats();
+
+/* Text size */
+const savedSize = parseInt(localStorage.getItem(LS.baseSize)||"20",10);
+if(savedSize){ document.documentElement.style.setProperty("--base", savedSize+"px"); sizeEl.value = savedSize; }
+sizeEl.addEventListener("input", ()=>{
+  const v = parseInt(sizeEl.value,10);
+  document.documentElement.style.setProperty("--base", v+"px");
+  localStorage.setItem(LS.baseSize, String(v));
+});
+
+/* Helpers */
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+}
+function hasFlag(item, flag){
+  return (item.flags||"").split("|").map(x=>x.trim()).includes(flag);
+}
+function isOfficial(item){
+  const f = (item.flags||"").toLowerCase();
+  return f.includes("gov") || new URL(item.url).hostname.endsWith(".gov");
+}
+function isHotline(item){
+  return (item.flags||"").toLowerCase().includes("hotline");
+}
+function scoreRelevance(item, q){
+  if(!q) return 0;
+  const t = (item.name+" "+item.category+" "+(item.flags||"")+" "+item.url).toLowerCase();
+  // basic scoring: name hits > category hits > url hits
+  let s=0;
+  q.split(/\s+/).filter(Boolean).forEach(tok=>{
+    if(t.includes(tok)){
+      if(item.name.toLowerCase().includes(tok)) s+=6;
+      else if(item.category.toLowerCase().includes(tok)) s+=3;
+      else s+=1;
+    }
+  });
+  return s;
+}
+function toggleFav(url){
+  if(favMap[url]) delete favMap[url];
+  else favMap[url]=true;
+  saveFav(favMap);
+  render();
+}
+
+/* Render */
+function render(){
+  const q = (qEl.value||"").trim().toLowerCase();
+  const cat = catEl.value || "All";
+  const onlyOfficial = !!onlyOfficialEl.checked;
+  const onlyHotlines = !!onlyHotlinesEl.checked;
+  const onlyFav = !!onlyFavEl.checked;
+  const items = allItems();
+
+  let filtered = items.filter(it=>{
+    if(cat!=="All" && it.category!==cat) return false;
+    if(onlyOfficial && !isOfficial(it)) return false;
+    if(onlyHotlines && !isHotline(it)) return false;
+    if(onlyFav && !favMap[it.url]) return false;
+    if(q){
+      const hay = (it.name+" "+it.category+" "+(it.flags||"")+" "+it.url).toLowerCase();
+      return q.split(/\s+/).every(tok=> hay.includes(tok));
+    }
+    return true;
+  });
+
+  // sorting
+  const mode = sortEl.value;
+  if(mode==="name"){
+    filtered.sort((a,b)=>a.name.localeCompare(b.name));
+  } else if(mode==="category"){
+    filtered.sort((a,b)=>(a.category.localeCompare(b.category) || a.name.localeCompare(b.name)));
+  } else if(mode==="favorites"){
+    filtered.sort((a,b)=>( (favMap[b.url]?1:0) - (favMap[a.url]?1:0) ) || a.name.localeCompare(b.name));
+  } else {
+    // relevance
+    filtered.sort((a,b)=> scoreRelevance(b,q)-scoreRelevance(a,q) || a.name.localeCompare(b.name));
+  }
+
+  const total = items.length;
+  countLine.textContent = `Showing ${filtered.length} of ${total} links`;
+  tipLine.textContent = q ? "Tip: try fewer words if you get 0 results." : "Tip: toggle “Official” for government/public sources.";
+
+  listEl.innerHTML = filtered.map(it=>{
+    const chips = [];
+    if(isOfficial(it)) chips.push(`<span class="pill gov">Official</span>`);
+    if(hasFlag(it,"nonprofit")) chips.push(`<span class="pill nonprofit">Nonprofit</span>`);
+    if(hasFlag(it,"state")) chips.push(`<span class="pill state">State</span>`);
+    if(isHotline(it)) chips.push(`<span class="pill hotline">Hotline</span>`);
+    const isFav = !!favMap[it.url];
+
+    return `
+      <article class="res">
+        <div class="resTop">
+          <div>
+            <h3>${escapeHtml(it.name)}</h3>
+            <div class="tiny">${escapeHtml(it.category)}</div>
+            <div class="chips">${chips.join("")}</div>
+          </div>
+          <button class="btn small secondary" title="Favorite" onclick="toggleFav('${escapeHtml(it.url)}')">${isFav ? "★ Favorited" : "☆ Favorite"}</button>
+        </div>
+
+        <div class="actions">
+          <a class="primary" href="${escapeHtml(it.url)}" target="_blank" rel="noopener">Open</a>
+          <a href="#" onclick="copyLink(event,'${escapeHtml(it.url)}')" title="Copy URL">Copy</a>
+          ${custom.includes(it) ? `<a href="#" onclick="removeCustom(event,'${escapeHtml(it.url)}')" style="border-color:rgba(160,0,0,.25);color:var(--risk)">Remove</a>` : ""}
+        </div>
+
+        <div class="tiny" style="margin-top:8px;opacity:.85;word-break:break-word">${escapeHtml(it.url)}</div>
+      </article>
+    `;
+  }).join("");
+}
+window.toggleFav = toggleFav;
+
+function copyLink(ev, url){
+  ev.preventDefault();
+  try{
+    navigator.clipboard.writeText(url);
+    toast("Copied link");
+  }catch(e){
+    prompt("Copy this link:", url);
+  }
+}
+window.copyLink = copyLink;
+
+function removeCustom(ev, url){
+  ev.preventDefault();
+  custom = custom.filter(x=>x.url!==url);
+  saveCustom(custom);
+  populateCats();
+  render();
+}
+window.removeCustom = removeCustom;
+
+/* Export + Copy visible */
+document.getElementById("exportBtn").onclick = ()=>{
+  const data = { exportedAt: new Date().toISOString(), items: allItems(), favorites: Object.keys(favMap) };
+  const blob = new Blob([JSON.stringify(data,null,2)], {type:"application/json"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "clearpath-resource-library.json";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(()=>URL.revokeObjectURL(a.href), 1000);
+};
+document.getElementById("copyBtn").onclick = ()=>{
+  // copy the currently visible links
+  const urls = Array.from(listEl.querySelectorAll(".res .tiny")).map(el=>el.textContent.trim()).filter(Boolean);
+  const text = urls.join("\n");
+  try{
+    navigator.clipboard.writeText(text);
+    toast(`Copied ${urls.length} links`);
+  }catch(e){
+    prompt("Copy links:", text);
+  }
+};
+document.getElementById("printBtn").onclick = ()=> window.print();
+
+/* Save custom link */
+document.getElementById("saveAdd").onclick = ()=>{
+  const name = document.getElementById("addName").value.trim();
+  const category = document.getElementById("addCat").value;
+  const url = document.getElementById("addUrl").value.trim();
+  const flags = document.getElementById("addFlags").value.trim();
+  if(!name || !url){ toast("Please add a title and URL."); return; }
+  try{ new URL(url); }catch(e){ toast("That URL doesn’t look valid."); return; }
+
+  // prevent duplicates
+  if(allItems().some(x=>x.url===url)){ toast("That link already exists."); return; }
+
+  custom.push({name, category, url, flags});
+  saveCustom(custom);
+  addModal.style.display="none";
+  document.getElementById("addName").value="";
+  document.getElementById("addUrl").value="";
+  document.getElementById("addFlags").value="";
+  populateCats();
+  render();
+};
+
+/* Simple toast */
+let toastTimer=null;
+function toast(msg){
+  clearTimeout(toastTimer);
+  let el = document.getElementById("toast");
+  if(!el){
+    el = document.createElement("div");
+    el.id="toast";
+    el.style.position="fixed";
+    el.style.left="50%";
+    el.style.bottom="18px";
+    el.style.transform="translateX(-50%)";
+    el.style.background="rgba(10,26,43,.92)";
+    el.style.color="#fff";
+    el.style.padding="10px 14px";
+    el.style.borderRadius="999px";
+    el.style.fontWeight="900";
+    el.style.zIndex="10000";
+    el.style.boxShadow="0 12px 40px rgba(0,0,0,.35)";
+    document.body.appendChild(el);
+  }
+  el.textContent=msg;
+  el.style.opacity="1";
+  toastTimer=setTimeout(()=>{ el.style.opacity="0"; }, 1200);
+}
+
+/* Event wiring */
+[qEl,catEl,sortEl,onlyOfficialEl,onlyHotlinesEl,onlyFavEl].forEach(el=>{
+  el.addEventListener("input", render);
+  el.addEventListener("change", render);
+});
+
+/* Initial render */
+render();
+</script>
+</body>
+</html>
+"""
+
+path = Path("/mnt/data/clearpath_resource_library_150.html")
+path.write_text(html, encoding="utf-8")
+str(path)
+
