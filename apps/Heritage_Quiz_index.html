@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Kindred Vault Heritage Quiz</title>
+<style>
+body {
+    font-family: 'Georgia', serif;
+    background: #f7f0e6;
+    color: #333;
+    padding: 20px;
+}
+.question {
+    margin: 20px 0;
+}
+button {
+    background: #b2855c;
+    color: white;
+    border: none;
+    border-radius: 7px;
+    padding: 8px 16px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+button:hover { background: #a26b47; }
+#mapContainer { margin-top: 40px; text-align:center; }
+svg { width: 80%; height: 400px; border: 1px solid #ccc; background:#fff8f0; }
+</style>
+</head>
+<body>
+
+<h1>KINDRED VAULT HERITAGE QUIZ</h1>
+<div id="quizContainer"></div>
+<div id="mapContainer" style="display:none;">
+    <h2>Your Heritage Map</h2>
+    <svg id="mapSVG" viewBox="0 0 360 180"></svg>
+    <br>
+    <button onclick="window.location.href='https://www.khaemenesacademy.org/kindred-vault'">
+        Explore Kindred Vault
+    </button>
+</div>
+
+<script>
+// --- Question Bank (sample; add up to 50) ---
+const questionBank = [
+  {question:"The surname 'Al-Farsi' is most commonly associated with which region?", 
+   options:["Persia/Iran","Egypt","Morocco","Saudi Arabia"], 
+   answer:0, region:{lat:32.0, lon:53.0}},
+  {question:"Which of these languages is Semitic?", 
+   options:["Arabic","Turkish","Persian","Greek"], answer:0, 
+   region:{lat:23.0, lon:45.0}},
+  {question:"The Maori people are indigenous to?", 
+   options:["New Zealand","Australia","Hawaii","Fiji"], answer:0, 
+   region:{lat:-41.0, lon:174.0}},
+  {question:"The surname 'Al-Farsi' is most commonly associated with which region?", 
+   options:["Persia/Iran","Egypt","Morocco","Saudi Arabia"], answer:0, region:{lat:32.0, lon:53.0}},
+  {question:"Which of these languages is Semitic?", 
+   options:["Arabic","Turkish","Persian","Greek"], answer:0, region:{lat:23.0, lon:45.0}},
+  {question:"The Maori people are indigenous to?", 
+   options:["New Zealand","Australia","Hawaii","Fiji"], answer:0, region:{lat:-41.0, lon:174.0}},
+  {question:"The Berbers are indigenous to which region?", 
+   options:["North Africa","Middle East","Central Asia","India"], answer:0, region:{lat:28.0, lon:1.5}},
+  {question:"The Yoruba ethnic group is primarily found in?", 
+   options:["Nigeria","Ghana","Kenya","Ethiopia"], answer:0, region:{lat:9.0, lon:8.0}},
+  {question:"The Sami people are native to?", 
+   options:["Northern Scandinavia","Russia","Greenland","Iceland"], answer:0, region:{lat:68.0, lon:20.0}},
+  {question:"The surname 'O’Connor' originates from which country?", 
+   options:["Ireland","Scotland","Wales","England"], answer:0, region:{lat:53.0, lon:-8.0}},
+  {question:"The Han people are predominantly found in?", 
+   options:["China","Japan","Korea","Vietnam"], answer:0, region:{lat:35.0, lon:104.0}},
+  {question:"The Bedouins are traditionally nomadic in?", 
+   options:["Arabian Peninsula","North Africa","Central Asia","South Asia"], answer:0, region:{lat:25.0, lon:45.0}},
+  {question:"The indigenous Ainu people are associated with?", 
+   options:["Japan","China","Mongolia","Korea"], answer:0, region:{lat:43.0, lon:144.0}},
+  {question:"The Basques are primarily from which region?", 
+   options:["Northern Spain/Southern France","Italy","Portugal","Belgium"], answer:0, region:{lat:43.0, lon:-2.5}},
+  {question:"The Zulu people are native to?", 
+   options:["South Africa","Zimbabwe","Botswana","Namibia"], answer:0, region:{lat:-28.0, lon:30.0}},
+  {question:"The name 'Schmidt' originates from?", 
+   options:["Germany","Austria","Switzerland","Netherlands"], answer:0, region:{lat:51.0, lon:10.0}},
+  {question:"The Inuit people are indigenous to?", 
+   options:["Arctic regions","Alaska","Greenland","Canada"], answer:0, region:{lat:70.0, lon:-90.0}},
+  {question:"The Kurds are primarily located in?", 
+   options:["Turkey/Iraq/Iran/Syria","Jordan","Lebanon","Egypt"], answer:0, region:{lat:36.0, lon:44.0}},
+  {question:"The Maasai people are from?", 
+   options:["Kenya and Tanzania","Uganda","Rwanda","Sudan"], answer:0, region:{lat:-2.0, lon:36.0}},
+  {question:"The surname 'Ivanov' is most common in?", 
+   options:["Russia","Poland","Bulgaria","Ukraine"], answer:0, region:{lat:60.0, lon:90.0}},
+  {question:"The indigenous Sami languages are part of the?", 
+   options:["Uralic family","Germanic family","Slavic family","Romance family"], answer:0, region:{lat:68.0, lon:20.0}},
+  {question:"The Romani people originally migrated from?", 
+   options:["India","Turkey","Egypt","Greece"], answer:0, region:{lat:20.0, lon:80.0}},
+  {question:"The Yoruba religion is associated with which country?", 
+   options:["Nigeria","Ghana","Benin","Togo"], answer:0, region:{lat:9.0, lon:8.0}},
+  {question:"The Maori language is known as?", 
+   options:["Te Reo Māori","Hawaiian","Fijian","Samoan"], answer:0, region:{lat:-41.0, lon:174.0}},
+  {question:"The Sami people are also called?", 
+   options:["Lapps","Inuits","Saamis","Nenets"], answer:0, region:{lat:68.0, lon:20.0}},
+  {question:"The Apache tribes are native to?", 
+   options:["Southwestern USA","Canada","Mexico","Florida"], answer:0, region:{lat:34.0, lon:-106.0}},
+  {question:"The Igbo people primarily live in?", 
+   options:["Nigeria","Ghana","Cameroon","Liberia"], answer:0, region:{lat:6.0, lon:7.0}},
+  {question:"The surname 'Patel' originates from?", 
+   options:["India","Pakistan","Nepal","Sri Lanka"], answer:0, region:{lat:23.0, lon:72.0}},
+  {question:"The Maori traditional weapon is called?", 
+   options:["Taiaha","Bo","Katana","Spear"], answer:0, region:{lat:-41.0, lon:174.0}},
+  {question:"The Berber script is called?", 
+   options:["Tifinagh","Arabic","Latin","Cyrillic"], answer:0, region:{lat:28.0, lon:1.5}},
+  {question:"The Basque language is called?", 
+   options:["Euskara","Catalan","Galician","Occitan"], answer:0, region:{lat:43.0, lon:-2.5}},
+  {question:"The Zulu language belongs to?", 
+   options:["Bantu family","Nilotic family","Khoisan family","Cushitic family"], answer:0, region:{lat:-28.0, lon:30.0}},
+  {question:"The name 'Nguyen' is most common in?", 
+   options:["Vietnam","Thailand","Cambodia","Laos"], answer:0, region:{lat:16.0, lon:108.0}},
+  {question:"The Native Hawaiian people are called?", 
+   options:["Kanaka Maoli","Maori","Fijian","Samoan"], answer:0, region:{lat:21.0, lon:-157.0}},
+  {question:"The Sami traditional clothing is called?", 
+   options:["Gákti","Kilt","Poncho","Dashiki"], answer:0, region:{lat:68.0, lon:20.0}},
+  {question:"The indigenous Nenets live in?", 
+   options:["Russia (Arctic)","Canada","Alaska","Norway"], answer:0, region:{lat:68.0, lon:80.0}},
+  {question:"The Kurdish language belongs to?", 
+   options:["Indo-European family","Semitic family","Uralic family","Altaic family"], answer:0, region:{lat:36.0, lon:44.0}},
+  {question:"The name 'Smith' historically refers to?", 
+   options:["Blacksmith occupation","Merchant","Farmer","King"], answer:0, region:{lat:51.0, lon:-0.1}},
+  {question:"The surname 'Hernandez' is from?", 
+   options:["Spain","Mexico","Portugal","Italy"], answer:0, region:{lat:40.0, lon:-4.0}},
+  {question:"The Maori tattoo art is called?", 
+   options:["Ta Moko","Henna","Kirituhi","Tatou"], answer:0, region:{lat:-41.0, lon:174.0}},
+  {question:"The Aboriginal Dreamtime stories originate from?", 
+   options:["Australia","New Zealand","Papua New Guinea","Fiji"], answer:0, region:{lat:-25.0, lon:133.0}},
+  {question:"The Sami traditional reindeer herding occurs in?", 
+   options:["Northern Scandinavia","Alaska","Canada","Mongolia"], answer:0, region:{lat:68.0, lon:20.0}},
+  {question:"The name 'Khan' is historically associated with?", 
+   options:["Mongol/Turkic rulers","Persians","Arabs","Russians"], answer:0, region:{lat:48.0, lon:90.0}},
+  {question:"The Hausa people are mostly in?", 
+   options:["Nigeria","Ghana","Cameroon","Niger"], answer:0, region:{lat:11.0, lon:8.0}},
+  {question:"The Inuit word 'igloo' means?", 
+   options:["House","Iceberg","Snowfield","Village"], answer:0, region:{lat:70.0, lon:-90.0}},
+  {question:"The Maori canoe is called?", 
+   options:["Waka","Catamaran","Dory","Pirogue"], answer:0, region:{lat:-41.0, lon:174.0}},
+  {question:"The Romani diaspora is primarily in?", 
+   options:["Europe","Asia","Africa","North America"], answer:0, region:{lat:48.0, lon:20.0}},
+  {question:"The Zulu king historically resides in?", 
+   options:["KwaZulu-Natal","Gauteng","Limpopo","Mpumalanga"], answer:0, region:{lat:-28.0, lon:30.0}},
+  {question:"The Igbo masquerade festival is called?", 
+   options:["Mmanwu","Obon","Carnival","Powwow"], answer:0, region:{lat:6.0, lon:7.0}},
+  {question:"The Maori Haka is a?", 
+   options:["War dance","Song","Ceremony","Tattoo"], answer:0, region:{lat:-41.0, lon:174.0}},
+  {question:"The Sami drum is called?", 
+   options:["Goahti drum","Djembe","Bodhran","Tambourine"], answer:0, region:{lat:68.0, lon:20.0}},
+  {question:"The surname 'Singh' is associated with?", 
+   options:["Sikh males in India","Hindus in Nepal","Pakistanis","Bangladesh"], answer:0, region:{lat:30.0, lon:76.0}},
+  {question:"The traditional Hawaiian feast is called?", 
+   options:["Luau","Hangi","Potlatch","Saj"], answer:0, region:{lat:21.0, lon:-157.0}},
+  {question:"The Aboriginal didgeridoo is a?", 
+   options:["Musical instrument","Weapon","Tool","Clothing"], answer:0, region:{lat:-25.0, lon:133.0}},
+  {question:"The Kurds have their own?", 
+   options:["Language and culture","Currency","Army","Capital city"], answer:0, region:{lat:36.0, lon:44.0}},
+  {question:"The Ashanti people are native to?", 
+   options:["Ghana","Nigeria","Cameroon","Ivory Coast"], answer:0, region:{lat:6.0, lon:-1.0}},
+  {question:"The Maori traditional war dance is called?", 
+   options:["Haka","Poi","Kapa haka","Kainga"], answer:0, region:{lat:-41.0, lon:174.0}},
+  {question:"The Berber people are also called?", 
+   options:["Amazigh","Tuareg","Sahara","Maghreb"], answer:0, region:{lat:28.0, lon:1.5}},
+  {question:"The Yoruba drum ensemble is known as?", 
+   options:["Dundun","Talking drum","Bata","All of the above"], answer:3, region:{lat:9.0, lon:8.0}},
+  {question:"The Inuit primarily speak?", 
+   options:["Inuktitut","Greenlandic","Alaskan Yupik","All of the above"], answer:3, region:{lat:70.0, lon:-90.0}},
+  {question:"The Kurdish traditional dress is called?", 
+   options:["Kurdish costume","Dashiki","Kaftan","Tunic"], answer:0, region:{lat:36.0, lon:44.0}},
+  {question:"The surname 'Murphy' originates from?", 
+   options:["Ireland","Scotland","England","Wales"], answer:0, region:{lat:53.0, lon:-8.0}},
+  {question:"The Maori musical instrument 'Poi' is used for?", 
+   options:["Spinning performance","Hunting","Fishing","Sailing"], answer:0, region:{lat:-41.0, lon:174.0}},
+  {question:"The Sami people herd which animal traditionally?", 
+   options:["Reindeer","Sheep","Cattle","Goats"], answer:0, region:{lat:68.0, lon:20.0}},
+  {question:"The name 'Petrov' is most common in?", 
+   options:["Russia","Poland","Ukraine","Bulgaria"], answer:0, region:{lat:60.0, lon:90.0}},
+  {question:"The Aboriginal Australians traditionally use which hunting tool?", 
+   options:["Boomerang","Spear","Club","All of the above"], answer:3, region:{lat:-25.0, lon:133.0}},
+  {question:"The Zulu beadwork represents?", 
+   options:["Status, age, marriage","Clan","Occupation","All of the above"], answer:3, region:{lat:-28.0, lon:30.0}},
+  {question:"The surname 'Garcia' is originally from?", 
+   options:["Spain","Portugal","Italy","France"], answer:0, region:{lat:40.0, lon:-4.0}},
+  {question:"The Inuit traditional clothing is made primarily of?", 
+   options:["Animal skins and furs","Cotton","Silk","Wool"], answer:0, region:{lat:70.0, lon:-90.0}},
+  {question:"The Kurds have historically inhabited the mountains of?", 
+   options:["Zagros and Taurus","Himalayas","Caucasus","Alps"], answer:0, region:{lat:36.0, lon:44.0}},
+  {question:"The Maori traditional tattooing is called?", 
+   options:["Ta Moko","Henna","Kirituhi","Tatou"], answer:0, region:{lat:-41.0, lon:174.0}},
+  {question:"The Berbers historically lived in which geographic feature?", 
+   options:["Sahara Desert","Nile Valley","Mediterranean Islands","Atlas Mountains"], answer:3, region:{lat:28.0, lon:1.5}},
+  {question:"The Igbo traditional masquerade is called?", 
+   options:["Mmanwu","Obon","Carnival","Powwow"], answer:0, region:{lat:6.0, lon:7.0}},
+  {question:"The Zulu kingdom is located in which modern province?", 
+   options:["KwaZulu-Natal","Gauteng","Limpopo","Mpumalanga"], answer:0, region:{lat:-28.0, lon:30.0}},
+  {question:"The Maori migration to New Zealand came from?", 
+   options:["Eastern Polynesia","Fiji","Tahiti","Samoa"], answer:0, region:{lat:-41.0, lon:174.0}},
+  {question:"The Sami practice which seasonal activity?", 
+   options:["Reindeer herding","Fishing","Farming","Mining"], answer:0, region:{lat:68.0, lon:20.0}},
+  {question:"The Yoruba people’s traditional religion includes worship of?", 
+   options:["Orishas","Gods of Egypt","Greek pantheon","Roman gods"], answer:0, region:{lat:9.0, lon:8.0}},
+  {question:"The Maori carved wooden meeting houses are called?", 
+   options:["Wharenui","Hale","Longhouse","Kiva"], answer:0, region:{lat:-41.0, lon:174.0}},
+  {question:"The Inuits call themselves?", 
+   options:["Inuit","Eskimo","Aleut","Nenets"], answer:0, region:{lat:70.0, lon:-90.0}},
+  {question:"The Basque people primarily live in?", 
+   options:["Northern Spain and Southern France","Italy","Portugal","Belgium"], answer:0, region:{lat:43.0, lon:-2.5}},
+  {question:"The surname 'Singh' is primarily associated with?", 
+   options:["Sikh males in India","Hindus in Nepal","Muslims in Pakistan","Bengalis"], answer:0, region:{lat:30.0, lon:76.0}},
+  {question:"The Apache tribes historically lived in?", 
+   options:["Southwestern USA","Southeast USA","Midwest USA","Pacific Northwest"], answer:0, region:{lat:34.0, lon:-106.0}},
+  {question:"The Inuit primarily hunted which animal?", 
+   options:["Seals","Caribou","Whales","Polar bears"], answer:0, region:{lat:70.0, lon:-90.0}},
+  {question:"The Kurds are predominantly followers of?", 
+   options:["Sunni Islam","Shia Islam","Christianity","Judaism"], answer:0, region:{lat:36.0, lon:44.0}},
+  {question:"The Zulu historical leader Shaka Zulu ruled in which century?", 
+   options:["19th century","18th century","17th century","20th century"], answer:0, region:{lat:-28.0, lon:30.0}},
+  {question:"The Maori performed the haka for?", 
+   options:["War and ceremonial purposes","Daily work","Fishing","Hunting"], answer:0, region:{lat:-41.0, lon:174.0}},
+  {question:"The Aboriginal Australian sacred sites are called?", 
+   options:["Dreaming sites","Ceremonial sites","Stone circles","All of the above"], answer:0, region:{lat:-25.0, lon:133.0}},
+  {question:"The Sami traditionally travel using?", 
+   options:["Sleds pulled by reindeer","Horses","Boats","Camels"], answer:0, region:{lat:68.0, lon:20.0}},
+  {question:"The Berber people are indigenous to which mountain range?", 
+   options:["Atlas Mountains","Alps","Himalayas","Pyrenees"], answer:0, region:{lat:28.0, lon:1.5}},
+  {question:"The Igbo people live primarily in?", 
+   options:["Southeastern Nigeria","Northern Nigeria","Ghana","Cameroon"], answer:0, region:{lat:6.0, lon:7.0}},
+  {question:"The surname 'Patel' historically indicates?", 
+   options:["Landowner or village head","Farmer","Merchant","Warrior"], answer:0, region:{lat:23.0, lon:72.0}},
+  {question:"The Maori art of weaving is called?", 
+   options:["Raranga","Poi","Kapa haka","Ta Moko"], answer:0, region:{lat:-41.0, lon:174.0}},
+  {question:"The Inuit kayak was traditionally made of?", 
+   options:["Wood and seal skin","Metal","Plastic","Fiberglass"], answer:0, region:{lat:70.0, lon:-90.0}},
+  {question:"The Kurdish New Year is called?", 
+   options:["Newroz","Nowruz","Diwali","Eid al-Fitr"], answer:0, region:{lat:36.0, lon:44.0}},
+  {question:"The Aboriginal didgeridoo is made from?", 
+   options:["Hollowed wood","Bone","Metal","Clay"], answer:0, region:{lat:-25.0, lon:133.0}},
+  {question:"The Zulu shield is traditionally made from?", 
+   options:["Cowhide","Wood","Metal","Stone"], answer:0, region:{lat:-28.0, lon:30.0}},
+  {question:"The Maori waka taua is a?", 
+   options:["War canoe","Fishing boat","Transport canoe","Cargo vessel"], answer:0, region:{lat:-41.0, lon:174.0}},
+  {question:"The Sami people’s traditional tent is called?", 
+   options:["Lavvu","Tipi","Yurt","Hut"], answer:0, region:{lat:68.0, lon:20.0}},
+  {question:"The Yoruba festival of Ogun celebrates?", 
+   options:["God of iron and war","Harvest","Rain","Sun"], answer:0, region:{lat:9.0, lon:8.0}},
+  {question:"The Basque festival of La Tamborrada involves?", 
+   options:["Drumming","Dancing","Horse riding","Sailing"], answer:0, region:{lat:43.0, lon:-2.5}},
+  {question:"The surname 'O’Neill' is from?", 
+   options:["Ireland","Scotland","Wales","England"], answer:0, region:{lat:54.0, lon:-6.0}},
+  {question:"The Kurds traditionally live in which terrain?", 
+   options:["Mountains","Desert","Plains","Forest"], answer:0, region:{lat:36.0, lon:44.0}},
+  {question:"The Maori haka involves?", 
+   options:["Chanting and body movement","Singing only","Instrumental music only","Tattooing"], answer:0, region:{lat:-41.0, lon:174.0}},
+  {question:"The Sami craft called 'duodji' refers to?", 
+   options:["Traditional handicrafts","Fishing technique","Hunting method","Storytelling"], answer:0, region:{lat:68.0, lon:20.0}},
+  {question:"The Zulu war dance is called?", 
+   options:["Indlamu","Haka","Poi","Ta Moko"], answer:0, region:{lat:-28.0, lon:30.0}},
+  {question:"The Aboriginal painting technique uses?", 
+   options:["Dot painting","Brush only","Spray","Stencil"], answer:0, region:{lat:-25.0, lon:133.0}},
+  {question:"The surname 'Kim' is most common in?", 
+   options:["Korea","China","Japan","Vietnam"], answer:0, region:{lat:37.5, lon:127.0}},
+  {question:"The Inuit practice which traditional activity for survival?", 
+   options:["Ice fishing","Desert farming","Forest hunting","Mountain climbing"], answer:0, region:{lat:70.0, lon:-90.0}},
+  {question:"The Maori language belongs to which family?", 
+   options:["Polynesian","Micronesian","Melanesian","Austronesian"], answer:0, region:{lat:-41.0, lon:174.0}},
+  {question:"The Kurdish traditional music often features which instrument?", 
+   options:["Saz","Violin","Drum","Flute"], answer:0, region:{lat:36.0, lon:44.0}},
+  {question:"The Basque traditional dance is called?", 
+   options:["Aurresku","Samba","Hula","Flamenco"], answer:0, region:{lat:43.0, lon:-2.5}},
+  {question:"The surname 'Lopez' is originally from?", 
+   options:["Spain","Portugal","Italy","France"], answer:0, region:{lat:40.0, lon:-4.0}},
+  {question:"The Aboriginal people of Australia are also called?", 
+   options:["First Nations","Maori","Kanaka","Indigenous Australians"], answer:3, region:{lat:-25.0, lon:133.0}},
+  {question:"The Inuit term for extended family is?", 
+   options:["Ilagiiq","Aqiq","Inua","Nanook"], answer:0, region:{lat:70.0, lon:-90.0}}, {question:"The Sami reindeer herding is mostly found in which country?", 
+   options:["Norway","Sweden","Finland","All of the above"], answer:3, region:{lat:68.0, lon:20.0}},
+  {question:"The Māori traditional weapon 'Taiaha' is made of?", 
+   options:["Wood","Stone","Bone","Metal"], answer:0, region:{lat:-41.0, lon:174.0}},
+  {question:"The Berber people live primarily in which region?", 
+   options:["North Africa","West Africa","Middle East","Central Asia"], answer:0, region:{lat:28.0, lon:1.5}},
+  {question:"The Navajo tribe is native to which modern US state?", 
+   options:["Arizona","Texas","New Mexico","All of the above"], answer:3, region:{lat:35.0, lon:-109.0}},
+  {question:"The Ashanti golden stool is a symbol of?", 
+   options:["Kingship","Wealth","Fertility","War"], answer:0, region:{lat:6.0, lon:-1.0}},
+  {question:"The Aboriginal Dreamtime stories explain?", 
+   options:["Creation and culture","History only","Wars","Geography"], answer:0, region:{lat:-25.0, lon:133.0}},
+  {question:"The Yoruba Orisha 'Shango' is god of?", 
+   options:["Thunder and lightning","Rain","Sun","Wind"], answer:0, region:{lat:9.0, lon:8.0}},
+  {question:"The Māori ceremonial meeting house is called?", 
+   options:["Wharenui","Kiva","Longhouse","Hale"], answer:0, region:{lat:-41.0, lon:174.0}},
+  {question:"The Zulu king wears which traditional item?", 
+   options:["Beaded crown","Feathered helmet","Metal tiara","Animal pelt hat"], answer:0, region:{lat:-28.0, lon:30.0}},
+  {question:"The Inuit live in which biome?", 
+   options:["Arctic tundra","Taiga","Desert","Temperate forest"], answer:0, region:{lat:70.0, lon:-90.0}},
+  {question:"The Roma people originally migrated from?", 
+   options:["India","Turkey","Persia","Egypt"], answer:0, region:{lat:20.0, lon:80.0}},
+  {question:"The Māori carved posts in meeting houses are called?", 
+   options:["Pou","Tiki","Koru","Ta Moko"], answer:0, region:{lat:-41.0, lon:174.0}},
+  {question:"The Sami traditional footwear is called?", 
+   options:["Gakti","Mukluk","Boot","Socks"], answer:1, region:{lat:68.0, lon:20.0}},
+  {question:"The Berber language uses which script?", 
+   options:["Tifinagh","Latin","Arabic","Cyrillic"], answer:0, region:{lat:28.0, lon:1.5}},
+  {question:"The Igbo masquerade festival is primarily for?", 
+   options:["Cultural celebration","Warfare","Agriculture","Hunting"], answer:0, region:{lat:6.0, lon:7.0}},
+  {question:"The Native Hawaiian traditional dance is called?", 
+   options:["Hula","Poi","Siva","Kapa"], answer:0, region:{lat:21.0, lon:-157.0}},
+  {question:"The Kurds’ main traditional festival is?", 
+   options:["Newroz","Diwali","Hanukkah","Nowruz"], answer:0, region:{lat:36.0, lon:44.0}},
+  {question:"The Maasai people are known for?", 
+   options:["Jumping dance","Horse riding","Boat building","Archery"], answer:0, region:{lat:-2.0, lon:36.0}},
+  {question:"The Yoruba drum ensemble includes which drum?", 
+   options:["Talking drum","Djembe","Bata","All of the above"], answer:3, region:{lat:9.0, lon:8.0}},
+  {question:"The Inuit kayak is traditionally made from?", 
+   options:["Wood and seal skin","Fiberglass","Plastic","Metal"], answer:0, region:{lat:70.0, lon:-90.0}},
+  {question:"The Māori tattooing represents?", 
+   options:["Family lineage and achievements","Occupation","Rank in army","Religious practice"], answer:0, region:{lat:-41.0, lon:174.0}},
+  {question:"The Zulu shield is made from?", 
+   options:["Cowhide","Wood","Metal","Stone"], answer:0, region:{lat:-28.0, lon:30.0}},
+  {question:"The Aboriginal didgeridoo is made of?", 
+   options:["Hollowed wood","Bone","Metal","Clay"], answer:0, region:{lat:-25.0, lon:133.0}},
+  {question:"The Māori war canoe is called?", 
+   options:["Waka taua","Catamaran","Dory","Pirogue"], answer:0, region:{lat:-41.0, lon:174.0}},
+  {question:"The Sami handicraft is called?", 
+   options:["Duodji","Gakti","Taiga","Yupik"], answer:0, region:{lat:68.0, lon:20.0}},
+  {question:"The Berber traditional necklace is called?", 
+   options:["Fibula","Tifinagh","Amulet","Collar"], answer:0, region:{lat:28.0, lon:1.5}},
+  {question:"The Māori ceremonial cloak is called?", 
+   options:["Korowai","Poncho","Mantle","Kilt"], answer:0, region:{lat:-41.0, lon:174.0}},
+  {question:"The Yoruba festival 'Oshun' celebrates?", 
+   options:["Goddess of love and fertility","Harvest","Sun","Rain"], answer:0, region:{lat:9.0, lon:8.0}},
+  {question:"The Inuit practice which traditional food preservation?", 
+   options:["Freezing","Drying","Smoking","All of the above"], answer:3, region:{lat:70.0, lon:-90.0}},
+  {question:"The Kurds traditionally live in which type of terrain?", 
+   options:["Mountains","Plains","Deserts","Forest"], answer:0, region:{lat:36.0, lon:44.0}},
+  {question:"The Māori carving motif 'Koru' symbolizes?", 
+   options:["New life and growth","War","Death","Harvest"], answer:0, region:{lat:-41.0, lon:174.0}},
+  {question:"The Zulu traditional bead color coding represents?", 
+   options:["Messages about status or feelings","Occupation","Age","Clan"], answer:0, region:{lat:-28.0, lon:30.0}},
+  {question:"The Aboriginal painting often depicts?", 
+   options:["Dreamtime stories","Wars","Architecture","Weather"], answer:0, region:{lat:-25.0, lon:133.0}},
+  {question:"The Inuit term 'Inua' refers to?", 
+   options:["Spirit or essence of beings","House","Snow","Clothing"], answer:0, region:{lat:70.0, lon:-90.0}},
+  {question:"The Kurds traditionally play which stringed instrument?", 
+   options:["Saz","Guitar","Violin","Lute"], answer:0, region:{lat:36.0, lon:44.0}},
+  {question:"The Māori language belongs to which family?", 
+   options:["Polynesian","Micronesian","Melanesian","Austronesian"], answer:0, region:{lat:-41.0, lon:174.0}},
+  {question:"The Sami ceremonial drum is called?", 
+   options:["Goahti drum","Djembe","Tambourine","Bodhran"], answer:0, region:{lat:68.0, lon:20.0}},
+  {question:"The Navajo traditional weaving includes?", 
+   options:["Rugs and blankets","Clothing","Tapestries","All of the above"], answer:3, region:{lat:35.0, lon:-109.0}},
+  {question:"The Ashanti royal stool is made of?", 
+   options:["Gold-covered wood","Stone","Metal","Ivory"], answer:0, region:{lat:6.0, lon:-1.0}},
+  {question:"The Aboriginal initiation ceremony is called?", 
+   options:["Corroboree","Haka","Luau","Powwow"], answer:0, region:{lat:-25.0, lon:133.0}},
+  {question:"The Berber couscous is traditionally made from?", 
+   options:["Semolina wheat","Rice","Corn","Barley"], answer:0, region:{lat:28.0, lon:1.5}},
+  {question:"The Māori 'Poi' dance involves?", 
+   options:["Swinging tethered balls","Chanting","Fishing","Hunting"], answer:0, region:{lat:-41.0, lon:174.0}},
+  {question:"The Zulu 'Indlamu' dance is performed for?", 
+   options:["War or celebration","Daily work","Hunting","Fishing"], answer:0, region:{lat:-28.0, lon:30.0}},
+  {question:"The Sami reindeer calf naming tradition is called?", 
+   options:["Naisten","Duodji","Reindeer naming","Lavvu"], answer:2, region:{lat:68.0, lon:20.0}},
+  {question:"The Inuit traditional boat is called?", 
+   options:["Umiak","Kayak","Canoe","Pirogue"], answer:0, region:{lat:70.0, lon:-90.0}},
+  {question:"The Kurds celebrate Newroz on which date?", 
+   options:["March 21","January 1","July 4","December 25"], answer:0, region:{lat:36.0, lon:44.0}},
+  {question:"The Māori weaving is called?", 
+   options:["Raranga","Ta Moko","Poi","Korowai"], answer:0, region:{lat:-41.0, lon:174.0}},
+  {question:"The Zulu beadwork encodes?", 
+   options:["Social and romantic messages","Food","Weather","Geography"], answer:0, region:{lat:-28.0, lon:30.0}},
+  {question:"The Aboriginal boomerang is traditionally used for?", 
+   options:["Hunting and sport","Decoration","Ceremonial use","All of the above"], answer:3, region:{lat:-25.0, lon:133.0}},
+  {question:"The Inuit name for family or extended kinship group is?", 
+   options:["Ilagiiq","Inua","Nanook","Aqiq"], answer:0, region:{lat:70.0, lon:-90.0}},
+  {question:"The Kurds are spread across how many modern countries?", 
+   options:["Turkey, Iraq, Iran, Syria","Only Iraq","Only Iran","Turkey and Syria only"], answer:0, region:{lat:36.0, lon:44.0}},
+  {question:"The Māori traditional cloak 'Korowai' represents?", 
+   options:["Status and prestige","Protection from weather","War","Ceremony only"], answer:0, region:{lat:-41.0, lon:174.0}},
+  {question:"The Sami traditional summer tent is called?", 
+   options:["Lavvu","Yurt","Tipi","Goahti"], answer:0, region:{lat:68.0, lon:20.0}},
+  {question:"The Aboriginal bark painting is made on?", 
+   options:["Tree bark","Stone","Canvas","Animal hide"], answer:0, region:{lat:-25.0, lon:133.0}}
+];
+
+// --- Random Quiz Selection ---
+function getRandomQuestions(bank, count=25){
+    const shuffled = [...bank].sort(()=>0.5-Math.random());
+    return shuffled.slice(0,count);
+}
+let quizQuestions = getRandomQuestions(questionBank);
+let currentAnswers = Array(quizQuestions.length).fill(null);
+
+// --- Render Quiz ---
+const quizContainer = document.getElementById('quizContainer');
+quizQuestions.forEach((q,i)=>{
+    const div = document.createElement('div');
+    div.className = 'question';
+    div.innerHTML = `<strong>${i+1}. ${q.question}</strong><br>`;
+    q.options.forEach((opt,j)=>{
+        const btn = document.createElement('button');
+        btn.innerText = opt;
+        btn.onclick = ()=>{ currentAnswers[i]=j; btn.style.background='#7a5b3c'; };
+        div.appendChild(btn);
+    });
+    quizContainer.appendChild(div);
+});
+
+// --- Submit Button ---
+const submitBtn = document.createElement('button');
+submitBtn.innerText = 'Submit Quiz';
+submitBtn.onclick = ()=>{ calculateResults(); };
+quizContainer.appendChild(submitBtn);
+
+// --- Results Calculation ---
+function calculateResults(){
+    quizContainer.style.display='none';
+    document.getElementById('mapContainer').style.display='block';
+    const svg = document.getElementById('mapSVG');
+    currentAnswers.forEach((ans,i)=>{
+        const q = quizQuestions[i];
+        if(ans === q.answer){
+            const dot = document.createElementNS("http://www.w3.org/2000/svg",'circle');
+            // Simple scaling: longitude -180→180 to 0→360, latitude 90→-90 to 0→180
+            dot.setAttribute('cx', q.region.lon + 180);
+            dot.setAttribute('cy', 90 - q.region.lat);
+            dot.setAttribute('r', 4);
+            dot.setAttribute('fill','#b2855c');
+            svg.appendChild(dot);
+        }
+    });
+}
+</script>
+
+</body>
+</html>
