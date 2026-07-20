@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Firmament Law — Interview</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<!-- Sacred Typography -->
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Cormorant+Garamond:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ===== Root palette (Midnight / Parchment / Gold) ===== */
+:root{
+  --midnight: #020414;
+  --midnight-soft:#0b1020;
+  --parchment:#f7f3ea;
+  --parchment-soft:#f0e9dc;
+  --ink:#1f2933;
+  --ink-soft:#445163;
+  --gold:#d9b878;
+  --gold-deep:#b89252;
+  --gold-soft:#e8d5a4;
+  --heading: "Cinzel", serif;
+  --body: "Cormorant Garamond", Georgia, serif;
+}
+
+/* ===== Page canvas (quiet, museum-like) ===== */
+*{box-sizing:border-box}
+html,body{height:99%}
+body{
+  margin:0; background: radial-gradient(ellipse at 40% 0%, #0b1020 0%, #020414 60%, #000 100%);
+  color: var(--parchment);
+  font-family: var(--body);
+  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+}
+
+/* Centered column that feels like a card-on-field */
+.page-wrap{
+  max-width: 980px;           /* sacred 12:7 feel in practice */
+  margin: 27px auto;          /* sacred margin */
+  padding: 0 21px 33px;       /* sacred padding */
+}
+
+/* Optional headline for this demo */
+.page-title{
+  margin: 0 0 21px;
+  font-family: var(--heading);
+  font-size: 27px; letter-spacing: .06em;
+  color: var(--gold-soft);
+  text-align: center;
+}
+
+/* Soft parchment container that holds the extras block */
+.paper{
+  background: var(--parchment);
+  color: var(--ink);
+  border: 1px solid rgba(217,184,120,.45);
+  border-radius: 11px;         /* sacred radius */
+  box-shadow: 0 7px 21px rgba(0,0,0,.18);
+  padding: 21px;
+}
+
+/* ===== EXTRAS POLISH (non-breaking) ===== */
+.fl-extras{
+  max-width: 99%;
+  margin: 0 auto;
+}
+
+/* Sections */
+.fl-extra-section{ margin: 27px 0; }
+
+.fl-extra-title{
+  margin: 0 0 14px;
+  font-size: 27px;                /* sacred title */
+  letter-spacing: .06em;
+  font-family: var(--heading);
+}
+
+/* “What brings you here?” cards */
+.fl-extra-path-grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 21px;
+}
+
+.fl-extra-card{
+  background: var(--parchment);
+  color: var(--ink);
+  border: 1px solid rgba(217,184,120,.45);
+  border-radius: 11px;
+  padding: 21px;
+  box-shadow: 0 7px 21px rgba(0,0,0,.08);
+}
+
+.fl-extra-card h4{
+  margin: 0 0 7px;
+  font-size: 21px;
+  letter-spacing: .03em;
+  font-family: var(--heading);
+}
+.fl-extra-card p{ margin: 0 0 11px; line-height: 1.44; }
+
+/* CTA pill links */
+.fl-extra-path-link{
+  display: inline-flex; align-items: center; gap: 9px;
+  text-decoration: none;
+  background: var(--gold-soft);
+  color: #09101a;
+  border: 1px solid var(--gold-deep);
+  border-radius: 21px;
+  padding: 7px 14px;              /* sacred pill */
+  font-weight: 600;
+  transition: filter .21s ease, transform .21s ease;
+}
+.fl-extra-path-link:hover,
+.fl-extra-path-link:focus-visible{ filter: brightness(1.05); outline: none; transform: translateY(-1px); }
+
+/* Before-lawyer checklist */
+.fl-extra-checklist ol{
+  margin: 7px 0 0 21px;
+  padding: 0;
+}
+.fl-extra-checklist li{ margin: 7px 0; line-height: 1.44; }
+
+/* Links grid */
+.fl-extra-links-grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px,1fr));
+  gap: 21px;
+}
+.fl-extra-links-grid ul{
+  margin: 7px 0 0 21px;
+  padding: 0;
+}
+.fl-extra-links-grid li{ margin: 7px 0; }
+.fl-extra-muted{
+  color: var(--ink-soft);
+  margin-top: 14px;
+  font-size: 15px;
+  line-height: 1.44;
+}
+
+/* FAQ blocks */
+.fl-extra-faq{
+  background: var(--parchment);
+  border: 1px solid rgba(217,184,120,.45);
+  border-radius: 9px;
+  padding: 14px 21px;
+  margin: 11px 0;
+}
+.fl-extra-faq > summary{
+  cursor: pointer;
+  font-weight: 600;
+  list-style: none;
+}
+.fl-extra-faq > summary::-webkit-details-marker{ display:none; }
+.fl-extra-faq > summary:focus-visible{ outline: 2px solid var(--gold-deep); outline-offset: 3px; }
+.fl-extra-faq[open]{ box-shadow: 0 7px 21px rgba(0,0,0,.06); }
+
+/* Helpful focus for links */
+.fl-extras a:focus-visible{
+  outline: 2px solid var(--gold-deep);
+  outline-offset: 3px;
+}
+
+/* Screen-reader helper */
+.sr-only{
+  position:absolute!important; width:1px; height:1px; padding:0; margin:-1px;
+  overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0;
+}
+
+/* Mobile niceties */
+@media (max-width: 640px){
+  .page-wrap{ padding: 0 14px 27px; }
+  .page-title{ font-size: 24px; }
+  .fl-extra-title{ font-size: 24px; }
+}
+</style>
+</head>
+<body>
+
+<div class="page-wrap">
+  <h1 class="page-title">Firmament Law — Extras</h1>
+
+  <div class="paper">
+    <div class="fl-extras">
+
+      <!-- A. What brings you here? -->
+      <section class="fl-extra-section" id="fl-what-brings-you">
+        <h2 class="fl-extra-title">What brings you here today?</h2>
+        <div class="fl-extra-path-grid">
+          <article class="fl-extra-card">
+            <h4>Planning &amp; Protection</h4>
+            <p>I want to protect my kids, family, or loved ones if something happens to me.</p>
+            <a class="fl-extra-path-link"
+               href="YOUR_CONSOLE_URL_HERE"
+               target="_blank"
+               rel="noopener noreferrer"
+               aria-label="Draft a Living Will (opens in new tab)">
+              <span aria-hidden="true">Draft a Living Will</span>
+              <span class="sr-only">(opens in new tab)</span>
+            </a>
+          </article>
+
+          <article class="fl-extra-card">
+            <h4>Home &amp; Property</h4>
+            <p>I’m renting, leasing, or sharing a space and want clear terms in writing.</p>
+            <a class="fl-extra-path-link"
+               href="YOUR_CONSOLE_URL_HERE"
+               target="_blank"
+               rel="noopener noreferrer"
+               aria-label="Draft a Lease Outline (opens in new tab)">
+              <span aria-hidden="true">Draft a Lease Outline</span>
+              <span class="sr-only">(opens in new tab)</span>
+            </a>
+          </article>
+
+          <article class="fl-extra-card">
+            <h4>Sharing Ideas Safely</h4>
+            <p>I’m working with others and need to keep sensitive ideas or data confidential.</p>
+            <a class="fl-extra-path-link"
+               href="YOUR_CONSOLE_URL_HERE"
+               target="_blank"
+               rel="noopener noreferrer"
+               aria-label="Draft an NDA Outline (opens in new tab)">
+              <span aria-hidden="true">Draft an NDA Outline</span>
+              <span class="sr-only">(opens in new tab)</span>
+            </a>
+          </article>
+
+          <article class="fl-extra-card">
+            <h4>I’m Not Sure Yet</h4>
+            <p>Something feels off. I just need to write everything down and sort my thoughts.</p>
+            <a class="fl-extra-path-link"
+               href="YOUR_CONSOLE_URL_HERE"
+               target="_blank"
+               rel="noopener noreferrer"
+               aria-label="Start Legal Notes (opens in new tab)">
+              <span aria-hidden="true">Start Legal Notes</span>
+              <span class="sr-only">(opens in new tab)</span>
+            </a>
+          </article>
+        </div>
+      </section>
+
+      <!-- B. Before you talk to a lawyer -->
+      <section class="fl-extra-section" id="fl-before-lawyer">
+        <h2 class="fl-extra-title">Before you talk to a lawyer</h2>
+        <div class="fl-extra-checklist">
+          <ol>
+            <li><strong>Write a timeline.</strong> Note dates, what happened, who was involved, and how it affected you.</li>
+            <li><strong>Gather papers.</strong> Collect contracts, emails, screenshots, letters, receipts, photos, or messages.</li>
+            <li><strong>Write your questions.</strong> What worries you most? What outcome would feel safe or fair?</li>
+          </ol>
+          <p style="margin-top:4px;">
+            You can use the <strong>Custom Notes</strong> space inside Firmament Law to write your
+            timeline and questions, then bring that draft to your attorney.
+          </p>
+        </div>
+      </section>
+
+      <!-- C. Quick help links -->
+      <section class="fl-extra-section" id="fl-quick-links">
+        <h2 class="fl-extra-title">Quick help links</h2>
+        <div class="fl-extra-links-grid">
+          <div>
+            <strong>Free / low-cost legal help (USA)</strong>
+            <ul>
+              <li><a href="https://www.usa.gov/legal-aid" target="_blank" rel="noopener noreferrer">USA.gov – Legal Aid Finder</a></li>
+              <li><a href="https://www.lawhelp.org" target="_blank" rel="noopener noreferrer">LawHelp.org</a></li>
+              <li><a href="https://www.lsc.gov/about-lsc/what-legal-aid/i-need-legal-help" target="_blank" rel="noopener noreferrer">Legal Services Corporation (LSC)</a></li>
+            </ul>
+          </div>
+          <div>
+            <strong>Global / international starting points</strong>
+            <ul>
+              <li><a href="https://rightsinexile.org/legal-assistance-by-country/" target="_blank" rel="noopener noreferrer">Rights in Exile – legal help by country</a></li>
+              <li><a href="https://worldjusticeproject.org/resource-hub/leading-organizations" target="_blank" rel="noopener noreferrer">World Justice Project – leading orgs</a></li>
+            </ul>
+          </div>
+        </div>
+        <p class="fl-extra-muted">
+          These are external, independent sites. Firmament Law is not affiliated with them and cannot
+          guarantee their services. Always verify that any organization you contact is legitimate and
+          appropriate for your situation.
+        </p>
+      </section>
+
+      <!-- D. Short FAQ -->
+      <section class="fl-extra-section" id="fl-faq">
+        <h2 class="fl-extra-title">Short answers (FAQ)</h2>
+
+        <details class="fl-extra-faq">
+          <summary>Is Firmament Law a law firm?</summary>
+          <p>No. Firmament Law is a <strong>drafting and organizing tool</strong>. It helps you gather
+          details and create clear outlines so a licensed attorney can advise you. It does not give
+          legal advice, represent you, or create an attorney–client relationship.</p>
+        </details>
+
+        <details class="fl-extra-faq">
+          <summary>Where are my documents stored?</summary>
+          <p>Your drafts are stored using your browser’s local storage on the device you are using.
+          They are not uploaded to our servers. If you clear browser data, change browsers, or use
+          another device, those drafts will not follow you.</p>
+        </details>
+
+        <details class="fl-extra-faq">
+          <summary>Can I use these drafts without a lawyer?</summary>
+          <p>We strongly recommend <strong>no</strong>. Laws are different and complex in every city,
+          state, and country. Drafts from Firmament Law are educational starting points only and
+          must be reviewed, customized, and approved by a qualified lawyer in your jurisdiction.</p>
+        </details>
+
+        <details class="fl-extra-faq">
+          <summary>Who is Firmament Law designed for?</summary>
+          <p>Firmament Law is designed for artists, families, students, educators, and founders using
+          the Verve N Veda / PLERA ecosystem who want a <strong>calm, private place</strong> to think
+          through legal matters before speaking with counsel.</p>
+        </details>
+      </section>
+
+    </div>
+  </div>
+</div>
+
+<!-- Optional SPA hook: if this sits inside your app, you can route internally.
+     Keep hrefs as fallbacks. Remove if not needed. -->
+<script>
+document.addEventListener('click', (e) => {
+  const a = e.target.closest('a.fl-extra-path-link[data-target]');
+  if (!a) return;
+  const id = a.getAttribute('data-target');
+  const btn = document.querySelector('.nav-link[data-target="'+id+'"]');
+  if (btn){
+    e.preventDefault();
+    btn.click();
+  }
+});
+</script>
+
+</body>
+</html>
