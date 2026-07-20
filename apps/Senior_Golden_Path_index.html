@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ClearPath™ Seniors — Sovereign Resource Hub</title>
+<style>
+  :root{
+    --ink:#0b1b2a;
+    --muted:#39556d;
+    --bg:#f5f7fa;
+    --card:#ffffff;
+    --nav:#0a3a6a;
+    --nav2:#0f4d89;
+    --accent:#1166cc;
+    --good:#136f3a;
+    --warn:#a55a00;
+    --risk:#a00000;
+    --ring:rgba(17,102,204,.25);
+    --shadow:0 8px 22px rgba(10,28,52,.10);
+    --radius:14px;
+    --font:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+    --base:18px; /* default senior-friendly */
+  }
+
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    font-family:var(--font);
+    background:var(--bg);
+    color:var(--ink);
+    font-size:var(--base);
+    line-height:1.35;
+  }
+
+  /* ---------- Header ---------- */
+  header{
+    background:linear-gradient(90deg,var(--nav),var(--nav2));
+    color:#fff;
+    padding:18px 16px;
+  }
+  .hdr{
+    max-width:1100px;margin:0 auto;
+    display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap;
+  }
+  .brand h1{
+    margin:0;font-size:1.55rem;letter-spacing:.02em;
+  }
+  .brand p{margin:6px 0 0;opacity:.92;font-size:1rem}
+  .badge{
+    display:inline-flex;align-items:center;gap:8px;
+    background:rgba(255,255,255,.12);
+    border:1px solid rgba(255,255,255,.25);
+    padding:8px 12px;border-radius:999px;
+    font-weight:700;
+    white-space:nowrap;
+  }
+
+  /* ---------- Layout ---------- */
+  .wrap{max-width:1100px;margin:0 auto;padding:16px}
+  .grid{display:grid;gap:14px}
+  .grid.two{grid-template-columns:1.2fr .8fr}
+  @media (max-width:980px){.grid.two{grid-template-columns:1fr}}
+
+  .card{
+    background:var(--card);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    border:1px solid rgba(10,28,52,.08);
+    padding:14px;
+  }
+
+  /* ---------- Controls ---------- */
+  .controls{
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    gap:12px;
+    align-items:end;
+  }
+  @media (max-width:980px){.controls{grid-template-columns:1fr}}
+
+  label{display:block;font-weight:700;margin:0 0 6px}
+  input,select,button,textarea{
+    font:inherit;
+    width:100%;
+    padding:12px 12px;
+    border-radius:12px;
+    border:1px solid rgba(10,28,52,.18);
+    background:#fff;
+    outline:none;
+  }
+  input:focus,select:focus,textarea:focus{box-shadow:0 0 0 4px var(--ring); border-color:rgba(17,102,204,.45)}
+  textarea{min-height:92px;resize:vertical}
+
+  .row{display:flex;gap:10px;flex-wrap:wrap}
+  .row .grow{flex:1;min-width:220px}
+  .row .small{flex:0 0 220px}
+
+  .btn{
+    cursor:pointer;
+    border:none;
+    font-weight:800;
+    background:var(--accent);
+    color:#fff;
+    box-shadow:0 8px 18px rgba(17,102,204,.18);
+  }
+  .btn:hover{filter:brightness(1.06)}
+  .btn.secondary{
+    background:#fff;color:var(--ink);
+    border:1px solid rgba(10,28,52,.18);
+    box-shadow:none;
+  }
+  .btn.danger{
+    background:var(--risk);
+  }
+
+  .toggles{
+    display:flex;gap:10px;flex-wrap:wrap;align-items:center
+  }
+  .toggle{
+    display:flex;gap:10px;align-items:center;
+    padding:10px 12px;border-radius:12px;
+    border:1px solid rgba(10,28,52,.12);
+    background:rgba(255,255,255,.7);
+  }
+  .toggle input{width:22px;height:22px;margin:0}
+  .toggle span{font-weight:800}
+
+  /* ---------- Navigation ---------- */
+  .tabs{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:10px;
+    margin-top:12px;
+  }
+  @media (max-width:980px){.tabs{grid-template-columns:repeat(2,1fr)}}
+  .tabBtn{
+    padding:12px 10px;
+    border-radius:12px;
+    border:1px solid rgba(10,28,52,.18);
+    background:#fff;
+    cursor:pointer;
+    font-weight:900;
+  }
+  .tabBtn.active{
+    background:rgba(17,102,204,.10);
+    border-color:rgba(17,102,204,.55);
+    box-shadow:0 0 0 4px rgba(17,102,204,.12);
+  }
+
+  /* ---------- Digest ---------- */
+  .digestItem{
+    display:flex;gap:10px;align-items:flex-start;justify-content:space-between;
+    padding:12px;border-radius:12px;border:1px solid rgba(10,28,52,.10);
+    background:rgba(245,247,250,.7);
+    margin-top:10px;
+  }
+  .digestItem strong{display:block}
+  .pill{
+    display:inline-flex;gap:6px;align-items:center;
+    border-radius:999px;
+    padding:6px 10px;
+    font-weight:900;
+    font-size:.92rem;
+    border:1px solid rgba(10,28,52,.16);
+    background:#fff;
+    white-space:nowrap;
+  }
+  .pill.risk{border-color:rgba(160,0,0,.35); color:var(--risk)}
+  .pill.warn{border-color:rgba(165,90,0,.35); color:var(--warn)}
+  .pill.good{border-color:rgba(19,111,58,.35); color:var(--good)}
+  .pill.note{border-color:rgba(17,102,204,.35); color:var(--accent)}
+  .xbtn{
+    width:auto;
+    padding:8px 10px;
+    border-radius:10px;
+    border:1px solid rgba(10,28,52,.18);
+    background:#fff;
+    cursor:pointer;
+    font-weight:900;
+  }
+
+  /* ---------- Resource cards ---------- */
+  .resourceTop{
+    display:flex;gap:10px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap
+  }
+  .resourceTop h3{margin:0;font-size:1.15rem}
+  .meta{color:var(--muted);font-weight:700}
+  .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+  .chips .pill{font-size:.9rem}
+
+  .resActions{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+  .resActions a{
+    display:inline-flex;align-items:center;justify-content:center;
+    padding:12px 12px;border-radius:12px;
+    text-decoration:none;
+    font-weight:900;
+    border:1px solid rgba(10,28,52,.18);
+    background:#fff;color:var(--ink);
+  }
+  .resActions a.primary{
+    background:var(--accent);
+    color:#fff;border:none;
+  }
+
+  .checklist{
+    margin-top:12px;
+    padding-top:10px;
+    border-top:1px dashed rgba(10,28,52,.22);
+  }
+  .checkItem{
+    display:flex;gap:10px;align-items:flex-start;
+    margin:8px 0;
+  }
+  .checkItem input{width:22px;height:22px;margin-top:3px}
+  .noteBox{
+    margin-top:10px;
+    padding:12px;border-radius:12px;
+    background:rgba(245,247,250,.7);
+    border:1px solid rgba(10,28,52,.10);
+  }
+
+  /* ---------- Modal ---------- */
+  .modal{
+    display:none; position:fixed; inset:0;
+    background:rgba(0,0,0,.55);
+    padding:16px; z-index:9999;
+  }
+  .modal .panel{
+    max-width:760px;margin:6vh auto 0;
+    background:#fff;border-radius:16px;
+    box-shadow:0 24px 70px rgba(0,0,0,.35);
+    border:1px solid rgba(10,28,52,.16);
+    overflow:hidden;
+  }
+  .modalHead{
+    background:linear-gradient(90deg,#fff2f2,#fff);
+    padding:14px 14px;
+    border-bottom:1px solid rgba(10,28,52,.12);
+  }
+  .modalHead h2{margin:0;color:var(--risk)}
+  .modalBody{padding:14px}
+  .modalBody ul{margin:10px 0 0; padding-left:20px}
+  .riskScore{
+    margin-top:10px;
+    padding:12px;border-radius:12px;
+    border:1px solid rgba(10,28,52,.12);
+    background:rgba(245,247,250,.7);
+    font-weight:900;
+  }
+
+  /* ---------- Print ---------- */
+  @media print{
+    header, .tabs, .controlsCard, .digestCard, .rightCol, .resActions, .xbtn, .btn, .toggle, .tabs, .hidePrint {display:none !important;}
+    body{background:#fff}
+    .wrap{padding:0}
+    .card{box-shadow:none;border:1px solid #ccc}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hdr">
+    <div class="brand">
+      <h1>🧭 GoldenPath™ Seniors</h1>
+      <p>Free, high-trust elder resource hub • no ads • no tracking • local checklists</p>
+    </div>
+    <div class="badge" aria-label="disclaimer badge">
+      ⚖️ Info hub (not medical/legal advice)
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="grid two">
+    <!-- LEFT -->
+    <div class="grid">
+      <!-- Controls -->
+      <div class="card controlsCard">
+        <div class="toggles" style="margin-bottom:12px">
+          <label class="toggle" for="familyMode" style="margin:0">
+            <input type="checkbox" id="familyMode" />
+            <span>Family/Caregiver Mode</span>
+          </label>
+          <label class="toggle" for="kioskMode" style="margin:0">
+            <input type="checkbox" id="kioskMode" />
+            <span>Kiosk Mode (extra large)</span>
+          </label>
+        </div>
+
+        <div class="controls" role="region" aria-label="search and filters">
+          <div>
+            <label for="search">Search</label>
+            <input id="search" placeholder="Try: home health, SNAP, wills, scams, Section 8..." />
+            <div class="row" style="margin-top:10px">
+              <button class="btn secondary grow" id="voiceBtn" type="button">🎙 Voice Search</button>
+              <button class="btn secondary small" id="clearBtn" type="button">Clear</button>
+            </div>
+          </div>
+          <div>
+            <label for="state">State (optional)</label>
+            <select id="state">
+              <option value="">All States</option>
+              <option value="FL">Florida</option>
+              <option value="CA">California</option>
+              <option value="NY">New York</option>
+              <option value="TX">Texas</option>
+              <option value="GA">Georgia</option>
+              <option value="PA">Pennsylvania</option>
+              <option value="OH">Ohio</option>
+              <option value="NC">North Carolina</option>
+              <option value="IL">Illinois</option>
+              <option value="NJ">New Jersey</option>
+              <option value="WA">Washington</option>
+              <option value="MA">Massachusetts</option>
+              <option value="MI">Michigan</option>
+              <option value="VA">Virginia</option>
+              <option value="AZ">Arizona</option>
+              <option value="CO">Colorado</option>
+              <option value="TN">Tennessee</option>
+              <option value="IN">Indiana</option>
+              <option value="MO">Missouri</option>
+              <option value="MD">Maryland</option>
+              <option value="MN">Minnesota</option>
+            </select>
+            <div class="meta" style="margin-top:8px">Tip: National links stay visible; state filtering helps highlight state-specific items.</div>
+          </div>
+          <div>
+            <label for="zip">ZIP (optional)</label>
+            <input id="zip" inputmode="numeric" placeholder="e.g., 34667" />
+            <div class="row" style="margin-top:10px">
+              <button class="btn danger grow" id="openSafety" type="button">⚠️ Before You Sign Anything</button>
+              <button class="btn secondary small" id="exportBtn" type="button">Export</button>
+            </div>
+            <div class="row" style="margin-top:10px">
+              <button class="btn secondary grow" id="importBtn" type="button">Import</button>
+              <button class="btn secondary small" id="printBtn" type="button">🖨 Print</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="tabs" role="tablist" aria-label="category tabs">
+          <button class="tabBtn active" data-tab="All" role="tab" aria-selected="true">All</button>
+          <button class="tabBtn" data-tab="Health" role="tab">Health</button>
+          <button class="tabBtn" data-tab="Housing" role="tab">Housing</button>
+          <button class="tabBtn" data-tab="Legal" role="tab">Legal</button>
+          <button class="tabBtn" data-tab="Nutrition" role="tab">Nutrition</button>
+          <button class="tabBtn" data-tab="DailyLife" role="tab">Daily Life</button>
+          <button class="tabBtn" data-tab="Community" role="tab">Community</button>
+          <button class="tabBtn" data-tab="Alerts" role="tab">Alerts</button>
+        </div>
+
+        <div class="meta" style="margin-top:12px">
+          ClearPath stores checklists and notes <b>only on your device</b> (localStorage). No accounts. No tracking.
+        </div>
+      </div>
+
+      <!-- Daily Digest -->
+      <div class="card digestCard" aria-label="daily digest">
+        <h2 style="margin:0;color:var(--nav)">📰 Daily Digest</h2>
+        <div class="meta">Short updates & reminders. You can dismiss items; they stay dismissed on this device.</div>
+        <div id="digest"></div>
+      </div>
+
+      <!-- Resources -->
+      <div id="resourcesContainer" class="grid" aria-live="polite"></div>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="grid rightCol">
+      <div class="card">
+        <h2 style="margin:0;color:var(--nav)">🧩 Quick Tools</h2>
+        <div class="meta" style="margin-top:6px">Simple, protective helpers for seniors and caregivers.</div>
+        <div class="grid" style="margin-top:12px">
+          <button class="btn secondary" id="narrateBtn" type="button">🔊 Read This Page Aloud</button>
+          <button class="btn secondary" id="resetAllBtn" type="button">Reset All Local Data</button>
+          <a class="btn" href="https://www.vervenveda.com/firmamant-law" target="_blank" rel="noopener noreferrer" style="text-decoration:none;display:inline-flex;justify-content:center;">
+            ⚖️ Firmament Law Resource Hub
+          </a>
+        </div>
+        <div class="meta" style="margin-top:10px">
+          “Firmament Law” is a <b>resource site</b> (not a law firm). Always confirm legal matters with licensed counsel.
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 style="margin:0;color:var(--nav)">✅ How to Use ClearPath</h2>
+        <ol style="margin:10px 0 0;padding-left:20px">
+          <li>Pick a category or use Search.</li>
+          <li>Open official links and read eligibility.</li>
+          <li>Use the checklist to slow down risky decisions.</li>
+          <li>Export your notes if a caregiver needs them.</li>
+        </ol>
+      </div>
+
+      <div class="card">
+        <h2 style="margin:0;color:var(--nav)">🔒 Privacy Promise</h2>
+        <ul style="margin:10px 0 0;padding-left:20px">
+          <li>No ads, no tracking pixels.</li>
+          <li>No accounts required.</li>
+          <li>Notes saved locally on your device.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Decision Safety Modal -->
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="panel">
+    <div class="modalHead">
+      <h2 id="modalTitle">⚠️ Before You Sign Anything</h2>
+      <div class="meta">Use this to slow down pressure, prevent fraud, and protect your home and autonomy.</div>
+    </div>
+    <div class="modalBody">
+      <p class="meta" style="margin-top:0">
+        This tool is not legal advice. It helps you identify common risk patterns (liens, repayment clauses, high-pressure sales).
+      </p>
+
+      <div class="grid" style="gap:10px">
+        <label class="toggle" style="margin:0">
+          <input type="checkbox" class="riskQ" data-weight="2">
+          <span>It affects my home title, deed, or mortgage.</span>
+        </label>
+        <label class="toggle" style="margin:0">
+          <input type="checkbox" class="riskQ" data-weight="2">
+          <span>It includes repayment, lien, or “we get paid back later.”</span>
+        </label>
+        <label class="toggle" style="margin:0">
+          <input type="checkbox" class="riskQ" data-weight="2">
+          <span>I feel rushed (deadline, pressure, threats, “today only”).</span>
+        </label>
+        <label class="toggle" style="margin:0">
+          <input type="checkbox" class="riskQ" data-weight="1">
+          <span>It is not clearly an official .gov program.</span>
+        </label>
+        <label class="toggle" style="margin:0">
+          <input type="checkbox" class="riskQ" data-weight="1">
+          <span>I haven’t discussed it with a trusted person.</span>
+        </label>
+      </div>
+
+      <div class="riskScore" id="riskScore">Risk score: 0 (Low)</div>
+
+      <div class="card" style="margin-top:12px;box-shadow:none">
+        <b>Quick questions to ask:</b>
+        <ul>
+          <li>What happens if I get sick or move?</li>
+          <li>What happens if I die? Can my family keep the home?</li>
+          <li>Is there any lien, repayment, or “recapture” language?</li>
+          <li>Where is the official program page? (prefer .gov)</li>
+        </ul>
+      </div>
+
+      <div class="row" style="margin-top:12px">
+        <button class="btn secondary grow" type="button" id="closeModal">Close</button>
+        <button class="btn danger small" type="button" id="printSafety">Print Safety Tool</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ==========================
+   ClearPath Seniors v4.0
+   - single-file, Wix-friendly
+   - localStorage only
+   ========================== */
+
+const $ = (s)=>document.querySelector(s);
+const $$ = (s)=>Array.from(document.querySelectorAll(s));
+
+/* ---------- State ---------- */
+const state = {
+  activeTab: "All",
+  familyMode: false,
+  kioskMode: false,
+  search: "",
+  zip: "",
+  usState: "",
+};
+
+const LS = {
+  dismissedDigest: "cp_dismissedDigest_v1",
+  checklist: (id)=>`cp_check_${id}_v1`,
+  notes: (id)=>`cp_note_${id}_v1`,
+  settings: "cp_settings_v1",
+};
+
+/* ---------- Resources (starter set, expand anytime) ---------- */
+const resources = [
+  // Health
+  {id:"medicare_homehealth", name:"Medicare: Home Health Services", category:"Health",
+    tags:["medicare","home health","nursing","therapy"], riskLevel:"good",
+    official:true, geography:"national", lastVerified:"2025-12-16",
+    link:"https://www.medicare.gov/coverage/home-health-services",
+    description:"Learn what Medicare covers for home health care and eligibility basics."
+  },
+  {id:"cms_carecompare", name:"Care Compare (Find doctors, hospitals, home health)", category:"Health",
+    tags:["cms","compare","quality","providers"], riskLevel:"good",
+    official:true, geography:"national", lastVerified:"2025-12-16",
+    link:"https://www.medicare.gov/care-compare/",
+    description:"Search quality and compare providers. Use your ZIP inside the official tool."
+  },
+  {id:"medicaid_overview", name:"Medicaid: Overview & State Programs", category:"Health",
+    tags:["medicaid","coverage","state"], riskLevel:"good",
+    official:true, geography:"national", lastVerified:"2025-12-16",
+    link:"https://www.medicaid.gov/medicaid/index.html",
+    description:"Official overview and pathways to state Medicaid information."
+  },
+  {id:"eldercare_locator", name:"Eldercare Locator (Local help by ZIP)", category:"Health",
+    tags:["local help","caregiver","services","aging"], riskLevel:"good",
+    official:true, geography:"national", lastVerified:"2025-12-16",
+    link:"https://eldercare.acl.gov/",
+    description:"Find local services: meals, transportation, caregiving, benefits help."
+  },
+  {id:"nimh_help", name:"Mental Health Support (NIMH Find Help)", category:"Health",
+    tags:["mental health","depression","anxiety","help"], riskLevel:"good",
+    official:true, geography:"national", lastVerified:"2025-12-16",
+    link:"https://www.nimh.nih.gov/health/find-help",
+    description:"Trusted mental health guidance and find-help resources."
+  },
+
+  // Housing
+  {id:"hud_section8", name:"Housing Choice Voucher (Section 8) Basics", category:"Housing",
+    tags:["section 8","voucher","hud","housing"], riskLevel:"warn",
+    official:true, geography:"national", lastVerified:"2025-12-16",
+    link:"https://www.hud.gov/topics/housing_choice_voucher_program_section_8",
+    description:"Program overview and how vouchers work."
+  },
+  {id:"hud_pHA", name:"Find Your Public Housing Agency (PHA)", category:"Housing",
+    tags:["PHA","apply","section 8","public housing"], riskLevel:"good",
+    official:true, geography:"national", lastVerified:"2025-12-16",
+    link:"https://www.hud.gov/program_offices/public_indian_housing/pha/contacts",
+    description:"Official directory for where to apply in your area."
+  },
+  {id:"hud_202", name:"HUD Section 202 Supportive Housing (Seniors)", category:"Housing",
+    tags:["hud 202","senior housing","supportive"], riskLevel:"good",
+    official:true, geography:"national", lastVerified:"2025-12-16",
+    link:"https://www.hud.gov/program_offices/housing/mfh/progdesc/eld202",
+    description:"Supportive housing information for seniors."
+  },
+  {id:"liheap", name:"Energy Assistance (LIHEAP) Overview", category:"Housing",
+    tags:["LIHEAP","utilities","energy assistance"], riskLevel:"good",
+    official:true, geography:"national", lastVerified:"2025-12-16",
+    link:"https://www.usa.gov/help-with-energy-bills",
+    description:"Start point for LIHEAP and energy bill help."
+  },
+  {id:"reverse_mortgage_hud", name:"Reverse Mortgage (HECM) Basics & Risks (HUD)", category:"Housing",
+    tags:["reverse mortgage","HECM","home equity","lien"], riskLevel:"risk",
+    official:true, geography:"national", lastVerified:"2025-12-16",
+    link:"https://www.hud.gov/program_offices/housing/sfh/hecm/hecmabou",
+    description:"Learn how HECM works and review risks before signing."
+  },
+
+  // Legal & Financial
+  {id:"legal_aid", name:"Find Legal Aid (Legal Services Corporation)", category:"Legal",
+    tags:["legal aid","elder law","help"], riskLevel:"good",
+    official:true, geography:"national", lastVerified:"2025-12-16",
+    link:"https://www.lsc.gov/about-lsc/what-legal-aid/find-legal-aid",
+    description:"Find legitimate legal aid programs by state."
+  },
+  {id:"ssa_benefits", name:"Social Security: Retirement Estimator", category:"Legal",
+    tags:["social security","retirement","benefits","calculator"], riskLevel:"good",
+    official:true, geography:"national", lastVerified:"2025-12-16",
+    link:"https://www.ssa.gov/benefits/retirement/estimator.html",
+    description:"Estimate Social Security retirement benefits (official)."
+  },
+  {id:"ftc_reportfraud", name:"Report Fraud & Scams (FTC)", category:"Legal",
+    tags:["scam","fraud","report"], riskLevel:"warn",
+    official:true, geography:"national", lastVerified:"2025-12-16",
+    link:"https://reportfraud.ftc.gov/",
+    description:"Report scams and learn common fraud patterns."
+  },
+  {id:"ic3", name:"Internet Crime Complaint Center (FBI IC3)", category:"Legal",
+    tags:["ic3","online crime","report"], riskLevel:"warn",
+    official:true, geography:"national", lastVerified:"2025-12-16",
+    link:"https://www.ic3.gov/",
+    description:"Report internet-related crime and fraud."
+  },
+  {id:"firmament", name:"Firmament Law Resource Hub (Not a Law Firm)", category:"Legal",
+    tags:["legal resources","consumer rights","education"], riskLevel:"note",
+    official:false, geography:"national", lastVerified:"2025-12-16",
+    link:"https://www.vervenveda.com/firmamant-law",
+    description:"Educational legal resources and decision guides (not a law firm)."
+  },
+
+  // Nutrition
+  {id:"snap", name:"SNAP Food Assistance (USDA)", category:"Nutrition",
+    tags:["snap","food","assistance"], riskLevel:"good",
+    official:true, geography:"national", lastVerified:"2025-12-16",
+    link:"https://www.fns.usda.gov/snap/supplemental-nutrition-assistance-program",
+    description:"Official SNAP information, eligibility overview, and how to apply."
+  },
+  {id:"meals_on_wheels", name:"Meals on Wheels (Find Local Program)", category:"Nutrition",
+    tags:["meals","delivery","food","senior"], riskLevel:"good",
+    official:false, geography:"national", lastVerified:"2025-12-16",
+    link:"https://www.mealsonwheelsamerica.org/",
+    description:"Find local Meals on Wheels providers and senior meal support."
+  },
+
+  // Community
+  {id:"vote_gov", name:"Voting & Registration (Vote.gov)", category:"Community",
+    tags:["vote","registration","civic"], riskLevel:"good",
+    official:true, geography:"national", lastVerified:"2025-12-16",
+    link:"https://vote.gov/",
+    description:"Official start point for voter registration by state."
+  },
+
+  // Daily Life
+  {id:"tech_safety", name:"Online Safety Basics (USA.gov)", category:"DailyLife",
+    tags:["online banking","security","tech"], riskLevel:"warn",
+    official:true, geography:"national", lastVerified:"2025-12-16",
+    link:"https://www.usa.gov/online-safety",
+    description:"Simple guidance for safer online habits."
+  },
+
+  // Alerts
+  {id:"ftc_consumer_alerts", name:"FTC Consumer Alerts", category:"Alerts",
+    tags:["alerts","scams","updates"], riskLevel:"warn",
+    official:true, geography:"national", lastVerified:"2025-12-16",
+    link:"https://consumer.ftc.gov/consumer-alerts",
+    description:"Official consumer alerts and scam warnings."
+  }
+];
+
+/* ---------- Digest (editable later, currently local sample) ---------- */
+const dailyDigest = [
+  {id:"d1", level:"warn", title:"Scam alert", text:"Beware of reverse mortgage schemes and high-pressure sales tactics.", link:"https://consumer.ftc.gov/consumer-alerts"},
+  {id:"d2", level:"note", title:"Reminder", text:"Use Care Compare to check quality ratings for providers before scheduling services.", link:"https://www.medicare.gov/care-compare/"},
+  {id:"d3", level:"good", title:"Nutrition tip", text:"If shopping is hard, look for local meal delivery programs or senior food assistance.", link:"https://eldercare.acl.gov/"},
+  {id:"d4", level:"warn", title:"Before you sign", text:"If a program affects your home title or includes repayment, pause and review risks.", link:"https://www.hud.gov/program_offices/housing/sfh/hecm/hecmabou"}
+];
+
+/* ---------- Render helpers ---------- */
+function escapeHtml(s){
+  return String(s ?? "").replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+}
+function pillFor(level){
+  if(level==="risk") return `<span class="pill risk">⚠️ Higher Risk</span>`;
+  if(level==="warn") return `<span class="pill warn">⚠️ Caution</span>`;
+  if(level==="good") return `<span class="pill good">✅ Official/Low Risk</span>`;
+  return `<span class="pill note">ℹ️ Note</span>`;
+}
+function officialChip(isOfficial){
+  return isOfficial
+    ? `<span class="pill good">🏛 Official</span>`
+    : `<span class="pill note">📌 Community/Org</span>`;
+}
+function geoChip(g){
+  const map = {national:"🌎 National", state:"🗺 State", local:"📍 Local"};
+  return `<span class="pill">${map[g] || "📍 Local"}</span>`;
+}
+
+/* ---------- Settings ---------- */
+function loadSettings(){
+  try{
+    const s = JSON.parse(localStorage.getItem(LS.settings) || "{}");
+    state.familyMode = !!s.familyMode;
+    state.kioskMode = !!s.kioskMode;
+    state.usState = s.usState || "";
+    state.zip = s.zip || "";
+  }catch(e){}
+  $("#familyMode").checked = state.familyMode;
+  $("#kioskMode").checked = state.kioskMode;
+  $("#state").value = state.usState;
+  $("#zip").value = state.zip;
+  applyKioskMode();
+}
+function saveSettings(){
+  localStorage.setItem(LS.settings, JSON.stringify({
+    familyMode: state.familyMode,
+    kioskMode: state.kioskMode,
+    usState: state.usState,
+    zip: state.zip
+  }));
+}
+function applyKioskMode(){
+  document.documentElement.style.setProperty("--base", state.kioskMode ? "22px" : "18px");
+}
+
+/* ---------- Tabs ---------- */
+$$(".tabBtn").forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+    $$(".tabBtn").forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
+    state.activeTab = btn.dataset.tab;
+    renderResources();
+  });
+});
+
+/* ---------- Controls wiring ---------- */
+$("#familyMode").addEventListener("change", (e)=>{
+  state.familyMode = e.target.checked;
+  saveSettings();
+  renderResources();
+});
+$("#kioskMode").addEventListener("change", (e)=>{
+  state.kioskMode = e.target.checked;
+  applyKioskMode();
+  saveSettings();
+});
+$("#search").addEventListener("input", (e)=>{
+  state.search = e.target.value.trim().toLowerCase();
+  renderResources();
+});
+$("#zip").addEventListener("input", (e)=>{
+  state.zip = e.target.value.trim();
+  saveSettings();
+});
+$("#state").addEventListener("change", (e)=>{
+  state.usState = e.target.value;
+  saveSettings();
+  renderResources();
+});
+$("#clearBtn").addEventListener("click", ()=>{
+  $("#search").value = "";
+  state.search = "";
+  renderResources();
+});
+$("#printBtn").addEventListener("click", ()=> window.print());
+
+/* ---------- Digest ---------- */
+function getDismissedDigest(){
+  try{return JSON.parse(localStorage.getItem(LS.dismissedDigest) || "[]");}catch(e){return [];}
+}
+function setDismissedDigest(arr){
+  localStorage.setItem(LS.dismissedDigest, JSON.stringify(arr));
+}
+function renderDigest(){
+  const dismissed = new Set(getDismissedDigest());
+  const mount = $("#digest");
+  const visible = dailyDigest.filter(d=>!dismissed.has(d.id));
+
+  if(visible.length === 0){
+    mount.innerHTML = `<div class="meta" style="margin-top:10px">No digest items right now. You’re all caught up ✅</div>`;
+    return;
+  }
+
+  mount.innerHTML = visible.map(item=>{
+    return `
+      <div class="digestItem">
+        <div>
+          ${pillFor(item.level)}
+          <strong style="margin-top:6px">${escapeHtml(item.title)}</strong>
+          <div class="meta">${escapeHtml(item.text)}</div>
+          ${item.link ? `<div style="margin-top:8px"><a href="${escapeHtml(item.link)}" target="_blank" rel="noopener noreferrer">Open source</a></div>` : ``}
+        </div>
+        <button class="xbtn" data-dismiss="${escapeHtml(item.id)}" aria-label="dismiss digest">✕</button>
+      </div>
+    `;
+  }).join("");
+
+  $$("[data-dismiss]").forEach(b=>{
+    b.addEventListener("click", ()=>{
+      const id = b.getAttribute("data-dismiss");
+      const arr = getDismissedDigest();
+      if(!arr.includes(id)) arr.push(id);
+      setDismissedDigest(arr);
+      renderDigest();
+    });
+  });
+}
+
+/* ---------- Checklists & notes ---------- */
+function getChecklist(id){
+  try{return JSON.parse(localStorage.getItem(LS.checklist(id)) || "[]");}catch(e){return [];}
+}
+function setChecklist(id, arr){
+  localStorage.setItem(LS.checklist(id), JSON.stringify(arr));
+}
+function getNote(id){
+  return localStorage.getItem(LS.notes(id)) || "";
+}
+function setNote(id, txt){
+  localStorage.setItem(LS.notes(id), txt);
+}
+
+/* ---------- Resource rendering ---------- */
+function matchesState(res){
+  // For now: most are national. If you add state-specific resources later, set res.states=["FL","GA"] etc.
+  if(!state.usState) return true;
+  if(res.geography === "national") return true;
+  if(Array.isArray(res.states)) return res.states.includes(state.usState);
+  return true; // do not hide unknown geography
+}
+function matchesZip(res){
+  // We keep national resources visible; ZIP-specific filtering is only if you add res.zip
+  if(!state.zip) return true;
+  if(res.zip) return String(res.zip) === String(state.zip);
+  return true;
+}
+function matchesSearch(res){
+  const q = state.search;
+  if(!q) return true;
+  const hay = (res.name + " " + (res.description||"") + " " + (res.tags||[]).join(" ")).toLowerCase();
+  return hay.includes(q);
+}
+function matchesTab(res){
+  if(state.activeTab === "All") return true;
+  return res.category === state.activeTab;
+}
+
+function renderChecklistUI(res){
+  const saved = getChecklist(res.id);
+  const baseItems = [
+    "I read eligibility on the official page",
+    "I wrote down key deadlines / requirements",
+    "I checked risks (liens, repayment, contracts)",
+    "I compared at least one alternative",
+    "I saved/printed notes for later"
+  ];
+  const familyItems = [
+    "I discussed it with a trusted person",
+    "I verified the organization (prefer .gov / known nonprofits)"
+  ];
+  const items = state.familyMode ? baseItems.concat(familyItems) : baseItems;
+
+  const rows = items.map((label, idx)=>`
+    <div class="checkItem">
+      <input type="checkbox" ${saved[idx] ? "checked" : ""} data-cid="${escapeHtml(res.id)}" data-idx="${idx}" />
+      <div>
+        <div style="font-weight:900">${escapeHtml(label)}</div>
+      </div>
+    </div>
+  `).join("");
+
+  const note = escapeHtml(getNote(res.id));
+
+  return `
+    <div class="checklist">
+      <div class="meta"><b>Checklist (saved on this device)</b></div>
+      ${rows}
+      <div class="noteBox">
+        <label for="note_${escapeHtml(res.id)}">Notes</label>
+        <textarea id="note_${escapeHtml(res.id)}" data-note="${escapeHtml(res.id)}" placeholder="Write questions to ask, names, phone numbers, deadlines...">${note}</textarea>
+      </div>
+    </div>
+  `;
+}
+
+function renderResources(){
+  const mount = $("#resourcesContainer");
+
+  const filtered = resources
+    .filter(matchesTab)
+    .filter(matchesSearch)
+    .filter(matchesState)
+    .filter(matchesZip);
+
+  if(filtered.length === 0){
+    mount.innerHTML = `<div class="card"><b>No results.</b> Try another keyword (example: “Medicare”, “SNAP”, “housing”, “scam”).</div>`;
+    return;
+  }
+
+  mount.innerHTML = filtered.map(res=>{
+    const level = res.riskLevel || (res.official ? "good" : "note");
+    const riskNote = level==="risk"
+      ? `<div class="meta" style="margin-top:8px;color:var(--risk);font-weight:900">⚠️ High-risk topic: use the Safety Tool before signing anything.</div>`
+      : level==="warn"
+        ? `<div class="meta" style="margin-top:8px;color:var(--warn);font-weight:900">⚠️ Use caution: verify and compare options.</div>`
+        : ``;
+
+    const verified = res.lastVerified ? `Last verified: ${escapeHtml(res.lastVerified)}` : "Verification date: —";
+
+    return `
+      <div class="card" id="card_${escapeHtml(res.id)}">
+        <div class="resourceTop">
+          <div style="min-width:260px;flex:1">
+            <h3>${escapeHtml(res.name)}</h3>
+            <div class="meta">${escapeHtml(res.description || "")}</div>
+            <div class="chips">
+              ${pillFor(level)}
+              ${officialChip(!!res.official)}
+              ${geoChip(res.geography || "local")}
+              <span class="pill">🗂 ${escapeHtml(res.category)}</span>
+            </div>
+            <div class="meta" style="margin-top:8px">${escapeHtml(verified)}</div>
+            ${riskNote}
+          </div>
+
+          <div style="min-width:260px">
+            <div class="resActions">
+              <a class="primary" href="${escapeHtml(res.link)}" target="_blank" rel="noopener noreferrer">Visit Resource</a>
+              <a href="javascript:void(0)" class="secondaryLink" data-printcard="${escapeHtml(res.id)}">🖨 Print This Card</a>
+            </div>
+            <div class="meta" style="margin-top:8px">
+              Tip: open the official page, then use the checklist below to slow down and protect yourself.
+            </div>
+          </div>
+        </div>
+
+        ${renderChecklistUI(res)}
+      </div>
+    `;
+  }).join("");
+
+  // checklist toggles
+  $$('input[type="checkbox"][data-cid]').forEach(cb=>{
+    cb.addEventListener("change", ()=>{
+      const id = cb.getAttribute("data-cid");
+      const idx = parseInt(cb.getAttribute("data-idx"),10);
+      const arr = getChecklist(id);
+      arr[idx] = cb.checked;
+      setChecklist(id, arr);
+    });
+  });
+
+  // notes
+  $$('textarea[data-note]').forEach(t=>{
+    t.addEventListener("input", ()=>{
+      const id = t.getAttribute("data-note");
+      setNote(id, t.value);
+    });
+  });
+
+  // print card
+  $$("[data-printcard]").forEach(a=>{
+    a.addEventListener("click", ()=>{
+      const id = a.getAttribute("data-printcard");
+      printSingleCard(id);
+    });
+  });
+}
+
+function printSingleCard(id){
+  // Create a lightweight print window with just the card content.
+  const card = $("#card_" + id);
+  if(!card){ window.print(); return; }
+  const w = window.open("", "_blank");
+  if(!w){ alert("Pop-up blocked. Please allow popups to print this card."); return; }
+  const styles = document.querySelector("style").innerHTML;
+  w.document.open();
+  w.document.write(`
+    <!doctype html>
+    <html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Print — ClearPath Card</title>
+    <style>${styles}</style>
+    </head>
+    <body>
+      <div class="wrap" style="max-width:900px">
+        <div class="card">${card.innerHTML}</div>
+        <div class="meta hidePrint" style="margin-top:10px">Printed from ClearPath™ Seniors.</div>
+      </div>
+      <script>window.onload=()=>{window.print(); setTimeout(()=>window.close(),250);}<\/script>
+    </body></html>
+  `);
+  w.document.close();
+}
+
+/* ---------- Voice search ---------- */
+$("#voiceBtn").addEventListener("click", ()=>{
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if(!SR){ alert("Voice search is not supported in this browser."); return; }
+  const rec = new SR();
+  rec.lang = "en-US";
+  rec.interimResults = false;
+  rec.maxAlternatives = 1;
+  rec.onresult = (e)=>{
+    const t = e.results[0][0].transcript || "";
+    $("#search").value = t;
+    state.search = t.trim().toLowerCase();
+    renderResources();
+  };
+  rec.onerror = ()=> alert("Voice recognition error. Try again or type your search.");
+  rec.start();
+});
+
+/* ---------- Decision Safety Modal ---------- */
+const modal = $("#modal");
+$("#openSafety").addEventListener("click", ()=>{
+  modal.style.display = "block";
+  updateRiskScore();
+});
+$("#closeModal").addEventListener("click", ()=> modal.style.display = "none");
+modal.addEventListener("click", (e)=>{ if(e.target === modal) modal.style.display = "none"; });
+
+function updateRiskScore(){
+  const qs = $$(".riskQ");
+  let score = 0;
+  qs.forEach(q=>{
+    if(q.checked) score += (parseInt(q.dataset.weight,10)||1);
+  });
+  let label = "Low";
+  if(score >= 6) label = "High";
+  else if(score >= 3) label = "Medium";
+
+  $("#riskScore").textContent = `Risk score: ${score} (${label}) — ${label==="High" ? "Pause and verify." : (label==="Medium" ? "Go slowly and confirm." : "Still verify official sources.")}`;
+}
+$$(".riskQ").forEach(q=>q.addEventListener("change", updateRiskScore));
+$("#printSafety").addEventListener("click", ()=>{
+  const w = window.open("", "_blank");
+  if(!w){ alert("Pop-up blocked. Please allow popups to print."); return; }
+  const styles = document.querySelector("style").innerHTML;
+  const panel = modal.querySelector(".panel").innerHTML;
+  w.document.open();
+  w.document.write(`
+    <!doctype html>
+    <html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Print — Safety Tool</title>
+    <style>${styles}</style></head>
+    <body>
+      <div class="wrap" style="max-width:900px">
+        <div class="panel">${panel}</div>
+      </div>
+      <script>window.onload=()=>{window.print(); setTimeout(()=>window.close(),250);}<\/script>
+    </body></html>
+  `);
+  w.document.close();
+});
+
+/* ---------- Export / Import ---------- */
+function buildExport(){
+  const payload = {
+    version:"ClearPathExport_v1",
+    createdAt: new Date().toISOString(),
+    settings: JSON.parse(localStorage.getItem(LS.settings) || "{}"),
+    dismissedDigest: JSON.parse(localStorage.getItem(LS.dismissedDigest) || "[]"),
+    resources: resources.map(r=>({
+      id:r.id,
+      checklist: getChecklist(r.id),
+      note: getNote(r.id)
+    }))
+  };
+  return payload;
+}
+function downloadJson(obj, filename){
+  const blob = new Blob([JSON.stringify(obj,null,2)], {type:"application/json"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url; a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
+$("#exportBtn").addEventListener("click", ()=>{
+  const data = buildExport();
+  downloadJson(data, "clearpath_seniors_export.json");
+});
+$("#importBtn").addEventListener("click", ()=>{
+  const input = document.createElement("input");
+  input.type="file";
+  input.accept="application/json";
+  input.onchange = async ()=>{
+    const file = input.files && input.files[0];
+    if(!file) return;
+    try{
+      const text = await file.text();
+      const obj = JSON.parse(text);
+      if(obj.version !== "ClearPathExport_v1") throw new Error("Not a ClearPath export file.");
+      // restore settings + digest dismissals
+      localStorage.setItem(LS.settings, JSON.stringify(obj.settings || {}));
+      localStorage.setItem(LS.dismissedDigest, JSON.stringify(obj.dismissedDigest || []));
+      // restore notes/checklists
+      (obj.resources || []).forEach(item=>{
+        if(!item.id) return;
+        if(Array.isArray(item.checklist)) localStorage.setItem(LS.checklist(item.id), JSON.stringify(item.checklist));
+        if(typeof item.note === "string") localStorage.setItem(LS.notes(item.id), item.note);
+      });
+      alert("Import complete.");
+      // reload state
+      location.reload();
+    }catch(e){
+      alert("Import failed: " + (e.message || "Invalid file"));
+    }
+  };
+  input.click();
+});
+
+/* ---------- Narration ---------- */
+$("#narrateBtn").addEventListener("click", ()=>{
+  if(!("speechSynthesis" in window)){ alert("Text-to-speech not supported in this browser."); return; }
+  const txt = "Welcome to ClearPath Seniors. Use search or select a category. Open official links, then complete the checklist to stay safe.";
+  const u = new SpeechSynthesisUtterance(txt);
+  u.rate = 1.0; u.pitch = 1.0;
+  window.speechSynthesis.cancel();
+  window.speechSynthesis.speak(u);
+});
+
+/* ---------- Reset all ---------- */
+$("#resetAllBtn").addEventListener("click", ()=>{
+  const ok = confirm("Reset all local ClearPath data on this device? This clears checklists, notes, dismissed digest, and settings.");
+  if(!ok) return;
+  // remove keys
+  localStorage.removeItem(LS.settings);
+  localStorage.removeItem(LS.dismissedDigest);
+  resources.forEach(r=>{
+    localStorage.removeItem(LS.checklist(r.id));
+    localStorage.removeItem(LS.notes(r.id));
+  });
+  alert("Local data cleared.");
+  location.reload();
+});
+
+/* ---------- Init ---------- */
+function init(){
+  loadSettings();
+  renderDigest();
+  renderResources();
+}
+init();
+</script>
+
+</body>
+</html>
