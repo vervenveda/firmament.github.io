@@ -1,0 +1,724 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>ClearPath™ Safety Check‑In (Senior-Friendly)</title>
+<style>
+  :root{
+    --bg1:#f5f8ff;
+    --bg2:#eef7f2;
+    --ink:#0b1220;
+    --muted:#374151;
+    --card:#ffffff;
+    --accent:#0f5bd6;
+    --good:#0f7a3d;
+    --warn:#b45309;
+    --danger:#b91c1c;
+    --ring:rgba(15,91,214,.18);
+    --radius:18px;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;color:var(--ink)}
+  body{background:linear-gradient(180deg,var(--bg1),var(--bg2));display:flex;justify-content:center;align-items:flex-start;padding:18px}
+  .app{width:min(980px,100%);}
+
+  header{
+    background:linear-gradient(180deg,#0f5bd6,#0b3d92);
+    color:#fff;border-radius:var(--radius);
+    padding:18px 18px 14px;
+    box-shadow:0 18px 44px rgba(2,6,23,.18);
+  }
+  .title{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  .badge{display:inline-flex;align-items:center;gap:10px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);
+    padding:10px 12px;border-radius:999px;font-size:16px}
+  h1{margin:0;font-size:30px;letter-spacing:.2px}
+  .sub{margin:10px 0 0;font-size:18px;opacity:.95;line-height:1.35}
+
+  .grid{display:grid;grid-template-columns:1.05fr .95fr;gap:14px;margin-top:14px}
+  @media(max-width:900px){.grid{grid-template-columns:1fr}}
+
+  .card{
+    background:var(--card);
+    border-radius:var(--radius);
+    box-shadow:0 10px 30px rgba(2,6,23,.08);
+    border:1px solid rgba(15,23,42,.08);
+    padding:16px;
+  }
+  .toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+  .toolbar .left, .toolbar .right{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .pill{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:10px 12px;border-radius:999px;
+    border:1px solid rgba(15,23,42,.10);
+    background:#fff;
+    font-size:18px;
+  }
+  .pill input[type="range"]{width:170px}
+  .pill label{color:var(--muted);font-size:16px}
+
+  .btn{
+    appearance:none;border:0;cursor:pointer;
+    border-radius:999px;
+    padding:14px 16px;
+    font-size:20px;
+    font-weight:800;
+    letter-spacing:.2px;
+    background:#eef2ff;
+    color:#111827;
+    box-shadow:0 8px 18px rgba(2,6,23,.08);
+  }
+  .btn:hover{filter:brightness(.98)}
+  .btn:active{transform:translateY(1px)}
+  .btn.primary{background:var(--accent);color:#fff}
+  .btn.ghost{background:transparent;border:2px solid rgba(15,91,214,.22);color:#0b3d92}
+  .btn.danger{background:var(--danger);color:#fff}
+  .btn.small{padding:10px 12px;font-size:18px;font-weight:800}
+  .btn.wide{width:100%}
+
+  .progress{
+    height:12px;border-radius:999px;background:#eef2ff;overflow:hidden;border:1px solid rgba(15,23,42,.10)
+  }
+  .bar{height:100%;width:0;background:linear-gradient(90deg,#0f5bd6,#22c55e)}
+  .kicker{display:flex;justify-content:space-between;align-items:center;margin-top:10px;color:var(--muted);font-size:18px}
+
+  .qTitle{font-size:26px;margin:8px 0 10px}
+  .qBody{font-size:22px;line-height:1.35;margin:0 0 12px}
+  .choices{display:grid;gap:10px}
+  .choice{
+    text-align:left;
+    padding:16px 16px;
+    border-radius:16px;
+    border:2px solid rgba(15,23,42,.10);
+    background:#fff;
+    font-size:22px;
+    font-weight:800;
+    cursor:pointer;
+    box-shadow:0 10px 18px rgba(2,6,23,.06);
+  }
+  .choice:hover{border-color:rgba(15,91,214,.35);box-shadow:0 0 0 6px var(--ring), 0 10px 18px rgba(2,6,23,.06)}
+  .choice:active{transform:translateY(1px)}
+  .hint{margin-top:12px;font-size:18px;color:var(--muted);line-height:1.35}
+  .tiny{font-size:16px;color:rgba(55,65,81,.9);line-height:1.35}
+
+  .resultHeader{
+    display:flex;gap:12px;align-items:center;flex-wrap:wrap;
+    padding:14px;border-radius:16px;border:2px solid rgba(15,23,42,.10);
+    background:linear-gradient(180deg,#fff,#f8fafc);
+  }
+  .resultHeader .dot{width:18px;height:18px;border-radius:999px;background:var(--good)}
+  .resultHeader.warn .dot{background:var(--warn)}
+  .resultHeader.danger .dot{background:var(--danger)}
+  .resultHeader h2{margin:0;font-size:24px}
+  .resultHeader p{margin:6px 0 0;font-size:18px;color:var(--muted);max-width:70ch}
+  .callCard{
+    margin-top:12px;padding:14px;border-radius:16px;
+    border:2px solid rgba(15,23,42,.10);
+    background:#fff;
+  }
+  .callCard h3{margin:0 0 6px;font-size:20px}
+  .callCard p{margin:0 0 10px;color:var(--muted);font-size:18px;line-height:1.35}
+  .callRow{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .callNum{font-size:22px;font-weight:900;color:#111827;background:#f1f5f9;border-radius:999px;padding:10px 12px;border:1px solid rgba(15,23,42,.10)}
+  a.link{color:#0b3d92;font-weight:900;text-decoration:underline}
+  .footer{margin-top:14px;color:rgba(55,65,81,.9);font-size:16px;line-height:1.35}
+
+  /* modal */
+  .modal{position:fixed;inset:0;background:rgba(2,6,23,.55);display:none;align-items:center;justify-content:center;padding:14px}
+  .modal.open{display:flex}
+  .modalCard{width:min(820px,100%);background:#fff;border-radius:18px;padding:16px;border:2px solid rgba(15,23,42,.12)}
+  .modalCard h2{margin:0 0 6px;font-size:24px}
+  .modalCard p{margin:0 0 12px;font-size:18px;color:var(--muted);line-height:1.35}
+  .modalCard ul{margin:0 0 12px;padding-left:20px;color:var(--muted);font-size:18px;line-height:1.35}
+</style>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <div class="title">
+        <div class="badge" aria-label="No tracking badge">🔒 No tracking • saved only on this device</div>
+        <div class="badge">🧠 5–7 minute “check‑in game”</div>
+      </div>
+      <h1>GoldenPath™ Safety Check‑In</h1>
+      <p class="sub">
+        A gentle, private check‑in for older adults and caregivers. This is <b>not</b> a test and it does not diagnose anything.
+        If your answers suggest you may need help, we’ll show the right numbers to call.
+      </p>
+    </header>
+
+    <div class="grid">
+      <!-- Main flow -->
+      <section class="card" aria-labelledby="mainTitle">
+        <div class="toolbar">
+          <div class="left">
+            <div class="pill">
+              <label for="fontRange">Text size</label>
+              <input id="fontRange" type="range" min="18" max="30" value="22" />
+              <span id="fontVal" style="font-weight:900">22px</span>
+            </div>
+            <button class="btn small ghost" id="narrateBtn" type="button">🔊 Narration: OFF</button>
+          </div>
+          <div class="right">
+            <button class="btn small" id="resetBtn" type="button">Reset</button>
+          </div>
+        </div>
+
+        <div style="margin-top:12px">
+          <div class="progress" aria-label="Progress">
+            <div class="bar" id="bar"></div>
+          </div>
+          <div class="kicker">
+            <div id="stepLabel">Start</div>
+            <div id="countLabel">0 / 0</div>
+          </div>
+        </div>
+
+        <div id="screen" style="margin-top:12px"></div>
+
+        <div class="footer" id="footerNote">
+          Emergency? Call <b>911</b>. If you’re in emotional crisis, call/text <b>988</b>.
+          Outside the U.S., emergency numbers may differ.
+        </div>
+      </section>
+
+      <!-- Sidebar: always-visible safety tools -->
+      <aside class="card" aria-label="Quick safety tools">
+        <h2 style="margin:0 0 8px;font-size:24px">Quick Help (Anytime)</h2>
+        <p style="margin:0 0 12px;color:var(--muted);font-size:18px;line-height:1.35">
+          If you need help now, these are trusted U.S. options:
+        </p>
+
+        <div class="callCard">
+          <h3>🚨 Emergency</h3>
+          <p>If someone is in immediate danger or needs urgent medical help.</p>
+          <div class="callRow">
+            <span class="callNum">Call 911</span>
+          </div>
+        </div>
+
+        <div class="callCard">
+          <h3>💛 Emotional Support</h3>
+          <p>Suicide &amp; Crisis Lifeline — call or text anytime.</p>
+          <div class="callRow">
+            <span class="callNum">Call/Text 988</span>
+          </div>
+          <div class="tiny">If you are in immediate danger, call 911.</div>
+        </div>
+
+        <div class="callCard">
+          <h3>☣️ Poison / Medication Mistakes</h3>
+          <p>Poison Help connects you to your local poison center.</p>
+          <div class="callRow">
+            <span class="callNum">1‑800‑222‑1222</span>
+          </div>
+        </div>
+
+        <div class="callCard">
+          <h3>🧓 Local Senior Services</h3>
+          <p>Eldercare Locator can connect you to local programs (meals, transport, caregiver help).</p>
+          <div class="callRow">
+            <span class="callNum">1‑800‑677‑1116</span>
+          </div>
+        </div>
+
+        <div class="callCard">
+          <h3>🏠 Help Finding Local Resources</h3>
+          <p>211 can help find food, housing, bills help, caregiver resources, and more.</p>
+          <div class="callRow">
+            <span class="callNum">Dial 211</span>
+          </div>
+        </div>
+
+        <div class="callCard">
+          <h3>🛡 If Someone Is Hurting You</h3>
+          <p>Confidential support (domestic violence). If you’re in immediate danger, call 911.</p>
+          <div class="callRow">
+            <span class="callNum">1‑800‑799‑7233</span>
+          </div>
+        </div>
+
+        <button class="btn primary wide" id="goHubBtn" type="button">Open the ClearPath Seniors Hub</button>
+        <div class="tiny" style="margin-top:10px">
+          Tip: You can print the results screen at the end.
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <!-- modal -->
+  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modalCard">
+      <h2 id="modalTitle">Before You Sign Anything</h2>
+      <p>Some programs and contracts can risk your money or your home. This checklist helps you slow down and stay safe.</p>
+      <ul>
+        <li>What does it cost today — and what could it cost later?</li>
+        <li>Does it put a lien, loan, or mortgage on your home?</li>
+        <li>Can you cancel? Is it in writing?</li>
+        <li>Are you being pressured to “act now” or pay with gift cards?</li>
+        <li>Can a trusted family member or advisor review it with you?</li>
+      </ul>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn primary" id="closeModalBtn" type="button">Close</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+(() => {
+  const HUB_URL = "https://www.vervenveda.com/senior";
+  const STORAGE_KEY = "clearpath_checkin_v1";
+  const FONT_KEY = "clearpath_checkin_fontpx";
+  const NARRATE_KEY = "clearpath_checkin_narrate";
+
+  const el = (id) => document.getElementById(id);
+  const screen = el("screen");
+  const bar = el("bar");
+  const stepLabel = el("stepLabel");
+  const countLabel = el("countLabel");
+  const fontRange = el("fontRange");
+  const fontVal = el("fontVal");
+  const narrateBtn = el("narrateBtn");
+  const resetBtn = el("resetBtn");
+  const goHubBtn = el("goHubBtn");
+  const modal = el("modal");
+  const closeModalBtn = el("closeModalBtn");
+
+  let narrateOn = (localStorage.getItem(NARRATE_KEY) === "1");
+  let state = loadState() || { idx: -1, answers: {}, flags: {} };
+
+  const QUESTIONS = [
+    { id:"q0", title:"Welcome", body:"Ready for a quick check‑in? You’ll see one question at a time. There are no trick answers.", type:"start" },
+    {
+      id:"q1", title:"Right now",
+      body:"Do you feel in immediate danger, or do you think you need urgent medical help right now?",
+      choices:[
+        {label:"Yes (help is needed now)", value:"yes", flags:["emergency"]},
+        {label:"Not sure", value:"maybe", flags:["emergency"]},
+        {label:"No", value:"no"}
+      ]
+    },
+    {
+      id:"q2", title:"Important symptoms",
+      body:"In the last day, have you had chest pain, trouble breathing, sudden weakness/numbness, face drooping, confusion, or trouble speaking?",
+      choices:[
+        {label:"Yes", value:"yes", flags:["emergency"]},
+        {label:"Not sure", value:"maybe", flags:["emergency"]},
+        {label:"No", value:"no"}
+      ],
+      hint:"If any of these are happening now, it’s safest to call 911."
+    },
+    {
+      id:"q3", title:"Falls and injuries",
+      body:"Have you fallen recently, hit your head, or felt very dizzy when standing up?",
+      choices:[
+        {label:"Yes", value:"yes", flags:["senior"]},
+        {label:"Not sure", value:"maybe", flags:["senior"]},
+        {label:"No", value:"no"}
+      ],
+      hint:"If you can’t get up, you’re bleeding, or you feel faint — call 911."
+    },
+    {
+      id:"q4", title:"Medication mix‑ups",
+      body:"Do you think you may have taken the wrong medicine, the wrong dose, or mixed medicines by mistake?",
+      choices:[
+        {label:"Yes", value:"yes", flags:["poison"]},
+        {label:"Not sure", value:"maybe", flags:["poison"]},
+        {label:"No", value:"no"}
+      ],
+      hint:"Poison Help can advise you quickly, even if you’re not sure."
+    },
+    {
+      id:"q5", title:"Emotional well‑being",
+      body:"Have you been feeling very hopeless, panicky, or like you might hurt yourself?",
+      choices:[
+        {label:"Yes", value:"yes", flags:["mental"]},
+        {label:"A little / not sure", value:"maybe", flags:["mental"]},
+        {label:"No", value:"no"}
+      ],
+      hint:"You deserve support. 988 is for anyone in emotional distress."
+    },
+    {
+      id:"q6", title:"Safety at home",
+      body:"Do you feel unsafe at home because someone is hurting you, threatening you, or controlling your choices?",
+      choices:[
+        {label:"Yes", value:"yes", flags:["abuse"]},
+        {label:"Not sure", value:"maybe", flags:["abuse"]},
+        {label:"No", value:"no"}
+      ],
+      hint:"If you’re in immediate danger, call 911."
+    },
+    {
+      id:"q7", title:"Scams and pressure",
+      body:"Has anyone pressured you for money, gift cards, bank codes, or threatened you to pay quickly?",
+      choices:[
+        {label:"Yes", value:"yes", flags:["scam"]},
+        {label:"Not sure", value:"maybe", flags:["scam"]},
+        {label:"No", value:"no"}
+      ]
+    },
+    {
+      id:"q8", title:"Food and basics",
+      body:"Do you have enough food, medicine, and basic supplies for the next 7 days?",
+      choices:[
+        {label:"Yes", value:"yes"},
+        {label:"Not sure", value:"maybe", flags:["needs"]},
+        {label:"No", value:"no", flags:["needs"]}
+      ]
+    },
+    {
+      id:"q9", title:"Support",
+      body:"Would you like help finding local senior services (meals, rides, caregiver support, housing options)?",
+      choices:[
+        {label:"Yes", value:"yes", flags:["senior"]},
+        {label:"Maybe later", value:"maybe"},
+        {label:"No", value:"no"}
+      ]
+    },
+    {
+      id:"q10", title:"Paperwork safety",
+      body:"Are you about to sign something involving your home, benefits, or finances — and you want a safety checklist first?",
+      choices:[
+        {label:"Yes (show checklist)", value:"yes", action:"openModal"},
+        {label:"Not right now", value:"no"}
+      ]
+    },
+    { id:"q11", title:"Finish", body:"All done. Let’s put your results into a simple “support plan.”", type:"finish" }
+  ];
+
+  function saveState(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+  function loadState(){
+    try{ const raw = localStorage.getItem(STORAGE_KEY); return raw ? JSON.parse(raw) : null; }
+    catch(e){ return null; }
+  }
+  function clearState(){
+    localStorage.removeItem(STORAGE_KEY);
+    state = { idx: -1, answers:{}, flags:{} };
+  }
+
+  function setRootFont(px){
+    document.documentElement.style.fontSize = px + "px";
+    fontVal.textContent = px + "px";
+    localStorage.setItem(FONT_KEY, String(px));
+  }
+
+  const savedFont = parseInt(localStorage.getItem(FONT_KEY) || "22", 10);
+  fontRange.value = String(Math.min(30, Math.max(18, savedFont)));
+  setRootFont(parseInt(fontRange.value,10));
+  fontRange.addEventListener("input", () => setRootFont(parseInt(fontRange.value,10)));
+
+  function setNarrate(on){
+    narrateOn = !!on;
+    narrateBtn.textContent = narrateOn ? "🔊 Narration: ON" : "🔊 Narration: OFF";
+    localStorage.setItem(NARRATE_KEY, narrateOn ? "1" : "0");
+  }
+  setNarrate(narrateOn);
+  narrateBtn.addEventListener("click", () => setNarrate(!narrateOn));
+
+  function speak(text){
+    if(!narrateOn) return;
+    if(!("speechSynthesis" in window)) return;
+    try{
+      window.speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(text);
+      u.rate = 0.98;
+      u.pitch = 1.02;
+      window.speechSynthesis.speak(u);
+    }catch(e){}
+  }
+
+  function updateProgress(){
+    const current = Math.max(0, state.idx);
+    const pct = Math.min(100, (current / (QUESTIONS.length-1)) * 100);
+    bar.style.width = pct + "%";
+    stepLabel.textContent = (state.idx <= 0) ? "Start" : ("Step " + state.idx);
+    countLabel.textContent = Math.max(0, state.idx) + " / " + (QUESTIONS.length - 1);
+  }
+
+  function addFlags(list){
+    (list || []).forEach(f => state.flags[f] = true);
+  }
+
+  function computeTier(){
+    if(state.flags.emergency) return "danger";
+    const any = Object.keys(state.flags).length > 0;
+    return any ? "warn" : "good";
+  }
+
+  function renderSupportCards(tier, flagged){
+    const cards = [];
+    const show = (key) => flagged.includes(key);
+
+    if(tier === "danger"){
+      cards.push(card("🚨 Call 911 now", "If you are in immediate danger or need urgent medical help.", "Call 911", null, "danger"));
+    }
+    if(show("mental")){
+      cards.push(card("💛 Call/Text 988", "For emotional distress, panic, or thoughts of self-harm — free, confidential support.", "Call/Text 988"));
+    }
+    if(show("poison")){
+      cards.push(card("☣️ Poison Help", "If you think a medication mistake happened or a poisoning is possible, get expert guidance right away.", "1‑800‑222‑1222"));
+    }
+    if(show("abuse")){
+      cards.push(card("🛡 Safety & Support", "If someone is hurting you or controlling you, confidential support is available. If you’re in danger now, call 911.", "1‑800‑799‑7233"));
+    }
+    if(show("needs")){
+      cards.push(card("🏠 Call 211", "If you need help with food, bills, housing, or caregiver resources, 211 can connect you locally.", "Dial 211"));
+    }
+    if(show("senior") || show("scam")){
+      cards.push(card("🧓 Eldercare Locator", "Find local senior services and guidance (meals, transportation, caregiver support).", "1‑800‑677‑1116"));
+    }
+    if(show("scam")){
+      cards.push(card("🧾 Scam safety tip", "Never pay with gift cards, and don’t share bank codes. Slow down and verify with a trusted person.", "Open “Before You Sign Anything”", "modal"));
+    }
+
+    if(cards.length === 0){
+      cards.push(card("✅ Keep these numbers handy", "Even when things are going well, keeping a small “help list” can bring peace of mind.", "Open the Seniors Hub", "hub"));
+    }
+
+    return cards.join("");
+  }
+
+  function card(title, desc, numLabel, action, emphasis){
+    const color = emphasis === "danger" ? "var(--danger)" : "var(--accent)";
+    const btn = action
+      ? `<button class="btn small ${emphasis==="danger"?"danger":"primary"}" data-action="${action}">${escapeHtml(numLabel)}</button>`
+      : `<span class="callNum" style="border-left:6px solid ${color}">${escapeHtml(numLabel)}</span>`;
+    return `
+      <div class="callCard">
+        <h3>${escapeHtml(title)}</h3>
+        <p>${escapeHtml(desc)}</p>
+        <div class="callRow">${btn}</div>
+      </div>
+    `;
+  }
+
+  function showImmediateEmergency(){
+    screen.innerHTML = `
+      <div class="resultHeader danger">
+        <div class="dot" aria-hidden="true"></div>
+        <div>
+          <h2>Please call for help now</h2>
+          <p>If you feel unsafe or you need urgent medical help, calling <b>911</b> is the fastest option.</p>
+        </div>
+      </div>
+
+      <div class="callCard">
+        <h3>🚨 Emergency</h3>
+        <p>Call 911 now. If you can, stay with someone you trust.</p>
+        <div class="callRow"><span class="callNum">Call 911</span></div>
+      </div>
+
+      <div class="callCard">
+        <h3>💛 If this is an emotional crisis</h3>
+        <p>If you’re in distress and need to talk to someone right now, call or text 988.</p>
+        <div class="callRow"><span class="callNum">Call/Text 988</span></div>
+      </div>
+
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px">
+        <button class="btn primary" id="continueBtn" type="button">Continue anyway</button>
+        <button class="btn ghost" id="hubBtn2" type="button">Open Seniors Hub</button>
+      </div>
+
+      <div class="tiny" style="margin-top:10px">
+        If you’re not in the U.S., emergency numbers may be different in your country.
+      </div>
+    `;
+    el("continueBtn").onclick = () => { state.idx = Math.min(QUESTIONS.length-1, state.idx + 1); saveState(); render(); };
+    el("hubBtn2").onclick = () => window.open(HUB_URL, "_blank", "noopener");
+    speak("Please call for help now. Call 911. If this is an emotional crisis, call or text 988.");
+  }
+
+  function showReview(){
+    const rows = QUESTIONS.filter(q => q.choices).map(q => {
+      const ans = state.answers[q.id] || "—";
+      return `<div style="padding:10px 0;border-bottom:1px solid rgba(15,23,42,.10)">
+        <div style="font-weight:900;font-size:18px">${escapeHtml(q.title)}</div>
+        <div style="color:var(--muted);font-size:18px;line-height:1.35">${escapeHtml(q.body)}</div>
+        <div style="margin-top:6px;font-size:18px"><b>Your answer:</b> ${escapeHtml(ans)}</div>
+      </div>`;
+    }).join("");
+
+    screen.innerHTML = `
+      <div class="qTitle">Review</div>
+      <p class="qBody">These answers are saved only on this device. You can print this page if you’d like.</p>
+      <div style="max-height:420px;overflow:auto;border:2px solid rgba(15,23,42,.10);border-radius:16px;padding:10px;background:#fff">
+        ${rows}
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px">
+        <button class="btn primary" id="backToResultsBtn" type="button">Back to Results</button>
+        <button class="btn" id="printBtn2" type="button">🖨 Print</button>
+      </div>
+    `;
+    el("backToResultsBtn").onclick = () => renderFinish();
+    el("printBtn2").onclick = () => window.print();
+  }
+
+  function renderFinish(){
+    state.idx = QUESTIONS.findIndex(q => q.type === "finish");
+    saveState();
+    render();
+  }
+
+  function openModal(){
+    modal.classList.add("open");
+    speak("Before you sign anything. Slow down and review the safety checklist.");
+  }
+  function closeModal(){ modal.classList.remove("open"); }
+
+  closeModalBtn.addEventListener("click", closeModal);
+  modal.addEventListener("click", (e)=> { if(e.target === modal) closeModal(); });
+
+  goHubBtn.addEventListener("click", () => window.open(HUB_URL, "_blank", "noopener"));
+
+  resetBtn.addEventListener("click", () => {
+    const ok = confirm("Reset this check‑in on this device? (This clears saved answers.)");
+    if(!ok) return;
+    clearState();
+    render();
+  });
+
+  document.addEventListener("click", (e) => {
+    const btn = e.target.closest("button[data-action]");
+    if(!btn) return;
+    const action = btn.getAttribute("data-action");
+    if(action === "modal") openModal();
+    if(action === "hub") window.open(HUB_URL, "_blank", "noopener");
+  });
+
+  function escapeHtml(s){
+    return String(s).replace(/[&<>"']/g, c => ({
+      "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+    }[c]));
+  }
+
+  function render(){
+    updateProgress();
+    const q = QUESTIONS[Math.max(0, state.idx)];
+    if(!q){ state.idx = 0; saveState(); return render(); }
+
+    if(state.idx <= 0){
+      const saved = loadState();
+      const hasProgress = !!(saved && saved.idx > 0);
+
+      screen.innerHTML = `
+        <div class="qTitle">👋 Welcome</div>
+        <p class="qBody">${escapeHtml(q.body)}</p>
+
+        <div class="choices" style="margin-top:12px">
+          <button class="btn primary wide" id="startBtn" type="button">Start the Check‑In</button>
+          ${hasProgress ? `<button class="btn wide" id="resumeBtn" type="button">Resume</button>` : ``}
+          <button class="btn ghost wide" id="hubBtn" type="button">Go to the Seniors Hub</button>
+        </div>
+
+        <div class="hint">
+          <b>Privacy:</b> Your answers stay on this device (localStorage). You can reset anytime.
+        </div>
+      `;
+      el("startBtn").onclick = () => { state = { idx: 1, answers:{}, flags:{} }; saveState(); render(); speak("Starting the check in."); };
+      if(hasProgress){
+        el("resumeBtn").onclick = () => { state = loadState(); render(); speak("Resuming your check in."); };
+      }
+      el("hubBtn").onclick = () => window.open(HUB_URL, "_blank", "noopener");
+      speak("Welcome to the ClearPath safety check in. This is not a test.");
+      return;
+    }
+
+    if(q.type === "finish"){
+      const tier = computeTier();
+      const flagged = Object.keys(state.flags).filter(k=>state.flags[k]);
+      const headerClass = tier === "danger" ? "danger" : tier === "warn" ? "warn" : "";
+      const title = tier === "danger" ? "Important: Please get help now" :
+                    tier === "warn" ? "Support recommended" :
+                    "You’re doing great — keep this as a safety reference";
+
+      const subtitle = tier === "danger"
+        ? "Based on your answers, it may be safest to call for help immediately."
+        : tier === "warn"
+        ? "Nothing here is a diagnosis — but your answers suggest a few support options that could help."
+        : "No urgent red flags were selected. Still, keeping trusted numbers handy is wise.";
+
+      screen.innerHTML = `
+        <div class="resultHeader ${headerClass}">
+          <div class="dot" aria-hidden="true"></div>
+          <div>
+            <h2>${title}</h2>
+            <p>${subtitle}</p>
+          </div>
+        </div>
+
+        ${renderSupportCards(tier, flagged)}
+
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px">
+          <button class="btn primary" id="printBtn" type="button">🖨 Print / Save</button>
+          <button class="btn" id="restartBtn" type="button">Restart</button>
+          <button class="btn ghost" id="reviewBtn" type="button">Review my answers</button>
+        </div>
+
+        <div class="footer">
+          Next step: explore guides, tools, and local resources here:
+          <a class="link" href="${HUB_URL}" target="_blank" rel="noopener">vervenveda.com/senior</a>
+        </div>
+      `;
+      el("printBtn").onclick = () => window.print();
+      el("restartBtn").onclick = () => { clearState(); render(); };
+      el("reviewBtn").onclick = () => showReview();
+      speak(title + ". " + subtitle);
+      return;
+    }
+
+    const hint = q.hint ? `<div class="hint">${escapeHtml(q.hint)}</div>` : "";
+    screen.innerHTML = `
+      <div class="qTitle">${escapeHtml(q.title)}</div>
+      <p class="qBody">${escapeHtml(q.body)}</p>
+      <div class="choices" id="choices"></div>
+      ${hint}
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px">
+        <button class="btn small" id="backBtn" type="button">← Back</button>
+        <button class="btn small ghost" id="skipBtn" type="button">Skip</button>
+      </div>
+      <div class="tiny" style="margin-top:10px">
+        Tip: If you’re unsure, choose “Not sure.” The app will still show the safest next step.
+      </div>
+    `;
+
+    const choicesEl = el("choices");
+    q.choices.forEach((c) => {
+      const b = document.createElement("button");
+      b.className = "choice";
+      b.type = "button";
+      b.textContent = c.label;
+
+      b.addEventListener("click", () => {
+        state.answers[q.id] = c.value;
+
+        if(c.action === "openModal"){ openModal(); }
+        addFlags(c.flags);
+
+        if((c.flags || []).includes("emergency")){
+          state.flags.emergency = true;
+          saveState();
+          showImmediateEmergency();
+          return;
+        }
+
+        state.idx = Math.min(QUESTIONS.length-1, state.idx + 1);
+        saveState();
+        render();
+      });
+      choicesEl.appendChild(b);
+    });
+
+    el("backBtn").onclick = () => { state.idx = Math.max(0, state.idx - 1); saveState(); render(); };
+    el("skipBtn").onclick = () => { state.answers[q.id] = "skipped"; state.idx = Math.min(QUESTIONS.length-1, state.idx + 1); saveState(); render(); };
+
+    speak(q.title + ". " + q.body);
+  }
+
+  // Initialize
+  if(!state || typeof state.idx !== "number") state = { idx: -1, answers:{}, flags:{} };
+  saveState();
+  render();
+
+})();
+</script>
+</body>
+</html>
