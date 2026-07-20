@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kindred Vault + Heritage Census V5</title>
+<style>
+body { font-family:'Georgia', serif; background:#fdf6e3; color:#333; margin:0; padding:0;}
+header { text-align:center; font-size:2em; padding:20px; letter-spacing:2px;}
+.panel { background:#f5eee0; border:2px solid #d4c1a5; border-radius:7px; margin:10px auto; padding:15px; max-width:900px;}
+.btn { padding:8px 15px; margin:5px; border-radius:7px; border:none; cursor:pointer; font-weight:bold; background:#d4c1a5; color:#333;}
+.btn:hover { background:#c5b28a; color:#fff;}
+input, select, textarea { width:90%; margin:5px 0; padding:5px; }
+canvas { border:2px solid #d4c1a5; border-radius:7px; margin-top:10px; background:#e0e0e0; }
+footer { text-align:center; padding:10px; background:#f5eee0; border-top:2px solid #d4c1a5; font-size:12px; color:#555;}
+.toast { position:fixed; bottom:20px; left:50%; transform:translateX(-50%); background:#d4c1a5; color:#fff; padding:8px 15px; border-radius:5px; z-index:1000; }
+</style>
+</head>
+<body>
+
+<header>KINDRED VAULT V5</header>
+
+<div class="panel">
+<h3>Household Information</h3>
+<input type="text" id="headName" placeholder="Head of Household Name">
+<input type="date" id="headDOB" placeholder="Date of Birth">
+<input type="text" id="headBirthplace" placeholder="Birthplace (City, Country)">
+<input type="text" id="currentResidence" placeholder="Current Residence">
+<input type="text" id="ethnicity" placeholder="Ethnicity / Tribal Affiliation">
+<label><input type="checkbox" id="anonymous"> Submit Anonymously</label>
+<button class="btn" onclick="startHousehold()">Start Household</button>
+</div>
+
+<div class="panel" id="memberPanel" style="display:none;">
+<h3>Add Family Member</h3>
+<input type="text" id="memberName" placeholder="Name">
+<input type="date" id="memberDOB" placeholder="Date of Birth">
+<input type="text" id="memberBirthplace" placeholder="Birthplace">
+<input type="text" id="memberCurrentResidence" placeholder="Current Residence">
+<input type="text" id="memberRelation" placeholder="Relation to Head (Child/Spouse/Sibling)">
+<input type="text" id="migrationPath" placeholder="Migration Path (comma separated)">
+<button class="btn" onclick="addMember()">Add Member</button>
+<button class="btn" onclick="finishHousehold()">Finish Household</button>
+</div>
+
+<div class="panel" id="exportPanel" style="display:none;">
+<h3>Household Saved!</h3>
+<button class="btn" onclick="exportJSON()">Export JSON</button>
+<button class="btn" onclick="exportCSV()">Export CSV</button>
+<button class="btn" onclick="printReport()">Print Report</button>
+</div>
+
+<div class="panel">
+<h3>Family Tree</h3>
+<canvas id="treeCanvas"></canvas>
+</div>
+
+<div class="panel">
+<h3>Migration Map</h3>
+<canvas id="mapCanvas"></canvas>
+</div>
+
+<footer>&copy; 2025 Kindred Vault. All Rights Reserved.</footer>
+
+<script>
+/* --- Toast --- */
+function showToast(msg){
+    let toast=document.createElement('div'); toast.className='toast'; toast.innerText=msg;
+    document.body.appendChild(toast);
+    setTimeout(()=>{document.body.removeChild(toast)},3000);
+}
+
+/* --- Census Data --- */
+let households = [];
+let currentHousehold = null;
+
+/* --- Tree Data --- */
+let treeNodes = [];
+
+/* --- Canvas Setup --- */
+let treeCanvas=document.getElementById('treeCanvas');
+let treeCtx=treeCanvas.getContext('2d');
+treeCanvas.width=treeCanvas.offsetWidth;
+treeCanvas.height=400;
+
+let mapCanvas=document.getElementById('mapCanvas');
+let mapCtx=mapCanvas.getContext('2d');
+mapCanvas.width=mapCanvas.offsetWidth;
+mapCanvas.height=300;
+
+/* --- Start Household --- */
+function startHousehold(){
+    let headName = document.getElementById('headName').value.trim();
+    if(!headName) return showToast("Enter head of household name.");
+    currentHousehold = { 
+        household_id: 'H'+(households.length+1).toString().padStart(3,'0'), 
+        anonymous: document.getElementById('anonymous').checked,
+        head_of_household: headName,
+        members: [{
+            name: headName,
+            dob: document.getElementById('headDOB').value,
+            birthplace: document.getElementById('headBirthplace').value,
+            current_residence: document.getElementById('currentResidence').value,
+            ethnicity: document.getElementById('ethnicity').value,
+            relation: "Head",
+            migration_history: []
+        }]
+    };
+    households.push(currentHousehold);
+    document.getElementById('memberPanel').style.display='block';
+    showToast("Household started. Add members.");
+}
+
+/* --- Add Member --- */
+function addMember(){
+    if(!currentHousehold) return;
+    let name=document.getElementById('memberName').value.trim();
+    if(!name) return showToast("Enter member name.");
+    let member={
+        name,
+        dob: document.getElementById('memberDOB').value,
+        birthplace: document.getElementById('memberBirthplace').value,
+        current_residence: document.getElementById('memberCurrentResidence').value,
+        ethnicity: document.getElementById('ethnicity').value,
+        relation: document.getElementById('memberRelation').value,
+        migration_history: document.getElementById('migrationPath').value.split(',').map(s=>s.trim())
+    };
+    currentHousehold.members.push(member);
+    document.getElementById('memberName').value='';
+    document.getElementById('memberDOB').value='';
+    document.getElementById('memberBirthplace').value='';
+    document.getElementById('memberCurrentResidence').value='';
+    document.getElementById('memberRelation').value='';
+    document.getElementById('migrationPath').value='';
+    drawMap();
+    showToast("Member added.");
+}
+
+/* --- Finish Household --- */
+function finishHousehold(){
+    if(currentHousehold){
+        addHouseholdToTree(currentHousehold);
+    }
+    currentHousehold=null;
+    document.getElementById('memberPanel').style.display='none';
+    document.getElementById('exportPanel').style.display='block';
+    drawTree();
+    drawMap();
+    showToast("Household complete and tree updated.");
+}
+
+/* --- Export / Print --- */
+function exportJSON(){
+    let data = JSON.stringify(households, null, 2);
+    let blob = new Blob([data], {type:"application/json"});
+    let url = URL.createObjectURL(blob);
+    let a = document.createElement('a'); a.href=url; a.download="heritage_census.json"; a.click();
+    showToast("JSON exported.");
+}
+
+function exportCSV(){
+    let csv="HouseholdID,Name,DOB,Birthplace,CurrentResidence,Ethnicity,Relation,Migration\n";
+    households.forEach(h=>{
+        h.members.forEach(m=>{
+            csv+=`${h.household_id},${m.name},${m.dob},${m.birthplace},${m.current_residence},${m.ethnicity},${m.relation},"${m.migration_history.join('>')}"\n`;
+        });
+    });
+    let blob = new Blob([csv], {type:"text/csv"});
+    let url = URL.createObjectURL(blob);
+    let a = document.createElement('a'); a.href=url; a.download="heritage_census.csv"; a.click();
+    showToast("CSV exported.");
+}
+
+function printReport(){
+    let printWin = window.open('', '', 'width=800,height=600');
+    printWin.document.write('<pre>'+JSON.stringify(households,null,2)+'</pre>');
+    printWin.print();
+}
+
+/* --- Map Visualization --- */
+function drawMap(){
+    mapCtx.clearRect(0,0,mapCanvas.width,mapCanvas.height);
+    households.forEach(h=>{
+        h.members.forEach(m=>{
+            if(m.birthplace){
+                let coords = getCoordsFromPlace(m.birthplace);
+                if(coords){ mapCtx.fillStyle='red'; mapCtx.beginPath(); mapCtx.arc(coords.x, coords.y, 5, 0, Math.PI*2); mapCtx.fill(); }
+            }
+            if(m.current_residence){
+                let coords = getCoordsFromPlace(m.current_residence);
+                if(coords){ mapCtx.fillStyle='blue'; mapCtx.beginPath(); mapCtx.arc(coords.x, coords.y, 5, 0, Math.PI*2); mapCtx.fill(); }
+            }
+        });
+    });
+}
+
+function getCoordsFromPlace(place){
+    let x = (place.length*50)%mapCanvas.width;
+    let y = (place.length*30)%mapCanvas.height;
+    return {x,y};
+}
+
+/* --- Tree Integration --- */
+function addHouseholdToTree(household){
+    let head = household.members.find(m => m.relation==="Head");
+    let rootNode = {
+        id: household.household_id + "_H",
+        name: household.anonymous ? "Anonymous Head" : head.name,
+        dob: head.dob,
+        birthplace: head.birthplace,
+        current_residence: head.current_residence,
+        ethnicity: head.ethnicity,
+        children: []
+    };
+
+    household.members.forEach(m=>{
+        if(m.relation!=="Head"){
+            let childNode = {
+                id: household.household_id + "_" + m.name.replace(/\s/g,'_'),
+                name: household.anonymous ? "Anonymous Member" : m.name,
+                dob: m.dob,
+                birthplace: m.birthplace,
+                current_residence: m.current_residence,
+                ethnicity: m.ethnicity,
+                relation: m.relation,
+                children: []
+            };
+            if(m.relation.toLowerCase().includes("child")) rootNode.children.push(childNode);
+            else if(m.relation.toLowerCase().includes("spouse")) rootNode.spouse = childNode;
+            else rootNode.children.push(childNode);
+        }
+    });
+
+    treeNodes.push(rootNode);
+}
+
+/* --- Simple Tree Draw --- */
+function drawTree(){
+    treeCtx.clearRect(0,0,treeCanvas.width,treeCanvas.height);
+    let xStart = 50;
+    let yStart = 50;
+    treeNodes.forEach((node,i)=>{
+        drawNode(treeCtx,node,xStart + i*150,yStart);
+    });
+}
+
+function drawNode(ctx,node,x,y){
+    ctx.fillStyle="#d4c1a5";
+    ctx.fillRect(x,y,100,50);
+    ctx.fillStyle="#000";
+    ctx.fillText(node.name, x+5, y+20);
+    ctx.fillText(node.birthplace, x+5, y+35);
+    if(node.spouse){
+        ctx.fillStyle="#c5b28a";
+        ctx.fillRect(x+110,y,100,50);
+        ctx.fillStyle="#000";
+        ctx.fillText(node.spouse.name,x+115,y+20);
+    }
+    if(node.children && node.children.length>0){
+        node.children.forEach((c,j)=>{
+            let childX = x + j*120;
+            let childY = y + 100;
+            ctx.beginPath();
+            ctx.moveTo(x+50,y+50);
+            ctx.lineTo(childX+50,childY);
+            ctx.stroke();
+            drawNode(ctx,c,childX,childY);
+        });
+    }
+}
+
+</script>
+</body>
+</html>
