@@ -1,0 +1,865 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<title>National Veterans Portal — Verve N Veda</title>
+<style>
+  :root{
+    --bg:#033052;
+    --card:#0f1627;
+    --card2:#0c1220;
+    --ink:#eef3ff;
+    --mut:#b8c3dd;
+    --soft:#22304f;
+    --gold:#d7b25b;
+    --accent:#6ea8ff;
+    --good:#53d18e;
+    --warn:#ffcf5c;
+    --bad:#ff6b6b;
+
+    --r-lg:21px;
+    --r-md:14px;
+    --r-sm:11px;
+    --shadow:0 12px 36px rgba(0,0,0,.40);
+    --max:1040px;
+  }
+
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+    background:
+      radial-gradient(1200px 700px at 20% 10%, rgba(110,168,255,.20), transparent 55%),
+      radial-gradient(900px 600px at 90% 20%, rgba(215,178,91,.16), transparent 60%),
+      linear-gradient(180deg, #070a12 0%, #050712 100%);
+    color:var(--ink);
+  }
+
+  a{color:inherit}
+  .wrap{max-width:var(--max); margin:0 auto; padding:18px 14px 56px;}
+  .topbar{
+    position:sticky; top:0; z-index:20;
+    backdrop-filter: blur(10px);
+    background: linear-gradient(180deg, rgba(7,10,18,.92) 0%, rgba(7,10,18,.62) 100%);
+    border-bottom:1px solid rgba(255,255,255,.08);
+  }
+  .topbar-inner{max-width:var(--max); margin:0 auto; padding:12px 14px;}
+  .brand{
+    display:flex; align-items:flex-start; justify-content:space-between; gap:12px;
+  }
+  .brand h1{
+    margin:0; font-size:18px; letter-spacing:.2px;
+  }
+  .brand .sub{
+    margin-top:4px; color:var(--mut); font-size:12.5px; line-height:1.35;
+    max-width:720px;
+  }
+  .chiprow{display:flex; flex-wrap:wrap; gap:8px; margin-top:10px;}
+  .chip{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:9px 11px;
+    border-radius:999px;
+    background:rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.10);
+    font-size:12.5px;
+    text-decoration:none;
+    user-select:none;
+  }
+  .chip strong{font-weight:700}
+  .chip.em{background:rgba(255,107,107,.10); border-color:rgba(255,107,107,.28)}
+  .chip.ok{background:rgba(83,209,142,.10); border-color:rgba(83,209,142,.24)}
+  .chip.gold{background:rgba(215,178,91,.12); border-color:rgba(215,178,91,.24)}
+  .chip:hover{border-color:rgba(255,255,255,.22)}
+  .chip:active{transform:translateY(1px)}
+
+  .grid{
+    display:grid;
+    grid-template-columns: 1.15fr .85fr;
+    gap:14px;
+    margin-top:14px;
+  }
+  @media (max-width: 980px){
+    .grid{grid-template-columns: 1fr; }
+  }
+
+  .card{
+    background: linear-gradient(180deg, rgba(255,255,255,.05) 0%, rgba(255,255,255,.03) 100%);
+    border:1px solid rgba(255,255,255,.10);
+    border-radius:var(--r-lg);
+    box-shadow:var(--shadow);
+    overflow:hidden;
+  }
+  .card .hd{
+    padding:14px 14px 10px;
+    background: linear-gradient(180deg, rgba(255,255,255,.06) 0%, rgba(255,255,255,.02) 100%);
+    border-bottom:1px solid rgba(255,255,255,.08);
+  }
+  .card .hd .t{
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+  }
+  .card .hd h2{margin:0; font-size:14.5px; letter-spacing:.2px;}
+  .pill{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:7px 10px;
+    border-radius:999px;
+    background:rgba(110,168,255,.10);
+    border:1px solid rgba(110,168,255,.25);
+    color:var(--ink);
+    font-size:12px;
+  }
+  .body{padding:14px;}
+
+  .search{
+    display:flex; gap:10px; align-items:center;
+    background:rgba(0,0,0,.25);
+    border:1px solid rgba(255,255,255,.10);
+    border-radius:var(--r-md);
+    padding:10px 10px;
+  }
+  .search input{
+    width:100%;
+    background:transparent; border:0; outline:0;
+    color:var(--ink); font-size:14px;
+  }
+  .search .k{
+    font-size:12px; color:var(--mut);
+    border:1px solid rgba(255,255,255,.12);
+    padding:5px 8px; border-radius:10px;
+  }
+
+  .tabs{
+    display:flex; flex-wrap:wrap; gap:8px;
+    margin-top:12px;
+  }
+  .tab{
+    cursor:pointer;
+    border-radius:999px;
+    padding:9px 12px;
+    border:1px solid rgba(255,255,255,.10);
+    background:rgba(255,255,255,.05);
+    color:var(--ink);
+    font-size:12.5px;
+    user-select:none;
+  }
+  .tab.active{
+    border-color:rgba(215,178,91,.30);
+    background:rgba(215,178,91,.12);
+  }
+
+  .list{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap:10px;
+    margin-top:12px;
+  }
+  @media (max-width: 700px){
+    .list{grid-template-columns: 1fr;}
+  }
+
+  .item{
+    background:rgba(0,0,0,.22);
+    border:1px solid rgba(255,255,255,.10);
+    border-radius:var(--r-md);
+    padding:12px;
+    display:flex; flex-direction:column; gap:10px;
+    min-height:118px;
+  }
+  .item .row{
+    display:flex; align-items:flex-start; justify-content:space-between; gap:10px;
+  }
+  .item .title{
+    font-weight:750; letter-spacing:.15px; font-size:13.5px;
+  }
+  .item .desc{
+    color:var(--mut); font-size:12.5px; line-height:1.35;
+  }
+  .item .meta{
+    display:flex; flex-wrap:wrap; gap:8px; align-items:center;
+    margin-top:auto;
+  }
+  .tag{
+    font-size:11px; color:var(--mut);
+    padding:5px 8px; border-radius:999px;
+    border:1px solid rgba(255,255,255,.10);
+    background:rgba(255,255,255,.04);
+  }
+  .btns{display:flex; gap:8px; margin-left:auto}
+  .btn{
+    cursor:pointer;
+    border-radius:12px;
+    padding:8px 10px;
+    border:1px solid rgba(255,255,255,.12);
+    background:rgba(255,255,255,.06);
+    color:var(--ink);
+    font-size:12px;
+    text-decoration:none;
+    display:inline-flex; align-items:center; gap:7px;
+    user-select:none;
+    white-space:nowrap;
+  }
+  .btn:hover{border-color:rgba(255,255,255,.22)}
+  .btn.primary{
+    background:rgba(110,168,255,.14);
+    border-color:rgba(110,168,255,.28);
+  }
+  .btn.gold{
+    background:rgba(215,178,91,.14);
+    border-color:rgba(215,178,91,.28);
+  }
+  .btn.bad{
+    background:rgba(255,107,107,.14);
+    border-color:rgba(255,107,107,.28);
+  }
+
+  .sidecol{display:flex; flex-direction:column; gap:14px;}
+  .mini{
+    background:rgba(0,0,0,.22);
+    border:1px solid rgba(255,255,255,.10);
+    border-radius:var(--r-lg);
+    overflow:hidden;
+  }
+  .mini .mhd{
+    padding:12px 12px 10px;
+    border-bottom:1px solid rgba(255,255,255,.08);
+    background:rgba(255,255,255,.04);
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+  }
+  .mini h3{margin:0; font-size:13.5px; letter-spacing:.15px;}
+  .mini .mbody{padding:12px;}
+  .mut{color:var(--mut); font-size:12.5px; line-height:1.35;}
+
+  select, textarea{
+    width:100%;
+    background:rgba(255,255,255,.06);
+    color:var(--ink);
+    border:1px solid rgba(255,255,255,.12);
+    border-radius:12px;
+    padding:10px 10px;
+    outline:none;
+    font-size:14px;
+  }
+  textarea{min-height:120px; resize:vertical}
+
+  .checkrow{display:flex; gap:8px; margin-top:10px;}
+  .checkrow input{
+    flex:1;
+    background:rgba(255,255,255,.06);
+    color:var(--ink);
+    border:1px solid rgba(255,255,255,.12);
+    border-radius:12px;
+    padding:10px 10px;
+    outline:none;
+    font-size:14px;
+  }
+
+  .checks{display:flex; flex-direction:column; gap:8px; margin-top:10px;}
+  .check{
+    display:flex; align-items:flex-start; gap:10px;
+    padding:9px 10px;
+    border:1px solid rgba(255,255,255,.10);
+    border-radius:12px;
+    background:rgba(255,255,255,.04);
+  }
+  .check input{margin-top:2px}
+  .check .txt{flex:1; font-size:13px; color:var(--ink); line-height:1.35}
+  .check .x{
+    cursor:pointer;
+    border:1px solid rgba(255,255,255,.12);
+    background:rgba(0,0,0,.18);
+    color:var(--mut);
+    border-radius:10px;
+    padding:6px 8px;
+    font-size:12px;
+  }
+  .foot{
+    margin-top:18px;
+    color:var(--mut);
+    font-size:12px;
+    line-height:1.35;
+    opacity:.92;
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <div>
+        <h1>National Veterans Portal <span style="color:var(--gold)">— Verve N Veda</span></h1>
+        <div class="sub">
+          A fast, no-login hub linking you to official VA resources and your state/territory veterans agency. Use Search, save Favorites locally, and build a personal “My Kit” plan.
+        </div>
+        <div class="chiprow">
+          <a class="chip em" href="tel:988" aria-label="Call 988 (Veterans Crisis Line)"><strong>Urgent:</strong> Crisis Line 988 (Press 1)</a>
+          <a class="chip em" href="sms:838255" aria-label="Text 838255 (Veterans Crisis Line)">Text 838255</a>
+          <a class="chip ok" href="tel:18774243838" aria-label="Call Homeless Veterans Hotline 877-424-3838">Homeless Hotline 877-424-3838</a>
+          <a class="chip gold" href="#" id="openFavs">★ Favorites: <span id="favCount">0</span></a>
+        </div>
+      </div>
+
+      <div style="min-width:160px; text-align:right">
+        <a class="chip" href="https://www.va.gov" target="_blank" rel="noopener noreferrer">Open VA.gov</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="grid">
+    <div class="card">
+      <div class="hd">
+        <div class="t">
+          <h2>Find the right link fast</h2>
+          <span class="pill">Search • Filter • Save</span>
+        </div>
+      </div>
+      <div class="body">
+        <div class="search">
+          <input id="q" type="text" placeholder="Search: benefits, disability, GI Bill, caregiver, housing, mental health, women veterans…" />
+          <div class="k">Ctrl / ⌘ K</div>
+        </div>
+
+        <div class="tabs" id="tabs"></div>
+        <div class="list" id="list"></div>
+
+        <div class="foot" id="disclaimer">
+          <strong>Note:</strong> This portal is informational and doesn’t collect personal data. For emergencies, call 911. For immediate confidential Veteran crisis support, dial 988 (press 1) or text 838255.
+        </div>
+      </div>
+    </div>
+
+    <div class="sidecol">
+      <div class="mini">
+        <div class="mhd">
+          <h3>By State / Territory</h3>
+          <button class="btn" id="stateClear" type="button" title="Clear selection">Clear</button>
+        </div>
+        <div class="mbody">
+          <div class="mut">Choose your state or territory to open its Veterans Affairs agency website.</div>
+          <div style="margin-top:10px">
+            <select id="stateSel"></select>
+          </div>
+          <div style="display:flex; gap:8px; margin-top:10px; flex-wrap:wrap">
+            <a class="btn primary" id="openStateSite" href="#" target="_blank" rel="noopener noreferrer">Open state site</a>
+            <a class="btn" href="https://www.va.gov/find-locations/" target="_blank" rel="noopener noreferrer">Find VA locations</a>
+          </div>
+          <div class="mut" style="margin-top:10px">
+            State links are sourced from NASDVA’s directory of state/territory websites.
+          </div>
+        </div>
+      </div>
+
+      <div class="mini">
+        <div class="mhd">
+          <h3>My Kit (private)</h3>
+          <button class="btn" id="printBtn" type="button">Print</button>
+        </div>
+        <div class="mbody">
+          <div class="mut">Favorites, checklist, and notes save locally on this device (no accounts).</div>
+
+          <div style="margin-top:10px; font-weight:750; font-size:12.5px">Quick checklist</div>
+          <div class="checkrow">
+            <input id="checkInput" placeholder="Add a next step (e.g., ‘Call benefits hotline’)…" />
+            <button class="btn gold" id="addCheck" type="button">Add</button>
+          </div>
+          <div class="checks" id="checks"></div>
+
+          <div style="margin-top:12px; font-weight:750; font-size:12.5px">Notes</div>
+          <textarea id="notes" placeholder="Keep important details here (claim number, dates, questions to ask, documents needed)…"></textarea>
+          <div style="display:flex; gap:8px; margin-top:10px; flex-wrap:wrap">
+            <button class="btn" id="saveNotes" type="button">Save notes</button>
+            <button class="btn" id="wipeAll" type="button" title="Clears favorites, checklist, notes">Reset My Kit</button>
+          </div>
+
+          <div class="mut" style="margin-top:10px">
+            Tip: Use “Get help from an accredited representative” to avoid scams and unverified claim help.
+          </div>
+        </div>
+      </div>
+
+      <div class="mini">
+        <div class="mhd">
+          <h3>Facility Finders</h3>
+          <span class="pill">VA.gov</span>
+        </div>
+        <div class="mbody" style="display:flex; flex-wrap:wrap; gap:8px">
+          <a class="btn" href="https://www.va.gov/find-locations/?facilityType=health" target="_blank" rel="noopener noreferrer">Hospitals & clinics</a>
+          <a class="btn" href="https://www.va.gov/find-locations/?facilityType=vet_center" target="_blank" rel="noopener noreferrer">Vet Centers</a>
+          <a class="btn" href="https://www.va.gov/find-locations/?facilityType=benefits" target="_blank" rel="noopener noreferrer">Benefits offices</a>
+          <a class="btn" href="https://www.va.gov/find-locations/?facilityType=cemetery" target="_blank" rel="noopener noreferrer">Cemeteries</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* =========================
+   Local storage keys
+========================= */
+const LS = {
+  favs: "vv_vetportal_favs_v1",
+  notes: "vv_vetportal_notes_v1",
+  checks: "vv_vetportal_checks_v1",
+  state: "vv_vetportal_state_v1",
+  tab: "vv_vetportal_tab_v1"
+};
+
+/* =========================
+   Data: resources
+========================= */
+const RESOURCES = [
+  // Lifelines / contact
+  {cat:"Start", title:"Veterans Crisis Line (24/7)", desc:"Dial 988 then press 1, text 838255, or chat confidentially.", url:"https://www.veteranscrisisline.net/get-help-now/", tags:["crisis","mental health","urgent"], badge:"Urgent"},
+  {cat:"Start", title:"National Call Center for Homeless Veterans (24/7)", desc:"If you’re homeless or at risk: call 1-877-4AID-VET (877-424-3838) or use the chat.", url:"https://www.va.gov/homeless/nationalcallcenter.asp", tags:["housing","homeless","urgent"], badge:"24/7"},
+  {cat:"Start", title:"Helpful VA phone numbers", desc:"Official directory of VA hotlines (benefits, GI Bill, loans, caregiver, women veterans, and more).", url:"https://www.va.gov/resources/helpful-va-phone-numbers/", tags:["phone","hotline","contact"], badge:"Official"},
+  {cat:"Start", title:"Contact VA (Ask VA)", desc:"Send a question online through Ask VA. Sign in may be required for personal questions.", url:"https://www.va.gov/contact-us/ask-va/", tags:["contact","ask va"], badge:"Official"},
+  {cat:"Start", title:"Find help from an accredited representative / VSO", desc:"Search VA’s tool for accredited VSOs, attorneys, or claims agents. VSOs are free.", url:"https://www.va.gov/get-help-from-accredited-representative/find-rep/", tags:["claims","vso","accredited"], badge:"Trusted"},
+  {cat:"Start", title:"Manage VA debt (and scam warning)", desc:"Review benefit overpayments/copays and see official scam alerts targeting overpayments.", url:"https://www.va.gov/manage-va-debt/", tags:["debt","scams","overpayment"], badge:"Official"},
+  {cat:"Start", title:"National Resource Directory (NRD)", desc:"Search vetted federal/state/local resources for service members, Veterans, families, caregivers.", url:"https://www.nrd.gov/", tags:["directory","resources"], badge:"Search"},
+
+  // Benefits
+  {cat:"Benefits", title:"Disability benefits", desc:"File and manage disability compensation claims related to military service.", url:"https://www.va.gov/disability/", tags:["disability","claim"], badge:"VA.gov"},
+  {cat:"Benefits", title:"VA benefits hub", desc:"Browse and manage the VA benefits you’ve earned.", url:"https://www.va.gov/benefits/", tags:["benefits"], badge:"VA.gov"},
+  {cat:"Benefits", title:"Records & download letters", desc:"Download eligibility/award letters and manage key records.", url:"https://www.va.gov/records/", tags:["records","letters"], badge:"VA.gov"},
+  {cat:"Benefits", title:"Burials & memorials", desc:"Plan and apply for burial benefits, memorial items, and cemetery services.", url:"https://www.va.gov/burials-memorials/", tags:["burial","memorial"], badge:"VA.gov"},
+
+  // Health
+  {cat:"Health", title:"Apply for VA health care", desc:"Apply, access services, and manage VA health care.", url:"https://www.va.gov/health-care/", tags:["health","apply"], badge:"VA.gov"},
+  {cat:"Health", title:"Mental health services", desc:"Counseling, therapy, peer support, and treatment options through VA.", url:"https://www.va.gov/health-care/health-needs-conditions/mental-health/", tags:["mental health","therapy"], badge:"VA.gov"},
+  {cat:"Health", title:"Send secure messages (My HealtheVet)", desc:"Message your VA health care team securely online.", url:"https://www.va.gov/health-care/send-receive-messages/", tags:["secure messages","my healthevet"], badge:"VA.gov"},
+
+  // Housing
+  {cat:"Housing", title:"VA housing assistance", desc:"Home buying/refinance help and housing-related benefits.", url:"https://www.va.gov/housing-assistance/", tags:["housing","home"], badge:"VA.gov"},
+  {cat:"Housing", title:"VA home loans", desc:"Learn about VA loan programs and how to apply.", url:"https://www.benefits.va.gov/homeloans/", tags:["home loans","mortgage"], badge:"VBA"},
+
+  // Education / careers
+  {cat:"Education", title:"Education & training (GI Bill)", desc:"Apply for and manage education benefits and career counseling.", url:"https://www.va.gov/education/", tags:["gi bill","education"], badge:"VA.gov"},
+  {cat:"Education", title:"GI Bill contact info", desc:"Official GI Bill phone and Ask VA contact options.", url:"https://www.benefits.va.gov/gibill/contact_us.asp", tags:["gi bill","contact"], badge:"VBA"},
+  {cat:"Work", title:"VA careers & employment", desc:"Employment tools and career resources for Veterans.", url:"https://www.va.gov/careers-employment/", tags:["jobs","employment"], badge:"VA.gov"},
+  {cat:"Work", title:"Department of Labor — VETS", desc:"Federal employment and training resources for Veterans.", url:"https://www.dol.gov/agencies/vets", tags:["dol","employment"], badge:".gov"},
+
+  // Family / caregivers
+  {cat:"Family", title:"Family & caregiver benefits", desc:"Benefits for spouses, dependents, survivors, and caregivers.", url:"https://www.va.gov/family-and-caregiver-benefits/", tags:["caregiver","family"], badge:"VA.gov"},
+  {cat:"Family", title:"Caregiver Support Program", desc:"Education, resources, and local caregiver support teams.", url:"https://www.caregiver.va.gov/", tags:["caregiver"], badge:"VA"},
+  {cat:"Family", title:"Program of Comprehensive Assistance for Family Caregivers (PCAFC)", desc:"Eligibility details for the comprehensive caregiver assistance program.", url:"https://www.va.gov/family-and-caregiver-benefits/health-and-disability/comprehensive-assistance-for-family-caregivers/", tags:["pcafc","caregiver"], badge:"VA.gov"},
+
+  // Women veterans & specialized
+  {cat:"Women", title:"Center for Women Veterans", desc:"Women Veteran resources, WVPM locator, and Women Veterans Call Center info.", url:"https://www.va.gov/womenvet/", tags:["women veterans"], badge:"VA.gov"},
+  {cat:"Women", title:"Women Veterans Health", desc:"Women’s health resources through VA.", url:"https://www.womenshealth.va.gov/", tags:["women veterans","health"], badge:"VA"},
+
+  // More
+  {cat:"More", title:"Military service records (National Archives)", desc:"Request military service records and replacement medals (official archives.gov).", url:"https://www.archives.gov/veterans", tags:["records","archives"], badge:".gov"},
+  {cat:"More", title:"Veteran-owned business resources (SBA)", desc:"Funding, training, and contracting support for Veteran entrepreneurs.", url:"https://www.sba.gov/business-guide/grow-your-business/veteran-owned-businesses", tags:["business","sba"], badge:".gov"},
+  {cat:"More", title:"VA OSDBU (Veteran business with VA)", desc:"VA small & Veteran business programs and procurement resources.", url:"https://www.va.gov/osdbu/", tags:["business","contracting"], badge:"VA"}
+];
+
+/* =========================
+   Data: state/territory links (NASDVA)
+========================= */
+const STATE_LINKS = [
+  {name:"Select…", url:""},
+  {name:"Alabama", url:"https://va.alabama.gov"},
+  {name:"Alaska", url:"https://veterans.alaska.gov"},
+  {name:"American Samoa", url:"https://www.va.gov"},
+  {name:"Arizona", url:"https://dvs.az.gov"},
+  {name:"Arkansas", url:"https://www.veterans.arkansas.gov"},
+  {name:"California", url:"https://www.calvet.ca.gov"},
+  {name:"Colorado", url:"https://www.colorado.gov"},
+  {name:"Connecticut", url:"https://portal.ct.gov"},
+  {name:"Delaware", url:"https://veteransaffairs.delaware.gov"},
+  {name:"Florida", url:"https://www.floridavets.org"},
+  {name:"Georgia", url:"https://veterans.georgia.gov"},
+  {name:"Guam", url:"https://gvao.guam.gov"},
+  {name:"Hawaii", url:"https://dod.hawaii.gov"},
+  {name:"Idaho", url:"https://www.veterans.idaho.gov"},
+  {name:"Illinois", url:"https://veterans.illinois.gov"},
+  {name:"Indiana", url:"https://www.in.gov"},
+  {name:"Iowa", url:"https://va.iowa.gov"},
+  {name:"Kansas", url:"https://kcva.ks.gov"},
+  {name:"Kentucky", url:"https://veterans.ky.gov"},
+  {name:"Louisiana", url:"https://www.vetaffairs.la.gov"},
+  {name:"Maine", url:"https://www.maine.gov"},
+  {name:"Maryland", url:"https://veterans.maryland.gov"},
+  {name:"Massachusetts", url:"https://www.mass.gov"},
+  {name:"Michigan", url:"https://www.michigan.gov"},
+  {name:"Minnesota", url:"https://mn.gov"},
+  {name:"Mississippi", url:"https://www.msva.ms.gov"},
+  {name:"Missouri", url:"https://mvc.dps.mo.gov"},
+  {name:"Montana", url:"https://dma.mt.gov"},
+  {name:"Nebraska", url:"https://veterans.nebraska.gov"},
+  {name:"Nevada", url:"https://veterans.nv.gov"},
+  {name:"New Hampshire", url:"https://www.dmavs.nh.gov"},
+  {name:"New Jersey", url:"https://www.nj.gov"},
+  {name:"New Mexico", url:"https://www.nmdvs.org"},
+  {name:"New York", url:"https://veterans.ny.gov"},
+  {name:"North Carolina", url:"https://www.milvets.nc.gov"},
+  {name:"North Dakota", url:"https://www.nd.gov"},
+  {name:"Northern Mariana Islands", url:"https://www.va.gov"},
+  {name:"Ohio", url:"https://dvs.ohio.gov"},
+  {name:"Oklahoma", url:"https://oklahoma.gov"},
+  {name:"Oregon", url:"https://www.oregon.gov"},
+  {name:"Pennsylvania", url:"https://www.dmva.pa.gov"},
+  {name:"Puerto Rico", url:"https://www.va.gov"},
+  {name:"Rhode Island", url:"https://www.vets.ri.gov"},
+  {name:"South Carolina", url:"https://scdva.sc.gov"},
+  {name:"South Dakota", url:"https://vetaffairs.sd.gov"},
+  {name:"Tennessee", url:"https://www.tn.gov"},
+  {name:"Texas", url:"https://www.tvc.texas.gov"},
+  {name:"Utah", url:"https://veterans.utah.gov"},
+  {name:"Vermont", url:"https://veterans.vermont.gov"},
+  {name:"Virginia", url:"https://www.dvs.virginia.gov"},
+  {name:"Virgin Islands", url:"https://veterans.vi.gov"},
+  {name:"Washington", url:"https://www.dva.wa.gov"},
+  {name:"Washington, D.C.", url:"https://communityaffairs.dc.gov"},
+  {name:"West Virginia", url:"https://veterans.wv.gov"},
+  {name:"Wisconsin", url:"https://dva.wi.gov"},
+  {name:"Wyoming", url:"https://www.wyomilitary.wyo.gov"}
+];
+
+/* =========================
+   UI state
+========================= */
+const CATS = ["Start","Benefits","Health","Housing","Education","Work","Family","Women","More","★ Favorites"];
+let currentCat = localStorage.getItem(LS.tab) || "Start";
+let favs = safeParse(localStorage.getItem(LS.favs), []);
+let checks = safeParse(localStorage.getItem(LS.checks), []);
+let notes = localStorage.getItem(LS.notes) || "";
+let selectedState = localStorage.getItem(LS.state) || "";
+
+/* =========================
+   Helpers
+========================= */
+function safeParse(v, fallback){
+  try{ return v ? JSON.parse(v) : fallback; }catch(e){ return fallback; }
+}
+function saveFavs(){ localStorage.setItem(LS.favs, JSON.stringify(favs)); updateFavCount(); }
+function saveChecks(){ localStorage.setItem(LS.checks, JSON.stringify(checks)); }
+function updateFavCount(){ document.getElementById("favCount").textContent = favs.length; }
+function isFav(url){ return favs.includes(url); }
+function toggleFav(url){
+  if(isFav(url)) favs = favs.filter(u => u !== url);
+  else favs.push(url);
+  saveFavs();
+  render();
+}
+
+/* =========================
+   Render: tabs
+========================= */
+function renderTabs(){
+  const tabs = document.getElementById("tabs");
+  tabs.innerHTML = "";
+  CATS.forEach(cat=>{
+    const b = document.createElement("button");
+    b.className = "tab" + (cat===currentCat ? " active":"");
+    b.type="button";
+    b.textContent = cat;
+    b.onclick = ()=>{
+      currentCat = cat;
+      localStorage.setItem(LS.tab, currentCat);
+      render();
+      renderTabs();
+    };
+    tabs.appendChild(b);
+  });
+}
+
+/* =========================
+   Render: list
+========================= */
+function render(){
+  const q = (document.getElementById("q").value || "").trim().toLowerCase();
+  let items = RESOURCES.slice();
+
+  if(currentCat === "★ Favorites"){
+    items = items.filter(r => isFav(r.url));
+  }else{
+    items = items.filter(r => r.cat === currentCat);
+  }
+
+  if(q){
+    items = items.filter(r=>{
+      const hay = (r.title+" "+r.desc+" "+(r.tags||[]).join(" ")).toLowerCase();
+      return hay.includes(q);
+    });
+  }
+
+  const list = document.getElementById("list");
+  list.innerHTML = "";
+
+  if(!items.length){
+    list.innerHTML = `<div class="mut" style="grid-column:1/-1; padding:10px 2px;">
+      No matches. Try a different keyword (e.g., “GI Bill”, “disability”, “housing”, “caregiver”).
+    </div>`;
+    return;
+  }
+
+  items.forEach(r=>{
+    const div = document.createElement("div");
+    div.className = "item";
+
+    const top = document.createElement("div");
+    top.className = "row";
+
+    const left = document.createElement("div");
+    left.style.minWidth="0";
+
+    const t = document.createElement("div");
+    t.className = "title";
+    t.textContent = r.title;
+
+    const d = document.createElement("div");
+    d.className = "desc";
+    d.textContent = r.desc;
+
+    left.appendChild(t);
+    left.appendChild(d);
+
+    const btns = document.createElement("div");
+    btns.className = "btns";
+
+    const fav = document.createElement("button");
+    fav.className = "btn";
+    fav.type="button";
+    fav.title = isFav(r.url) ? "Remove from favorites" : "Save to favorites";
+    fav.textContent = isFav(r.url) ? "★ Saved" : "☆ Save";
+    fav.onclick = ()=>toggleFav(r.url);
+
+    const go = document.createElement("a");
+    go.className = "btn primary";
+    go.href = r.url;
+    go.target = "_blank";
+    go.rel = "noopener noreferrer";
+    go.textContent = "Open";
+
+    btns.appendChild(fav);
+    btns.appendChild(go);
+
+    top.appendChild(left);
+    top.appendChild(btns);
+
+    const meta = document.createElement("div");
+    meta.className = "meta";
+
+    const badge = document.createElement("span");
+    badge.className = "tag";
+    badge.textContent = r.badge || "Link";
+    meta.appendChild(badge);
+
+    (r.tags||[]).slice(0,3).forEach(tag=>{
+      const tg = document.createElement("span");
+      tg.className = "tag";
+      tg.textContent = tag;
+      meta.appendChild(tg);
+    });
+
+    div.appendChild(top);
+    div.appendChild(meta);
+    list.appendChild(div);
+  });
+}
+
+/* =========================
+   State selector
+========================= */
+function initState(){
+  const sel = document.getElementById("stateSel");
+  sel.innerHTML = "";
+  STATE_LINKS.forEach(s=>{
+    const opt = document.createElement("option");
+    opt.value = s.url;
+    opt.textContent = s.name;
+    sel.appendChild(opt);
+  });
+
+  // restore
+  sel.value = selectedState || "";
+  updateStateBtn();
+
+  sel.onchange = ()=>{
+    selectedState = sel.value;
+    localStorage.setItem(LS.state, selectedState);
+    updateStateBtn();
+  };
+
+  document.getElementById("stateClear").onclick = ()=>{
+    selectedState = "";
+    localStorage.setItem(LS.state, "");
+    sel.value = "";
+    updateStateBtn();
+  };
+}
+
+function updateStateBtn(){
+  const a = document.getElementById("openStateSite");
+  if(!selectedState){
+    a.classList.remove("primary");
+    a.textContent = "Open state site";
+    a.href = "#";
+    a.onclick = (e)=>{ e.preventDefault(); };
+    return;
+  }
+  a.classList.add("primary");
+  a.textContent = "Open state site";
+  a.href = selectedState;
+  a.onclick = null;
+}
+
+/* =========================
+   My Kit: checklist + notes
+========================= */
+function initKit(){
+  document.getElementById("notes").value = notes;
+
+  document.getElementById("saveNotes").onclick = ()=>{
+    notes = document.getElementById("notes").value || "";
+    localStorage.setItem(LS.notes, notes);
+    toast("Notes saved.");
+  };
+
+  document.getElementById("addCheck").onclick = addCheckFromInput;
+  document.getElementById("checkInput").addEventListener("keydown",(e)=>{
+    if(e.key==="Enter"){ e.preventDefault(); addCheckFromInput(); }
+  });
+
+  document.getElementById("wipeAll").onclick = ()=>{
+    if(!confirm("Reset Favorites + Checklist + Notes on this device?")) return;
+    favs = []; checks = []; notes = "";
+    localStorage.setItem(LS.favs, JSON.stringify(favs));
+    localStorage.setItem(LS.checks, JSON.stringify(checks));
+    localStorage.setItem(LS.notes, "");
+    document.getElementById("notes").value = "";
+    updateFavCount();
+    renderChecks();
+    render();
+    toast("My Kit reset.");
+  };
+
+  document.getElementById("printBtn").onclick = ()=>{
+    window.print();
+  };
+
+  document.getElementById("openFavs").onclick = (e)=>{
+    e.preventDefault();
+    currentCat = "★ Favorites";
+    localStorage.setItem(LS.tab, currentCat);
+    renderTabs();
+    render();
+    window.scrollTo({top:0, behavior:"smooth"});
+  };
+
+  renderChecks();
+}
+
+function addCheckFromInput(){
+  const el = document.getElementById("checkInput");
+  const v = (el.value||"").trim();
+  if(!v) return;
+  checks.unshift({id: Date.now(), text:v, done:false});
+  el.value="";
+  saveChecks();
+  renderChecks();
+}
+
+function renderChecks(){
+  const box = document.getElementById("checks");
+  box.innerHTML = "";
+  if(!checks.length){
+    box.innerHTML = `<div class="mut" style="margin-top:8px">No checklist items yet.</div>`;
+    return;
+  }
+  checks.forEach(it=>{
+    const row = document.createElement("div");
+    row.className = "check";
+
+    const cb = document.createElement("input");
+    cb.type="checkbox";
+    cb.checked = !!it.done;
+    cb.onchange = ()=>{
+      it.done = cb.checked;
+      saveChecks();
+    };
+
+    const txt = document.createElement("div");
+    txt.className = "txt";
+    txt.textContent = it.text;
+    if(it.done) txt.style.opacity = ".65";
+
+    const del = document.createElement("button");
+    del.className="x";
+    del.type="button";
+    del.textContent="Remove";
+    del.onclick = ()=>{
+      checks = checks.filter(x=>x.id!==it.id);
+      saveChecks();
+      renderChecks();
+    };
+
+    row.appendChild(cb);
+    row.appendChild(txt);
+    row.appendChild(del);
+    box.appendChild(row);
+  });
+}
+
+/* =========================
+   Keyboard shortcut (Ctrl/⌘ K)
+========================= */
+window.addEventListener("keydown",(e)=>{
+  const isMac = navigator.platform.toUpperCase().includes("MAC");
+  if((isMac ? e.metaKey : e.ctrlKey) && e.key.toLowerCase()==="k"){
+    e.preventDefault();
+    document.getElementById("q").focus();
+  }
+});
+
+/* =========================
+   Tiny toast
+========================= */
+let toastTimer=null;
+function toast(msg){
+  clearTimeout(toastTimer);
+  let t = document.getElementById("toast");
+  if(!t){
+    t = document.createElement("div");
+    t.id="toast";
+    t.style.position="fixed";
+    t.style.left="50%";
+    t.style.bottom="18px";
+    t.style.transform="translateX(-50%)";
+    t.style.background="rgba(0,0,0,.72)";
+    t.style.border="1px solid rgba(255,255,255,.14)";
+    t.style.color="var(--ink)";
+    t.style.padding="10px 12px";
+    t.style.borderRadius="14px";
+    t.style.fontSize="13px";
+    t.style.zIndex="9999";
+    t.style.boxShadow="0 10px 28px rgba(0,0,0,.45)";
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  t.style.opacity="1";
+  toastTimer=setTimeout(()=>{ t.style.opacity="0"; }, 1400);
+}
+
+/* =========================
+   Init
+========================= */
+(function init(){
+  updateFavCount();
+  renderTabs();
+  render();
+  initState();
+  initKit();
+
+  const q = document.getElementById("q");
+  q.addEventListener("input", render);
+})();
+</script>
+
+</body>
+</html>
