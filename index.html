@@ -3,10 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="Firmament — a centered, sovereign legal-information portal connecting local legal tools, evidence and drafting workspaces, official courts and public-law resources, senior and veteran support, family resources, and protected document workflows.">
+<meta name="description" content="Firmament — a sovereign, local-first legal-information portal connecting verified Verve N Veda legal, evidence, family, housing, senior, veteran, heritage, drafting, research, and official public-law resources.">
 <meta name="theme-color" content="#10281f">
 <meta name="color-scheme" content="dark">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'unsafe-inline'; script-src 'unsafe-inline'; connect-src 'none'; media-src 'self'; object-src 'none'; frame-src 'none'; worker-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'unsafe-inline'; script-src 'unsafe-inline'; connect-src 'none'; media-src 'self'; object-src 'none'; frame-src 'none'; worker-src 'none'; base-uri 'self'; form-action 'none'">
 <title>Firmament — The Sovereign Legal Portal</title>
 <style>
 :root{
@@ -26,8 +28,11 @@
   --gold-300:#d4ae55;
   --gold-400:#a97a2e;
   --ivory:#f5edda;
-  --muted:#b9b0a0;
-  --muted-dark:#8f8779;
+  --muted:#c1b8a8;
+  --muted-dark:#aaa293;
+  --review:#e1b96d;
+  --repair:#d99386;
+  --verified:#9bc4a8;
   --line:rgba(224,190,103,.34);
   --line-soft:rgba(224,190,103,.16);
   --shadow:0 22px 60px rgba(0,0,0,.48);
@@ -61,6 +66,7 @@ body.menu-open{overflow:hidden}
 a{color:inherit}
 button,input,select{font:inherit}
 button{color:inherit;cursor:pointer}
+button:disabled{cursor:not-allowed}
 [hidden]{display:none!important}
 ::selection{background:var(--gold-300);color:#111}
 :focus-visible{outline:3px solid var(--gold-200);outline-offset:4px}
@@ -98,13 +104,13 @@ button{color:inherit;cursor:pointer}
   font-family:var(--display);font-size:1rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase
 }
 .brand-sub{
-  margin-top:5px;color:var(--gold-200);font-size:.68rem;font-weight:444;letter-spacing:.12em;text-transform:uppercase
+  margin-top:5px;color:var(--gold-200);font-size:.72rem;font-weight:444;letter-spacing:.12em;text-transform:uppercase
 }
 .nav-links{display:flex;align-items:center;justify-content:center;gap:4px;flex-wrap:wrap}
 .nav-links a,.nav-links button{
   min-height:42px;display:inline-flex;align-items:center;justify-content:center;padding:8px 10px;
   border:0;background:transparent;color:#d8cebb;text-decoration:none;
-  font-size:.72rem;font-weight:444;letter-spacing:.075em;text-transform:uppercase
+  font-size:.74rem;font-weight:444;letter-spacing:.075em;text-transform:uppercase
 }
 .nav-links a:hover,.nav-links button:hover{color:var(--gold-100);background:rgba(255,255,255,.04)}
 .menu-button{
@@ -147,7 +153,7 @@ main{overflow:hidden}
 .scale-emblem:before{right:100%}.scale-emblem:after{left:100%;transform:scaleX(-1)}
 .kicker,.eyebrow{
   margin:0;color:var(--gold-200);font-family:var(--display);
-  font-size:.75rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase
+  font-size:.78rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase
 }
 .hero h1{
   margin:16px auto 0;color:var(--ivory);font-family:var(--display);
@@ -167,25 +173,34 @@ main{overflow:hidden}
   position:relative;min-height:51px;display:inline-flex;align-items:center;justify-content:center;
   padding:11px 19px;color:var(--gold-100);background:linear-gradient(180deg,var(--charcoal-3),var(--charcoal));
   border:1px solid var(--gold-400);border-radius:var(--radius);text-decoration:none;
-  font-size:.72rem;font-weight:600;line-height:1.35;letter-spacing:.085em;text-align:center;text-transform:uppercase;
+  font-size:.74rem;font-weight:600;line-height:1.35;letter-spacing:.085em;text-align:center;text-transform:uppercase;
   box-shadow:inset 0 0 0 2px #111515,inset 0 0 0 3px rgba(234,211,135,.52),0 10px 22px rgba(0,0,0,.3);
   transition:transform .16s,border-color .16s,background .16s
 }
 .inlay-button:hover{transform:translateY(-2px);border-color:var(--gold-100);background:linear-gradient(180deg,#303434,#191c1c)}
 .inlay-button.primary{color:#17120a;background:linear-gradient(180deg,var(--gold-100),var(--gold-300));border-color:var(--gold-100);box-shadow:inset 0 0 0 2px #79591f,inset 0 0 0 3px #fff0b8,0 12px 25px rgba(0,0,0,.36)}
+.inlay-button.disabled,.inlay-button:disabled{
+  color:#b7afa0;background:#1a1d1d;border-color:#706755;box-shadow:none;opacity:.72;transform:none
+}
 .metrics{
-  width:min(100%,880px);margin:40px auto 0;display:grid;grid-template-columns:repeat(4,1fr);
+  width:min(100%,900px);margin:40px auto 0;display:grid;grid-template-columns:repeat(4,1fr);
   border-block:1px solid var(--line)
 }
 .metric{padding:17px 12px;border-left:1px solid var(--line)}
 .metric:first-child{border-left:0}
 .metric strong{display:block;color:var(--gold-100);font-family:var(--display);font-size:1.52rem;font-weight:500}
-.metric span{display:block;margin-top:3px;color:var(--muted);font-size:.7rem;letter-spacing:.09em;text-transform:uppercase}
+.metric span{display:block;margin-top:3px;color:var(--muted);font-size:.72rem;letter-spacing:.09em;text-transform:uppercase}
 .reference-bar{
   padding:17px 18px;color:#e4dccd;text-align:center;background:linear-gradient(90deg,var(--mahogany-950),var(--mahogany-800),var(--mahogany-950));
-  border-block:1px solid var(--gold-400);font-size:.86rem
+  border-block:1px solid var(--gold-400);font-size:.88rem
 }
 .reference-bar strong{color:var(--gold-100)}
+.status-strip{
+  display:flex;justify-content:center;flex-wrap:wrap;gap:9px;padding:13px 18px;background:#0a1712;border-bottom:1px solid var(--line-soft)
+}
+.status-key{display:inline-flex;align-items:center;gap:7px;color:var(--muted);font-size:.76rem}
+.status-dot{width:9px;height:9px;border-radius:50%;background:var(--verified)}
+.status-dot.review{background:var(--review)}.status-dot.repair{background:var(--repair)}
 .section{padding:82px 18px}
 .section.hunter{background:linear-gradient(rgba(12,33,25,.96),rgba(7,19,15,.98)),repeating-linear-gradient(110deg,rgba(255,255,255,.015) 0 1px,transparent 1px 7px);border-block:1px solid var(--line-soft)}
 .section.mahogany{background:linear-gradient(rgba(38,17,12,.97),rgba(23,11,8,.98)),repeating-linear-gradient(90deg,rgba(255,255,255,.015) 0 1px,transparent 1px 8px);border-block:1px solid var(--line)}
@@ -193,11 +208,11 @@ main{overflow:hidden}
 .section-heading{max-width:900px;margin:0 auto 38px;text-align:center}
 .section-heading h2{
   margin:13px auto 0;color:var(--ivory);font-family:var(--display);
-  font-size:clamp(2.5rem,5.7vw,5.1rem);font-weight:500;line-height:1.08;letter-spacing:.025em;text-transform:uppercase
+  font-size:clamp(2.35rem,5.7vw,5rem);font-weight:500;line-height:1.08;letter-spacing:.025em;text-transform:uppercase
 }
-.section-heading p:last-child{max-width:760px;margin:19px auto 0;color:var(--muted);line-height:1.72}
+.section-heading p:last-child{max-width:780px;margin:19px auto 0;color:var(--muted);line-height:1.72}
 .quick-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.quick-card,.room-card,.pro-card,.official-card,.network-card,.workflow-card{
+.quick-card,.room-card,.pro-card,.official-card,.network-card,.workflow-card,.review-card{
   position:relative;min-width:0;display:flex;flex-direction:column;align-items:center;text-align:center;
   background:linear-gradient(145deg,rgba(255,255,255,.035),transparent 36%),linear-gradient(180deg,var(--charcoal-2),var(--charcoal));
   border:1px solid var(--gold-400);border-radius:var(--radius);
@@ -209,71 +224,87 @@ main{overflow:hidden}
   background:radial-gradient(circle,var(--gold-100),var(--gold-300) 62%,#78521c 64%);
   border:1px solid var(--gold-100);border-radius:50%;font-family:var(--display);font-size:1rem;font-weight:600
 }
-.quick-card h3,.room-card h3,.pro-card h3,.official-card h3,.network-card h3{
+.quick-card h3,.room-card h3,.pro-card h3,.official-card h3,.network-card h3,.review-card h3{
   margin:18px 0 0;color:var(--ivory);font-family:var(--display);font-size:1.28rem;font-weight:500;line-height:1.3;letter-spacing:.02em
 }
-.quick-card p,.room-card p,.pro-card p,.official-card p,.network-card p,.workflow-card p{
-  margin:11px 0 0;color:var(--muted);font-size:.88rem;line-height:1.65
+.quick-card p,.room-card p,.pro-card p,.official-card p,.network-card p,.workflow-card p,.review-card p{
+  margin:11px 0 0;color:var(--muted);font-size:.9rem;line-height:1.65
 }
 .quick-card .inlay-button,.room-card .inlay-button,.pro-card .inlay-button,.official-card .inlay-button,.network-card .inlay-button{width:100%;margin-top:auto}
 .room-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-.room-card{min-height:260px;padding:23px}
-.room-count{margin-top:9px;color:var(--gold-200);font-size:.72rem;letter-spacing:.09em;text-transform:uppercase}
+.room-card{min-height:270px;padding:23px}
+.room-count{margin-top:9px;color:var(--gold-200);font-size:.75rem;letter-spacing:.09em;text-transform:uppercase}
 .catalog-shell{
   padding:18px;background:linear-gradient(180deg,#151818,#0f1212);border:1px solid var(--gold-400);border-radius:var(--radius);
   box-shadow:inset 0 0 0 5px #090b0b,inset 0 0 0 6px rgba(212,174,85,.34),var(--shadow)
 }
-.catalog-tools{display:grid;grid-template-columns:minmax(240px,1fr) 230px auto auto;gap:9px}
+.catalog-tools{display:grid;grid-template-columns:minmax(240px,1fr) 230px 190px auto auto;gap:9px}
 .field,.tool-button{
   min-height:51px;padding:10px 13px;color:var(--ivory);background:#242828;border:1px solid var(--gold-400);
-  border-radius:var(--radius);font-size:.82rem
+  border-radius:var(--radius);font-size:.84rem
 }
-.field::placeholder{color:#9d968a}
+.field::placeholder{color:#a9a195}
 .field:focus{border-color:var(--gold-100);box-shadow:0 0 0 3px rgba(212,174,85,.14);outline:0}
 .tool-button{font-weight:600;letter-spacing:.055em;text-transform:uppercase}
 .tool-button[aria-pressed="true"]{color:#161109;background:var(--gold-200)}
-.catalog-status{display:flex;justify-content:space-between;gap:15px;margin:14px 4px 0;color:var(--muted);font-size:.8rem}
+.catalog-status{display:flex;justify-content:space-between;gap:15px;margin:14px 4px 0;color:var(--muted);font-size:.82rem}
 .catalog-status button{border:0;background:transparent;color:var(--gold-200);text-decoration:underline}
 .resource-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:17px}
 .resource-card{
-  min-height:320px;padding:20px;display:flex;flex-direction:column;align-items:center;text-align:center;
+  min-height:340px;padding:20px;display:flex;flex-direction:column;align-items:center;text-align:center;
   color:var(--ivory);background:linear-gradient(145deg,rgba(255,255,255,.035),transparent 35%),linear-gradient(180deg,#242828,#171a1a);
   border:1px solid var(--gold-400);border-radius:var(--radius);
   box-shadow:inset 0 0 0 3px #101313,inset 0 0 0 4px rgba(212,174,85,.26),0 12px 24px rgba(0,0,0,.28)
 }
 .resource-card[hidden]{display:none}
+.resource-card[data-status="review"]{border-color:#9f7a3f}
+.resource-card[data-status="repair"]{border-color:#8f5148}
 .resource-top{width:100%;display:flex;justify-content:space-between;gap:10px}
 .resource-icon{width:48px;height:48px;display:grid;place-items:center;color:#161109;background:var(--gold-200);border:1px solid var(--gold-100);border-radius:50%;font-family:var(--display);font-size:.9rem;font-weight:600}
 .favorite{width:40px;height:40px;border:1px solid var(--gold-400);border-radius:var(--radius);background:#1b1f1f;color:var(--gold-200);font-size:1rem}
 .favorite[aria-pressed="true"]{color:#171109;background:var(--gold-200)}
-.resource-label{
-  display:inline-flex;align-items:center;justify-content:center;margin-top:15px;padding:5px 8px;color:var(--gold-200);
-  border:1px solid var(--line);font-size:.64rem;letter-spacing:.08em;text-transform:uppercase
+.favorite:disabled{opacity:.35}
+.resource-label,.status-label{
+  display:inline-flex;align-items:center;justify-content:center;margin-top:15px;padding:5px 8px;
+  border:1px solid var(--line);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase
 }
+.resource-label{color:var(--gold-200)}
+.status-label{margin-left:6px;color:var(--verified)}
+.status-label.review{color:var(--review)}.status-label.repair{color:var(--repair)}
 .resource-card h3{margin:14px 0 0;font-family:var(--display);font-size:1.25rem;font-weight:500;line-height:1.28;letter-spacing:.02em}
-.resource-card p{margin:10px 0 0;color:var(--muted);font-size:.86rem;line-height:1.62}
-.resource-tags{margin-top:10px;color:var(--muted-dark);font-size:.68rem;font-style:italic}
+.resource-card p{margin:10px 0 0;color:var(--muted);font-size:.88rem;line-height:1.62}
+.resource-tags{margin-top:10px;color:var(--muted-dark);font-size:.75rem;font-style:italic}
+.resource-note{margin-top:11px;padding:9px 10px;width:100%;color:#d9cfc0;background:rgba(0,0,0,.2);border:1px solid var(--line-soft);font-size:.78rem;line-height:1.5}
 .resource-actions{width:100%;display:grid;grid-template-columns:1fr 46px;gap:8px;margin-top:auto;padding-top:18px}
 .copy-button{border:1px solid var(--gold-400);border-radius:var(--radius);background:#242828;color:var(--gold-200);font-weight:600}
+.copy-button:disabled{opacity:.35}
 .saved-panel{margin-top:14px;padding:17px;border:1px solid var(--line);background:rgba(255,255,255,.025);border-radius:var(--radius)}
 .saved-panel h3{margin:0;color:var(--gold-200);font-family:var(--display);font-size:1rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase}
 .saved-list{display:flex;flex-wrap:wrap;justify-content:center;gap:7px;margin-top:11px}
-.saved-list a{padding:8px 10px;color:var(--ivory);border:1px solid var(--line);background:var(--charcoal);text-decoration:none;font-size:.75rem}
+.saved-list a{padding:8px 10px;color:var(--ivory);border:1px solid var(--line);background:var(--charcoal);text-decoration:none;font-size:.78rem}
 .empty-state{grid-column:1/-1;padding:32px;color:var(--muted);border:1px dashed var(--line);text-align:center}
-.pro-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.review-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.review-card{min-height:300px;padding:22px}
+.review-card[data-status="review"]{border-color:#9f7a3f}
+.review-card[data-status="repair"]{border-color:#8f5148}
+.review-reason{width:100%;margin-top:14px;padding:10px;color:#d9cfc0;background:rgba(0,0,0,.22);border:1px solid var(--line-soft);font-size:.78rem;line-height:1.55}
+.pro-group-title{margin:34px 0 14px;color:var(--gold-100);font-family:var(--display);font-size:1.25rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase}
+.pro-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.pro-grid.technical{grid-template-columns:repeat(2,minmax(0,360px));justify-content:center}
 .pro-card{min-height:325px;padding:20px}
-.source-line{margin-top:10px;color:var(--gold-200);font-size:.65rem;letter-spacing:.08em;text-transform:uppercase}
+.source-line{margin-top:10px;color:var(--gold-200);font-size:.75rem;letter-spacing:.08em;text-transform:uppercase}
 .workflow-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
 .workflow-card{min-height:260px;padding:22px}
 .workflow-step{color:var(--gold-200);font-family:var(--display);font-size:1.7rem;letter-spacing:.08em}
 .workflow-card h3{margin:13px 0 0;color:var(--ivory);font-family:var(--display);font-size:1.12rem;font-weight:500;line-height:1.3}
-.workflow-target{margin-top:auto;padding-top:15px;color:var(--gold-200);font-size:.68rem;letter-spacing:.07em;text-transform:uppercase}
+.workflow-target{margin-top:auto;padding-top:15px;color:var(--gold-200);font-size:.75rem;letter-spacing:.07em;text-transform:uppercase}
 .official-tools{display:grid;grid-template-columns:minmax(240px,1fr) 220px auto;gap:9px;margin-bottom:16px}
 .official-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-.official-card{min-height:295px;padding:20px}
-.official-url{max-width:100%;margin-top:10px;color:var(--muted-dark);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:.62rem;overflow-wrap:anywhere}
-.network-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-.network-card{min-height:245px;padding:20px}
+.official-card{min-height:330px;padding:20px}
+.official-url{max-width:100%;margin-top:10px;color:var(--muted-dark);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:.75rem;overflow-wrap:anywhere}
+.official-note{margin-top:10px;padding:8px;width:100%;color:#d9cfc0;background:rgba(0,0,0,.2);border:1px solid var(--line-soft);font-size:.76rem;line-height:1.5}
+.network-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.network-card{min-height:250px;padding:20px}
 .notice-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:14px}
 .notice-card{
   padding:27px;text-align:center;background:linear-gradient(145deg,rgba(255,255,255,.035),transparent 38%),var(--charcoal);
@@ -285,25 +316,26 @@ main{overflow:hidden}
 .notice-card p,.notice-card li{color:var(--muted);line-height:1.72}
 .notice-card ul{max-width:650px;margin:18px auto 0;padding-left:20px;text-align:left}
 .notice-card blockquote{margin:20px auto 0;color:var(--gold-100);font-family:var(--reading);font-size:1.35rem;line-height:1.55;font-style:italic}
-.notice-card cite{display:block;margin-top:14px;color:var(--muted);font-size:.7rem;letter-spacing:.09em;text-transform:uppercase;font-style:normal}
+.notice-card cite{display:block;margin-top:14px;color:var(--muted);font-size:.75rem;letter-spacing:.09em;text-transform:uppercase;font-style:normal}
 .site-footer{padding:36px 18px;text-align:center;color:var(--muted);background:#050c09;border-top:1px solid var(--line)}
 .footer-title{color:var(--gold-200);font-family:var(--display);letter-spacing:.13em;text-transform:uppercase}
-.footer-meta{margin-top:7px;font-size:.76rem}
+.footer-meta{margin-top:7px;font-size:.78rem}
 .toast{
   position:fixed;left:50%;bottom:18px;z-index:3000;transform:translate(-50%,140px);
   max-width:min(90vw,560px);padding:11px 15px;color:#171109;background:var(--gold-100);
   border:1px solid var(--gold-300);border-radius:var(--radius);box-shadow:var(--shadow);
-  font-size:.8rem;font-weight:600;text-align:center;transition:.24s
+  font-size:.82rem;font-weight:600;text-align:center;transition:.24s
 }
 .toast.show{transform:translate(-50%,0)}
 @media(max-width:1160px){
   .pro-grid{grid-template-columns:repeat(3,1fr)}
-  .official-grid,.network-grid{grid-template-columns:repeat(3,1fr)}
+  .official-grid{grid-template-columns:repeat(3,1fr)}
+  .network-grid{grid-template-columns:repeat(3,1fr)}
   .workflow-grid{grid-template-columns:repeat(3,1fr)}
 }
 @media(max-width:980px){
   .room-grid{grid-template-columns:repeat(2,1fr)}
-  .resource-grid{grid-template-columns:repeat(2,1fr)}
+  .resource-grid,.review-grid{grid-template-columns:repeat(2,1fr)}
   .quick-grid{grid-template-columns:repeat(2,1fr)}
   .catalog-tools{grid-template-columns:1fr 1fr}
   .notice-grid{grid-template-columns:1fr}
@@ -331,7 +363,7 @@ main{overflow:hidden}
   .scale-emblem:before,.scale-emblem:after{width:35px}
   .hero-actions .inlay-button{width:100%}
   .section{padding:66px 12px}
-  .quick-grid,.room-grid,.resource-grid,.pro-grid,.official-grid,.network-grid,.workflow-grid,.catalog-tools{grid-template-columns:1fr}
+  .quick-grid,.room-grid,.resource-grid,.review-grid,.pro-grid,.pro-grid.technical,.official-grid,.network-grid,.workflow-grid,.catalog-tools{grid-template-columns:1fr}
   .catalog-status{flex-direction:column;align-items:center}
   .resource-actions{grid-template-columns:1fr 46px}
   .metric{border-left:0!important;border-top:1px solid var(--line)}
@@ -341,34 +373,42 @@ main{overflow:hidden}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important}}
 @media print{
   body{color:#111;background:#fff}
-  .site-header,.hero,.reference-bar,.quick-grid,.catalog-tools,.catalog-status,.saved-panel,.favorite,.copy-button,.toast,.site-footer{display:none!important}
+  .site-header,.hero,.reference-bar,.status-strip,.quick-grid,.catalog-tools,.catalog-status,.saved-panel,.favorite,.copy-button,.toast,.site-footer{display:none!important}
   .section,.section.hunter,.section.mahogany{padding:20px 0;color:#111;background:#fff;border:0}
   .section-heading h2,.resource-card h3,.notice-card h2,.notice-card h3{color:#111}
-  .resource-grid,.pro-grid,.official-grid{grid-template-columns:repeat(2,1fr)}
-  .resource-card,.pro-card,.official-card,.notice-card{color:#111;background:#fff;border:1px solid #777;box-shadow:none;break-inside:avoid}
-  .resource-card p,.pro-card p,.official-card p,.notice-card p,.notice-card li{color:#333}
+  .resource-grid,.pro-grid,.official-grid,.review-grid{grid-template-columns:repeat(2,1fr)}
+  .resource-card,.pro-card,.official-card,.review-card,.notice-card{color:#111;background:#fff;border:1px solid #777;box-shadow:none;break-inside:avoid}
+  .resource-card p,.pro-card p,.official-card p,.review-card p,.notice-card p,.notice-card li{color:#333}
 }
 </style>
 </head>
 <body>
-<a class="skip-link" href="#catalog">Skip to the legal resource catalog</a>
+<a class="skip-link" href="#catalog">Skip to the verified legal resource catalog</a>
 <div class="gold-rule"></div>
+
 <header class="site-header">
   <div class="wrap header-inner">
-    <a class="brand" href="#top" aria-label="Firmament legal portal home">
+    <a class="brand" href="https://vervenveda.github.io/firmament.github.io/" aria-label="Firmament public landing page">
       <span class="brand-seal" aria-hidden="true">⚖</span>
-      <span class="brand-copy"><span class="brand-name">Firmament</span><span class="brand-sub">The Sovereign Legal Portal</span></span>
+      <span class="brand-copy">
+        <span class="brand-name">Firmament</span>
+        <span class="brand-sub">The Sovereign Legal Portal</span>
+      </span>
     </a>
+
     <nav class="nav-links" id="navLinks" aria-label="Primary navigation">
       <a href="#pathways">Pathways</a>
       <a href="#rooms">Reading Rooms</a>
-      <a href="#catalog">Firmament Tools</a>
+      <a href="#catalog">Verified Tools</a>
+      <a href="#review">Review Ledger</a>
       <a href="#professional">Professional Desk</a>
       <a href="#official">Official Sources</a>
-      <a href="#notice">Reference Notice</a>
       <button type="button" id="printButton">Print Directory</button>
     </nav>
-    <button class="menu-button" id="menuButton" type="button" aria-label="Open navigation" aria-controls="navLinks" aria-expanded="false"><span class="menu-lines"></span></button>
+
+    <button class="menu-button" id="menuButton" type="button" aria-label="Open navigation" aria-controls="navLinks" aria-expanded="false">
+      <span class="menu-lines"></span>
+    </button>
   </div>
 </header>
 
@@ -378,89 +418,154 @@ main{overflow:hidden}
     <div class="scale-emblem" aria-hidden="true">⚖</div>
     <p class="kicker">Knowledge · Evidence · Dignity · Due Process</p>
     <h1>Firmament<span>Law, Evidence & Public Resource Hall</span></h1>
-    <p class="hero-copy">A centered legal-information portal for organizing questions, preserving evidence, preparing documents, finding official law and court resources, and reaching focused support for families, seniors, veterans, consumers, and communities.</p>
+    <p class="hero-copy">A centered, local-first legal-information portal for organizing questions, preserving evidence, preparing documents, finding official law and court resources, and reaching focused support for families, seniors, veterans, consumers, and communities.</p>
+
     <div class="hero-actions">
       <a class="inlay-button primary" href="./apps/Firmament_Law_index.html">Enter Firmament Law</a>
-      <a class="inlay-button" href="#catalog">Browse Legal Tools</a>
+      <a class="inlay-button" href="#catalog">Browse Verified Tools</a>
       <a class="inlay-button" href="#professional">Open Professional Desk</a>
       <a class="inlay-button" href="#official">Find Official Sources</a>
     </div>
+
     <div class="metrics" aria-label="Portal summary">
-      <div class="metric"><strong id="localCount">22</strong><span>Firmament tools</span></div>
-      <div class="metric"><strong id="proCount">10</strong><span>Professional tools</span></div>
-      <div class="metric"><strong id="officialCount">13</strong><span>Official gateways</span></div>
-      <div class="metric"><strong id="roomCount">7</strong><span>Reading rooms</span></div>
+      <div class="metric"><strong id="verifiedCount">0</strong><span>Verified internal tools</span></div>
+      <div class="metric"><strong id="proCount">0</strong><span>Professional tools</span></div>
+      <div class="metric"><strong id="officialCount">0</strong><span>Official gateways</span></div>
+      <div class="metric"><strong id="reviewCount">0</strong><span>Held for review</span></div>
     </div>
   </div>
 </section>
 
 <div class="reference-bar"><strong>Legal information, not legal representation.</strong> Firmament does not create an attorney-client relationship, determine the outcome of a matter, or replace advice from a qualified lawyer.</div>
 
+<div class="status-strip" aria-label="Application status legend">
+  <span class="status-key"><span class="status-dot"></span>Verified and launchable</span>
+  <span class="status-key"><span class="status-dot review"></span>Under review and not launchable</span>
+  <span class="status-key"><span class="status-dot repair"></span>Needs page repair and not launchable</span>
+</div>
+
 <section class="section mahogany" id="pathways">
   <div class="section-inner">
-    <div class="section-heading"><p class="eyebrow">Immediate legal pathways</p><h2>Begin with the right doorway</h2><p>Start with an official source when you need a court, form, current law, case record, legal-aid provider, or civil-rights reporting channel.</p></div>
+    <div class="section-heading">
+      <p class="eyebrow">Immediate legal pathways</p>
+      <h2>Begin with the right doorway</h2>
+      <p>Start with an official source when you need a court, current form, current law, case record, legal-aid provider, or civil-rights reporting channel.</p>
+    </div>
     <div class="quick-grid" id="quickGrid"></div>
   </div>
 </section>
 
 <section class="section hunter" id="rooms">
   <div class="section-inner">
-    <div class="section-heading"><p class="eyebrow">The Firmament collection</p><h2>Choose a legal reading room</h2><p>Each room filters the local catalog to a focused set of educational tools and public-resource pathways.</p></div>
+    <div class="section-heading">
+      <p class="eyebrow">The verified Firmament collection</p>
+      <h2>Choose a reading room</h2>
+      <p>These rooms contain only complete Firmament applications verified at their current GitHub Pages paths. Review and repair records are kept in a separate ledger.</p>
+    </div>
     <div class="room-grid" id="roomGrid"></div>
   </div>
 </section>
 
 <section class="section mahogany" id="catalog">
   <div class="section-inner">
-    <div class="section-heading"><p class="eyebrow">Local legal-information tools</p><h2>The Firmament card catalog</h2><p>Search by title, subject, audience, or room. Favorites remain only in this browser.</p></div>
+    <div class="section-heading">
+      <p class="eyebrow">Verified local-first tools</p>
+      <h2>The Firmament card catalog</h2>
+      <p>Search by title, subject, audience, room, or status. Favorites remain only in this browser. Only verified records create live launch links.</p>
+    </div>
+
     <div class="catalog-shell">
       <div class="catalog-tools">
-        <input class="field" id="searchInput" type="search" placeholder="Search evidence, housing, family, veterans, insurance…" aria-label="Search Firmament tools" autocomplete="off">
+        <input class="field" id="searchInput" type="search" placeholder="Search evidence, housing, family, veterans, heritage…" aria-label="Search Firmament tools" autocomplete="off">
         <select class="field" id="roomSelect" aria-label="Filter by reading room"></select>
+        <select class="field" id="statusSelect" aria-label="Filter by publication status"></select>
         <button class="tool-button" id="savedOnly" type="button" aria-pressed="false">☆ Saved only</button>
         <button class="tool-button" id="clearFilters" type="button">Clear</button>
       </div>
-      <div class="catalog-status"><span id="resultCount" aria-live="polite"></span><button id="focusSearch" type="button">Press / to search</button></div>
+
+      <div class="catalog-status">
+        <span id="resultCount" aria-live="polite"></span>
+        <button id="focusSearch" type="button">Press / to search</button>
+      </div>
+
       <div class="resource-grid" id="resourceGrid"></div>
-      <aside class="saved-panel"><h3>Saved volumes</h3><div class="saved-list" id="savedList"></div></aside>
+
+      <aside class="saved-panel">
+        <h3>Saved verified volumes</h3>
+        <div class="saved-list" id="savedList"></div>
+      </aside>
     </div>
   </div>
 </section>
 
-<section class="section hunter" id="professional">
+<section class="section hunter" id="review">
   <div class="section-inner">
-    <div class="section-heading"><p class="eyebrow">PROSE & ProReSources</p><h2>The professional legal desk</h2><p>Use these connected workspaces to draft, cite, plan, meet, communicate, inspect, package, and preserve materials. These tools support organization; they do not validate legal strategy or replace professional review.</p></div>
-    <div class="pro-grid" id="proGrid"></div>
+    <div class="section-heading">
+      <p class="eyebrow">Publication integrity</p>
+      <h2>Review & repair ledger</h2>
+      <p>These repository files remain visible for planning and restoration, but they are intentionally non-clickable until their content, mission, or page structure is corrected.</p>
+    </div>
+    <div class="review-grid" id="reviewGrid"></div>
   </div>
 </section>
 
-<section class="section mahogany" id="workflow">
+<section class="section mahogany" id="professional">
   <div class="section-inner">
-    <div class="section-heading"><p class="eyebrow">A disciplined record</p><h2>From question to protected file</h2><p>A careful workflow keeps facts, assumptions, sources, drafts, deadlines, and private information distinct.</p></div>
+    <div class="section-heading">
+      <p class="eyebrow">PROSE & ProReSources</p>
+      <h2>The professional legal desk</h2>
+      <p>Use these connected Verve N Veda workspaces to draft, cite, plan, meet, communicate, inspect, package, and preserve materials. They support organization; they do not validate legal strategy or replace professional review.</p>
+    </div>
+
+    <h3 class="pro-group-title">Primary drafting, research & case-support tools</h3>
+    <div class="pro-grid" id="primaryProGrid"></div>
+
+    <h3 class="pro-group-title">Optional technical support tools</h3>
+    <div class="pro-grid technical" id="technicalProGrid"></div>
+  </div>
+</section>
+
+<section class="section hunter" id="workflow">
+  <div class="section-inner">
+    <div class="section-heading">
+      <p class="eyebrow">A disciplined record</p>
+      <h2>From question to protected file</h2>
+      <p>A careful workflow keeps facts, assumptions, sources, drafts, deadlines, and private information distinct.</p>
+    </div>
     <div class="workflow-grid" id="workflowGrid"></div>
   </div>
 </section>
 
-<section class="section hunter" id="official">
+<section class="section mahogany" id="official">
   <div class="section-inner">
-    <div class="section-heading"><p class="eyebrow">Authoritative public gateways</p><h2>Courts, law, records & legal help</h2><p>These external destinations lead to official or institutionally authoritative sources. Verify jurisdiction, effective dates, local rules, filing requirements, fees, and deadlines before acting.</p></div>
+    <div class="section-heading">
+      <p class="eyebrow">Authoritative public gateways</p>
+      <h2>Courts, law, records & legal help</h2>
+      <p>These external destinations lead to official or institutionally authoritative sources. Verify jurisdiction, effective dates, local rules, filing requirements, fees, and deadlines before acting.</p>
+    </div>
+
     <div class="official-tools">
       <input class="field" id="officialSearch" type="search" placeholder="Search legal aid, courts, forms, cases, laws, regulations…" aria-label="Search official legal sources" autocomplete="off">
       <select class="field" id="officialCategory" aria-label="Filter official sources"></select>
       <button class="tool-button" id="clearOfficial" type="button">Clear</button>
     </div>
+
     <div class="official-grid" id="officialGrid"></div>
   </div>
 </section>
 
-<section class="section mahogany" id="network">
+<section class="section hunter" id="network">
   <div class="section-inner">
-    <div class="section-heading"><p class="eyebrow">Connected public halls</p><h2>The wider Verve N Veda network</h2><p>Move between legal, professional, archival, civic, medical, educational, environmental, and community-support destinations.</p></div>
+    <div class="section-heading">
+      <p class="eyebrow">Verified connected halls</p>
+      <h2>The wider Verve N Veda network</h2>
+      <p>These cards open published Verve N Veda GitHub Pages landing pages. Unpublished Veterans and Homeless Services repositories are not presented as live network homes.</p>
+    </div>
     <div class="network-grid" id="networkGrid"></div>
   </div>
 </section>
 
-<section class="section hunter" id="notice">
+<section class="section mahogany" id="notice">
   <div class="section-inner">
     <div class="notice-grid">
       <article class="notice-card">
@@ -472,8 +577,10 @@ main{overflow:hidden}
           <li>Consult a licensed attorney or qualified advocate about consequential decisions and individual circumstances.</li>
           <li>Remove or redact Social Security numbers, account numbers, medical details, addresses, minor-child information, and other sensitive data before sharing files.</li>
           <li>Do not upload confidential material into an unverified third-party service.</li>
+          <li>Several linked tools are local-first rather than fully offline and may load self-selected external fonts or public resources.</li>
         </ul>
       </article>
+
       <article class="notice-card">
         <p class="eyebrow">Firmament reference standard</p>
         <h3>Preserve uncertainty honestly.</h3>
@@ -487,171 +594,819 @@ main{overflow:hidden}
 
 <footer class="site-footer">
   <div class="footer-title">Firmament · The Sovereign Legal Portal</div>
-  <div class="footer-meta">Verve N Veda typography · Local favorites only · No account required · © <span id="year"></span></div>
+  <div class="footer-meta">Verified-status catalog · Local favorites only · No account required · © <span id="year"></span></div>
 </footer>
+
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
 "use strict";
-const APPS=[{"id": "firmament-law", "title": "Firmament Law", "file": "Firmament_Law_index.html", "room": "law", "icon": "⚖", "description": "Primary Firmament workspace for structured legal information, case organization, and guided research.", "tags": "law legal research case organization", "source": "Firmament", "type": "Local legal resource"}, {"id": "legal-console", "title": "Firmament Legal Console", "file": "Firmament_Legal_Console_index.html", "room": "law", "icon": "§", "description": "A sovereign console for organizing legal questions, references, notes, and working materials.", "tags": "legal console documents notes research", "source": "Firmament", "type": "Local legal resource"}, {"id": "questionnaire", "title": "Firmament Interview", "file": "Firmament_Questionaire_index.html", "room": "law", "icon": "✒", "description": "A guided intake interview for arranging facts, concerns, dates, and questions before taking a next step.", "tags": "questionnaire interview intake facts timeline", "source": "Firmament", "type": "Local legal resource"}, {"id": "evidence-analysis", "title": "Evidence Analysis Atlas", "file": "Evidence_Analysis_index.html", "room": "evidence", "icon": "◉", "description": "A local evidence workspace for provenance, observations, uncertainty, pattern review, and careful discernment.", "tags": "evidence analysis provenance patterns uncertainty", "source": "Firmament", "type": "Local legal resource"}, {"id": "collector-hub", "title": "Ethical Civic Support Portal", "file": "Collector_Hub_index.html", "room": "evidence", "icon": "⌘", "description": "A civic-support collection hub for organizing outreach, ethical support materials, and public-facing resources.", "tags": "collector civic support outreach ethics", "source": "Firmament", "type": "Local legal resource"}, {"id": "family-hub", "title": "Family Resource Hub", "file": "Family_Hub_index.html", "room": "family", "icon": "⌂", "description": "A compassionate guide for parents, grandparents, caregivers, and community helpers seeking practical support.", "tags": "family parents caregivers children support", "source": "Firmament", "type": "Local legal resource"}, {"id": "lgbtq-hub", "title": "LGBTQ+ Resource Hub", "file": "LGBTQ+_Hub_index.html", "room": "family", "icon": "◇", "description": "A dedicated gateway to affirming information, community resources, safety support, and practical guidance.", "tags": "lgbtq community affirming safety resources", "source": "Firmament", "type": "Local legal resource"}, {"id": "heritage-census", "title": "Heritage Census", "file": "Heritage_Census_index.html", "room": "heritage", "icon": "⌖", "description": "Explore and document family, cultural, and community heritage information.", "tags": "heritage census family culture records", "source": "Firmament", "type": "Local legal resource"}, {"id": "kindred-vault", "title": "Heritage KindredVault v5", "file": "Heritage_KindredVault_v5_index.html", "room": "heritage", "icon": "▣", "description": "A private-minded family heritage vault for kindred records, memories, connections, and legacy material.", "tags": "heritage kindred vault genealogy archive", "source": "Firmament", "type": "Local legal resource"}, {"id": "heritage-quiz", "title": "Heritage Quiz", "file": "Heritage_Quiz_index.html", "room": "heritage", "icon": "?", "description": "An interactive exploration of ancestry, identity, culture, and history.", "tags": "heritage quiz ancestry identity culture", "source": "Firmament", "type": "Local legal resource"}, {"id": "homeless-hub", "title": "Homeless Resource Hub", "file": "Homeless_Hub_index.html", "room": "community", "icon": "⌂", "description": "A gateway for housing instability, shelter, food, health, documents, benefits, and local assistance.", "tags": "homeless housing shelter food benefits", "source": "Firmament", "type": "Local legal resource"}, {"id": "plera-search", "title": "PLERA Search Gate", "file": "PLERA_Search_Gate_index.html", "room": "community", "icon": "⌕", "description": "A curated search gateway for trusted resource categories and research destinations.", "tags": "plera search gate trusted resources", "source": "Firmament", "type": "Local legal resource"}, {"id": "plera-resources", "title": "PLERA Resources", "file": "Plera_Resources_index.html", "room": "community", "icon": "☷", "description": "A broad reference collection connecting visitors with information, services, and support pathways.", "tags": "plera resources services support directory", "source": "Firmament", "type": "Local legal resource"}, {"id": "senior-path", "title": "Senior Golden Path", "file": "Senior_Golden_Path_index.html", "room": "seniors", "icon": "☀", "description": "A senior-centered pathway for practical decisions, services, well-being, and everyday support.", "tags": "senior golden path aging support", "source": "Firmament", "type": "Local legal resource"}, {"id": "senior-news", "title": "Senior News", "file": "Senior_News_index.html", "room": "seniors", "icon": "📰", "description": "Senior-focused news and information arranged for easier discovery and understanding.", "tags": "senior news updates information aging", "source": "Firmament", "type": "Local legal resource"}, {"id": "senior-library", "title": "Senior Resource Library", "file": "Senior_Resource_Library_index.html", "room": "seniors", "icon": "▤", "description": "A reference library for services, benefits, health, planning, community life, and independent living.", "tags": "senior library benefits health planning", "source": "Firmament", "type": "Local legal resource"}, {"id": "senior-safety", "title": "Senior Safety Check", "file": "Senior_Safety_Check_index.html", "room": "seniors", "icon": "✓", "description": "A practical safety-review tool for identifying concerns, recording observations, and preparing next steps.", "tags": "senior safety check risks review", "source": "Firmament", "type": "Local legal resource"}, {"id": "veterans-florida", "title": "Veterans Hub — Florida", "file": "Veterans_Hub_Florida_index.html", "room": "seniors", "icon": "★", "description": "A Florida gateway to veteran services, benefits, housing, health, and transition resources.", "tags": "veterans florida benefits services housing", "source": "Firmament", "type": "Local legal resource"}, {"id": "veterans-national", "title": "Veterans Hub — National", "file": "Veterans_Hub_National_index.html", "room": "seniors", "icon": "★", "description": "A national resource portal for veterans, service members, families, caregivers, and advocates.", "tags": "veterans national benefits services families", "source": "Firmament", "type": "Local legal resource"}, {"id": "insurance-education", "title": "Insurance Education", "file": "Insurance_Education_index.html", "room": "consumer", "icon": "◈", "description": "Understand insurance language, coverage concepts, questions, and comparison points.", "tags": "insurance education coverage policy consumer", "source": "Firmament", "type": "Local legal resource"}, {"id": "insurance-resources", "title": "Insurance Resources", "file": "Insurance_Resources_index.html", "room": "consumer", "icon": "☂", "description": "A practical directory of insurance references, assistance paths, and consumer research resources.", "tags": "insurance resources assistance directory consumer", "source": "Firmament", "type": "Local legal resource"}, {"id": "shopping", "title": "PLEARA Shopping", "file": "PLEARA_Shopping_index.html", "room": "consumer", "icon": "◫", "description": "A consumer-oriented shopping gateway for resources, comparisons, and informed purchasing pathways.", "tags": "pleara shopping consumer comparison", "source": "Firmament", "type": "Local legal resource"}];
-const ROOMS=[{"id": "all", "title": "All Volumes", "icon": "▥", "description": "Browse the complete Firmament collection."}, {"id": "law", "title": "Legal Chambers", "icon": "⚖", "description": "Core consoles, structured interviews, and legal-information workspaces."}, {"id": "evidence", "title": "Evidence & Civic Records", "icon": "◉", "description": "Evidence review, provenance, pattern analysis, and ethical civic support."}, {"id": "family", "title": "Family & Identity", "icon": "⌂", "description": "Family stability, caregiver support, inclusion, and community connection."}, {"id": "heritage", "title": "Heritage Archives", "icon": "▣", "description": "Kindred records, culture, ancestry, identity, and living history."}, {"id": "community", "title": "Public Resource Desk", "icon": "⌕", "description": "Housing, broad assistance, resource discovery, and public support."}, {"id": "seniors", "title": "Senior & Veteran Wing", "icon": "★", "description": "Senior safety, news, benefits, veteran services, and guided support."}, {"id": "consumer", "title": "Insurance & Consumer Room", "icon": "☂", "description": "Insurance education, resource navigation, and informed consumer tools."}];
-const PRO_TOOLS=[{"id": "prose-suite", "title": "PROSE™ Sovereign Editorial Suite", "url": "https://vervenveda.github.io/proresource_hub.github.io/Protools/PROSE%E2%84%A2%20editingsuite_index.html", "icon": "¶", "category": "Drafting", "description": "Draft, structure, revise, preserve, and export formal letters, briefs, statements, reports, and supporting documents.", "source": "ProReSources"}, {"id": "prose-gateway", "title": "PROSE™ Editorial Gateway", "url": "https://vervenveda.github.io/proresource_hub.github.io/Protools/PROSE_index.html", "icon": "P", "category": "Drafting", "description": "Enter the PROSE writing environment and its organized professional-document pathways.", "source": "ProReSources"}, {"id": "evidence-citation", "title": "Evidence & Citation Studio", "url": "https://vervenveda.github.io/proresource_hub.github.io/Protools/Evidence_Citation_Studio/", "icon": "E", "category": "Evidence", "description": "Organize claims, quotations, sources, provenance, citation relationships, bibliographies, and portable research exports.", "source": "ProReSources"}, {"id": "daily-spark", "title": "DailySpark™ Task Studio", "url": "https://vervenveda.github.io/proresource_hub.github.io/Protools/DailySpark%E2%84%A2_task_studio_index.html", "icon": "✦", "category": "Case Planning", "description": "Track deadlines, priorities, follow-up duties, filing preparation, appointments, and next actions.", "source": "ProReSources"}, {"id": "khaezip", "title": "KhaeZip™ Archive Studio", "url": "https://vervenveda.github.io/proresource_hub.github.io/Protools/KhaeZip%E2%84%A2_index.html", "icon": "⬡", "category": "Records", "description": "Create, inspect, verify, split, join, encrypt, preserve, and recover local archive packages.", "source": "ProReSources"}, {"id": "khaeclean", "title": "KhaeClean™ Document & Code Bench", "url": "https://vervenveda.github.io/proresource_hub.github.io/Protools/KhaeClean%E2%84%A2_index.html", "icon": "◇", "category": "Document Review", "description": "Inspect, clean, compare, and prepare structured text, HTML, JSON, and supporting technical records.", "source": "ProReSources"}, {"id": "kansee", "title": "KANSEE™ Meeting Rooms", "url": "https://vervenveda.github.io/proresource_hub.github.io/Protools/KANSEE%E2%84%A2%20333%20Meeting%20Rooms_index.html", "icon": "K", "category": "Meetings", "description": "Prepare organized meeting rooms, participant views, invitations, room chat, and controlled discussion spaces.", "source": "ProReSources"}, {"id": "hollo", "title": "HOLLO™ Direct Connect", "url": "https://vervenveda.github.io/proresource_hub.github.io/Protools/HOLLO%E2%84%A2%20333%20Direct%20Connect_index.html", "icon": "◎", "category": "Communication", "description": "Maintain trusted contacts, consent-based invitations, direct messages, and private connection pathways.", "source": "ProReSources"}, {"id": "sixbit", "title": "SixBit Bun — Protected Asset Gateway", "url": "https://vervenveda.github.io/proresource_hub.github.io/Protools/SixBit_Bun_index.html", "icon": "6", "category": "Records", "description": "Prepare and protect portable digital assets before they are transferred, attached, or archived.", "source": "ProReSources"}, {"id": "plera-search-pro", "title": "PLERA™ Search Gate", "url": "https://vervenveda.github.io/proresource_hub.github.io/Protools/PLERA%E2%84%A2%20Search%20Gate_index.html", "icon": "⌕", "category": "Research", "description": "Choose a visible research query, source lane, provider, and file focus before opening outside results.", "source": "ProReSources"}];
-const OFFICIAL=[{"id": "usa-legal-aid", "title": "USA.gov — Legal Aid", "url": "https://www.usa.gov/legal-aid", "icon": "US", "category": "Legal Help", "description": "Federal guidance for finding free or low-cost lawyers, legal-aid programs, and court information.", "source": "Official public resource"}, {"id": "lsc", "title": "Legal Services Corporation", "url": "https://www.lsc.gov/about-lsc/what-legal-aid/get-legal-help", "icon": "LS", "category": "Legal Help", "description": "Find civil legal-aid organizations serving eligible people with low incomes.", "source": "Official public resource"}, {"id": "florida-help", "title": "Florida Courts Help", "url": "https://help.flcourts.gov/", "icon": "FL", "category": "Florida Courts", "description": "Florida self-help information, approved forms, court-navigation resources, legal-aid links, and local assistance.", "source": "Official Florida courts resource"}, {"id": "us-courts", "title": "United States Courts", "url": "https://www.uscourts.gov/", "icon": "⚖", "category": "Courts", "description": "Federal judiciary information, court finder, rules, forms, educational materials, and public resources.", "source": "Official federal judiciary"}, {"id": "court-forms", "title": "National Federal Court Forms", "url": "https://www.uscourts.gov/forms-rules/forms", "icon": "F", "category": "Forms", "description": "Search national federal court forms and locate court-specific local forms.", "source": "Official federal judiciary"}, {"id": "pacer", "title": "PACER Federal Court Records", "url": "https://pacer.uscourts.gov/", "icon": "P", "category": "Cases", "description": "Access federal court dockets and filed records; registration and access fees may apply.", "source": "Official federal judiciary"}, {"id": "supreme-court", "title": "Supreme Court Opinions", "url": "https://www.supremecourt.gov/opinions/opinions.aspx", "icon": "SC", "category": "Cases", "description": "Official opinions, orders, case documents, calendars, rules, and Court information.", "source": "Official U.S. Supreme Court"}, {"id": "congress", "title": "Congress.gov", "url": "https://www.congress.gov/", "icon": "C", "category": "Legislation", "description": "Official federal legislative information, bills, laws, actions, committees, members, and Congressional Record materials.", "source": "Library of Congress"}, {"id": "us-code", "title": "United States Code", "url": "https://uscode.house.gov/", "icon": "USC", "category": "Federal Law", "description": "Official subject-matter codification of the general and permanent laws of the United States.", "source": "U.S. House Office of Law Revision Counsel"}, {"id": "federal-register", "title": "Federal Register", "url": "https://www.federalregister.gov/", "icon": "FR", "category": "Regulations", "description": "Daily proposed rules, final rules, notices, presidential documents, and public-inspection material.", "source": "Office of the Federal Register"}, {"id": "regulations", "title": "Regulations.gov", "url": "https://www.regulations.gov/", "icon": "R", "category": "Regulations", "description": "Search federal rulemaking dockets, supporting documents, and open public-comment opportunities.", "source": "Official federal resource"}, {"id": "govinfo", "title": "GovInfo", "url": "https://www.govinfo.gov/", "icon": "G", "category": "Government Publications", "description": "Authenticated publications from all three branches of the United States Government.", "source": "U.S. Government Publishing Office"}, {"id": "civil-rights", "title": "DOJ Civil Rights Division", "url": "https://civilrights.justice.gov/", "icon": "CR", "category": "Civil Rights", "description": "Learn about protected rights and report a possible federal civil-rights violation.", "source": "U.S. Department of Justice"}];
-const NETWORK=[{"title": "Verve N Veda", "url": "https://vervenveda.github.io/", "mark": "V", "description": "The public gateway to the complete Verve N Veda network."}, {"title": "Firmament Law", "url": "https://vervenveda.github.io/firmament.github.io/", "mark": "⚖", "description": "Return to the Firmament public legal and evidence repository."}, {"title": "ProReSources", "url": "https://vervenveda.github.io/proresource_hub.github.io/", "mark": "P", "description": "Professional drafting, evidence, archive, meeting, and document tools."}, {"title": "ARSHIF Archives", "url": "https://vervenveda.github.io/Arshif.github.io/", "mark": "A", "description": "Research, history, culture, public records, and deep-study collections."}, {"title": "The Verifier", "url": "https://vervenveda.github.io/theverifier.github.io/", "mark": "✓", "description": "Source comparison, information literacy, news, and verification pathways."}, {"title": "PLERA Search", "url": "https://vervenveda.github.io/PLERASearch.github.io/", "mark": "⌕", "description": "A visible search gateway for research and public-resource discovery."}, {"title": "One Nation For All", "url": "https://vervenveda.github.io/onenationforall.github.io/", "mark": "ON", "description": "Civic learning, policy, public participation, and government resources."}, {"title": "Veterans Hall", "url": "https://vervenveda.github.io/veterans.github.io/", "mark": "★", "description": "Veteran, service-member, caregiver, family, and benefits resources."}, {"title": "Medicament Hub", "url": "https://vervenveda.github.io/medicament-hub.github.io/", "mark": "✚", "description": "Health literacy, medical education, caregiver tools, and public-health sources."}, {"title": "Khaemenes Academy", "url": "https://vervenveda.github.io/Khaemenes_Academy.github.io/", "mark": "K", "description": "Education, curriculum, research, writing, and lifelong-learning portals."}, {"title": "River to Road", "url": "https://vervenveda.github.io/river_to_road.github.io/", "mark": "R", "description": "Environmental stewardship, service records, and community action."}, {"title": "Homeless Services", "url": "https://vervenveda.github.io/Homeless_Services.github.io/", "mark": "H", "description": "Housing instability, assistance pathways, documents, and public support."}];
-const WORKFLOW=[{"step": "01", "title": "Intake & Questions", "text": "Record people, events, dates, deadlines, goals, unanswered questions, and jurisdiction without drawing conclusions.", "target": "Firmament Interview"}, {"step": "02", "title": "Evidence & Sources", "text": "Separate observations from assumptions; preserve provenance, quotations, copies, dates, and citation details.", "target": "Evidence & Citation Studio"}, {"step": "03", "title": "Chronology & Organization", "text": "Build a clear timeline, issue list, document index, contact log, and action plan.", "target": "Firmament Legal Console"}, {"step": "04", "title": "Draft & Revise", "text": "Prepare letters, statements, summaries, questions, reports, and supporting materials in a structured writing environment.", "target": "PROSE Editorial Suite"}, {"step": "05", "title": "Review & Protect", "text": "Check names, dates, citations, attachments, private information, export formats, and archive integrity before sharing.", "target": "KhaeZip & KhaeClean"}];
+
+const APPS=[
+  {
+    id:"firmament-law",title:"Firmament Law",file:"Firmament_Law_index.html",room:"law",icon:"⚖",
+    description:"Primary Firmament workspace for structured legal information, planning, drafting, and guided research.",
+    tags:"law legal research drafting planning",status:"verified",tier:"legal",
+    note:"Complete application. Review jurisdiction-specific documents with qualified counsel."
+  },
+  {
+    id:"legal-console",title:"Firmament Legal Console",file:"Firmament_Legal_Console_index.html",room:"law",icon:"§",
+    description:"A sovereign console for organizing legal questions, references, notes, clauses, and working materials.",
+    tags:"legal console documents notes research clauses",status:"verified",tier:"legal",
+    note:"Complete application. Distinct from the primary Firmament Law workspace."
+  },
+  {
+    id:"evidence-analysis",title:"Evidence Analysis Atlas",file:"Evidence_Analysis_index.html",room:"law",icon:"◉",
+    description:"A local evidence workspace for provenance, observations, uncertainty, claims, chronology, pattern review, and careful discernment.",
+    tags:"evidence provenance claims chronology patterns uncertainty",status:"verified",tier:"evidence",
+    note:"Organizes evidence; it does not determine guilt, truth, deception, or legal sufficiency."
+  },
+  {
+    id:"law-governance",title:"ARSHIF Law & Governance Hall",file:"Law_Governance_hall_index.html",room:"law",icon:"LG",
+    description:"A complete local course portal for law, governance, civic structures, legal history, and institutional study.",
+    tags:"law governance course civic history institutions",status:"verified",tier:"education",
+    note:"Newly added to the catalog after repository verification."
+  },
+
+  {
+    id:"family-hub",title:"Family Resource Hub",file:"Family_Hub_index.html",room:"community",icon:"⌂",
+    description:"A compassionate guide for parents, grandparents, caregivers, and community helpers seeking practical support.",
+    tags:"family parents caregivers children support housing",status:"verified",tier:"support",
+    note:"Public-support application; not a source of individualized legal advice."
+  },
+  {
+    id:"lgbtq-hub",title:"LGBTQ+ Resource Hub",file:"LGBTQ+_Hub_index.html",room:"community",icon:"◇",
+    description:"A dedicated gateway to affirming information, community resources, safety support, and practical guidance.",
+    tags:"lgbtq community affirming safety identity resources",status:"verified",tier:"support",
+    note:"Support and education resource; verify legal rights through current official sources."
+  },
+  {
+    id:"homeless-hub",title:"Homeless Resource Hub",file:"Homeless_Hub_index.html",room:"community",icon:"H",
+    description:"A gateway for housing instability, shelter, food, health, documents, benefits, and local assistance.",
+    tags:"homeless housing shelter food benefits documents",status:"verified",tier:"support",
+    note:"Complete internal application. The separate Homeless Services repository is not yet published."
+  },
+
+  {
+    id:"senior-path",title:"Senior Golden Path",file:"Senior_Golden_Path_index.html",room:"seniors",icon:"☀",
+    description:"A senior-centered pathway for practical decisions, services, well-being, and everyday support.",
+    tags:"senior aging support services planning",status:"verified",tier:"support",
+    note:"Complete public-support application."
+  },
+  {
+    id:"senior-news",title:"Senior News",file:"Senior_News_index.html",room:"seniors",icon:"N",
+    description:"Senior-focused news and information arranged for easier discovery and understanding.",
+    tags:"senior news updates information aging",status:"verified",tier:"support",
+    note:"Verify time-sensitive news and benefit information with official current sources."
+  },
+  {
+    id:"senior-library",title:"Senior Resource Library",file:"Senior_Resource_Library_index.html",room:"seniors",icon:"▤",
+    description:"A reference library for services, benefits, health, planning, community life, and independent living.",
+    tags:"senior library benefits health planning services",status:"verified",tier:"support",
+    note:"Complete application with a large external-resource directory."
+  },
+  {
+    id:"senior-safety",title:"Senior Safety Check",file:"Senior_Safety_Check_index.html",room:"seniors",icon:"✓",
+    description:"A practical safety-review tool for identifying concerns, recording observations, and preparing next steps.",
+    tags:"senior safety check risks review caregiver",status:"verified",tier:"support",
+    note:"An organizational check-in, not emergency or medical advice."
+  },
+  {
+    id:"veterans-florida",title:"Veterans Hub — Florida",file:"Veterans_Hub_Florida_index.html",room:"seniors",icon:"★",
+    description:"A Florida gateway to veteran services, benefits, housing, health, and transition resources.",
+    tags:"veterans florida benefits services housing health",status:"verified",tier:"support",
+    note:"Florida-focused internal application using public-resource pathways."
+  },
+  {
+    id:"veterans-national",title:"Veterans Hub — National",file:"Veterans_Hub_National_index.html",room:"seniors",icon:"★",
+    description:"A national resource portal for veterans, service members, families, caregivers, and advocates.",
+    tags:"veterans national benefits services families caregivers",status:"verified",tier:"support",
+    note:"Complete internal application. The separate Veterans repository has no published root page."
+  },
+
+  {
+    id:"heritage-census",title:"Heritage Census",file:"Heritage_Census_index.html",room:"heritage",icon:"⌖",
+    description:"Explore and document family, cultural, and community heritage information.",
+    tags:"heritage census family culture records",status:"verified",tier:"records",
+    note:"May contain sensitive personal information. Export, share, and store records carefully."
+  },
+  {
+    id:"kindred-vault",title:"Heritage KindredVault v5",file:"Heritage_KindredVault_v5_index.html",room:"heritage",icon:"▣",
+    description:"A local family-heritage workspace for kindred records, memories, connections, and legacy material.",
+    tags:"heritage kindred vault genealogy archive family",status:"verified",tier:"records",
+    note:"May contain names, birth dates, residences, relationships, ethnicity, and migration history."
+  },
+  {
+    id:"heritage-quiz",title:"Heritage Quiz",file:"Heritage_Quiz_index.html",room:"heritage",icon:"?",
+    description:"An interactive exploration of ancestry, identity, culture, and history.",
+    tags:"heritage quiz ancestry identity culture history",status:"verified",tier:"education",
+    note:"Educational heritage activity; not a legal identity or citizenship determination."
+  },
+
+  {
+    id:"questionnaire",title:"Firmament Interview",file:"Firmament_Questionaire_index.html",room:"review",icon:"✒",
+    description:"A guided intake page intended to arrange facts, concerns, dates, questions, and possible document outlines.",
+    tags:"questionnaire interview intake facts timeline",status:"review",tier:"legal",
+    note:"Held offline because the current file contains repeated unresolved console-link placeholders and incomplete routing."
+  },
+  {
+    id:"collector-hub",title:"Ethical Civic Support Portal — 2028",file:"Collector_Hub_index.html",room:"review",icon:"C",
+    description:"A local political-support pledge and civic-knowledge page.",
+    tags:"civic support pledge political campaign quiz",status:"review",tier:"civic",
+    note:"Complete page but off-mission for a neutral legal portal. Recommended destination: One Nation For All."
+  },
+  {
+    id:"plera-search-local",title:"Ultimate Campaign Search Gate",file:"PLERA_Search_Gate_index.html",room:"review",icon:"⌕",
+    description:"An older campaign-oriented local search gateway.",
+    tags:"campaign search gate research",status:"review",tier:"research",
+    note:"Superseded by the dedicated PLERA Search GitHub Pages gateway in the connected network."
+  },
+  {
+    id:"plera-resources",title:"PLERA Resources Fragment",file:"Plera_Resources_index.html",room:"review",icon:"☷",
+    description:"A broad pasted directory covering research, weather, maps, health, learning, data, and other outside tools.",
+    tags:"resources external tools directory",status:"repair",tier:"directory",
+    note:"Needs a valid doctype, document shell, scoped structure, reviewed links, and removal of pasted artifact text."
+  },
+  {
+    id:"insurance-education",title:"Insurance Education Fragment",file:"Insurance_Education_index.html",room:"review",icon:"◈",
+    description:"Insurance comparison, consumer rights, policy education, complaint guidance, and regulator links.",
+    tags:"insurance education coverage policy consumer",status:"repair",tier:"consumer",
+    note:"Current file begins with malformed literal text rather than a complete HTML document."
+  },
+  {
+    id:"insurance-resources",title:"Insurance Resources Fragment",file:"Insurance_Resources_index.html",room:"review",icon:"☂",
+    description:"A broad insurance-resource directory covering health, Medicare, Medicaid, flood, complaints, and regulators.",
+    tags:"insurance resources assistance directory consumer",status:"repair",tier:"consumer",
+    note:"Current file is a raw embedded fragment and must be wrapped, scoped, and retested."
+  },
+  {
+    id:"shopping",title:"PLEARA Shopping Fragment",file:"PLEARA_Shopping_index.html",room:"review",icon:"◫",
+    description:"A general shopping directory for marketplaces, independent sellers, books, resale, supplies, and retail sourcing.",
+    tags:"shopping consumer marketplace retailer",status:"repair",tier:"offmission",
+    note:"Malformed fragment, contains leftover assistant/citation text, and is not appropriate for the legal catalog."
+  }
+];
+
+const ROOMS=[
+  {id:"all",title:"All Verified Volumes",icon:"▥",description:"Browse every verified Firmament application."},
+  {id:"law",title:"Law, Evidence & Governance",icon:"⚖",description:"Core legal consoles, evidence analysis, and governance education."},
+  {id:"community",title:"Family, Housing & Community",icon:"⌂",description:"Family stability, identity support, housing instability, and public assistance."},
+  {id:"seniors",title:"Senior & Veteran Support",icon:"★",description:"Senior safety, news, benefits, veteran services, and guided support."},
+  {id:"heritage",title:"Heritage & Personal Records",icon:"▣",description:"Kindred records, culture, ancestry, identity, and living history."}
+];
+
+const PRO_TOOLS=[
+  {
+    id:"prose-suite",title:"PROSE™ Sovereign Editorial Suite",
+    url:"https://vervenveda.github.io/proresource_hub.github.io/Protools/PROSE%E2%84%A2%20editingsuite_index.html",
+    icon:"¶",category:"Drafting",group:"primary",
+    description:"Draft, structure, revise, preserve, and export formal letters, statements, reports, and supporting documents."
+  },
+  {
+    id:"prose-gateway",title:"PROSE™ Editorial Gateway",
+    url:"https://vervenveda.github.io/proresource_hub.github.io/Protools/PROSE_index.html",
+    icon:"P",category:"Drafting",group:"primary",
+    description:"Enter the PROSE writing environment and its organized professional-document pathways."
+  },
+  {
+    id:"evidence-citation",title:"Evidence & Citation Studio",
+    url:"https://vervenveda.github.io/proresource_hub.github.io/Protools/Evidence_Citation_Studio/",
+    icon:"E",category:"Evidence",group:"primary",
+    description:"Organize claims, quotations, sources, provenance, citation relationships, bibliographies, and portable research exports."
+  },
+  {
+    id:"daily-spark",title:"DailySpark™ Task Studio",
+    url:"https://vervenveda.github.io/proresource_hub.github.io/Protools/DailySpark%E2%84%A2_task_studio_index.html",
+    icon:"✦",category:"Case Planning",group:"primary",
+    description:"Track deadlines, priorities, follow-up duties, filing preparation, appointments, and next actions."
+  },
+  {
+    id:"khaezip",title:"KhaeZip™ Archive Studio",
+    url:"https://vervenveda.github.io/proresource_hub.github.io/Protools/KhaeZip%E2%84%A2_index.html",
+    icon:"⬡",category:"Records",group:"primary",
+    description:"Create, inspect, verify, split, join, encrypt, preserve, and recover local archive packages."
+  },
+  {
+    id:"kansee",title:"KANSEE™ Meeting Rooms",
+    url:"https://vervenveda.github.io/proresource_hub.github.io/Protools/KANSEE%E2%84%A2%20333%20Meeting%20Rooms_index.html",
+    icon:"K",category:"Meetings",group:"primary",
+    description:"Prepare meeting rooms, participant views, invitations, room chat, and consent-based discussion spaces."
+  },
+  {
+    id:"hollo",title:"HOLLO™ Direct Connect",
+    url:"https://vervenveda.github.io/proresource_hub.github.io/Protools/HOLLO%E2%84%A2%20333%20Direct%20Connect_index.html",
+    icon:"◎",category:"Communication",group:"primary",
+    description:"Maintain trusted contacts, consent-based invitations, direct messages, and private connection pathways."
+  },
+  {
+    id:"plera-search-pro",title:"PLERA™ Search Gate",
+    url:"https://vervenveda.github.io/proresource_hub.github.io/Protools/PLERA%E2%84%A2%20Search%20Gate_index.html",
+    icon:"⌕",category:"Research",group:"primary",
+    description:"Choose a visible research query, source lane, provider, and file focus before opening outside results."
+  },
+  {
+    id:"khaeclean",title:"KhaeClean™ Code Inspection Studio",
+    url:"https://vervenveda.github.io/proresource_hub.github.io/Protools/KhaeClean%E2%84%A2_index.html",
+    icon:"◇",category:"Technical Review",group:"technical",
+    description:"Inspect, compare, preview, preserve, and export supporting HTML, CSS, and JavaScript records."
+  },
+  {
+    id:"sixbit",title:"SixBit Bun™ Protected Asset Gateway",
+    url:"https://vervenveda.github.io/proresource_hub.github.io/Protools/SixBit_Bun_index.html",
+    icon:"6",category:"Technical Assets",group:"technical",
+    description:"Prepare protected image-to-code assets, manifests, SVG records, and KhaeZip-ready packages."
+  }
+];
+
+const OFFICIAL=[
+  {
+    id:"usa-legal-aid",title:"USA.gov — Legal Aid",url:"https://www.usa.gov/legal-aid",icon:"US",
+    category:"Legal Help",description:"Federal guidance for finding free or low-cost lawyers, legal-aid programs, and court information.",
+    note:"National starting point. Eligibility and available services vary."
+  },
+  {
+    id:"lsc",title:"Legal Services Corporation",url:"https://www.lsc.gov/about-lsc/what-legal-aid/get-legal-help",icon:"LS",
+    category:"Legal Help",description:"Find civil legal-aid organizations serving eligible people with low incomes.",
+    note:"Civil legal help; local eligibility and case priorities apply."
+  },
+  {
+    id:"florida-help",title:"Florida Courts Help",url:"https://help.flcourts.gov/",icon:"FL",
+    category:"Florida Courts",description:"Florida self-help information, approved forms, court-navigation resources, legal-aid links, and local assistance.",
+    note:"Florida-specific. Confirm the correct judicial circuit and current local requirements."
+  },
+  {
+    id:"us-courts",title:"United States Courts",url:"https://www.uscourts.gov/",icon:"⚖",
+    category:"Courts",description:"Federal judiciary information, court finder, rules, forms, educational materials, and public resources.",
+    note:"Federal courts only; state and local courts use separate systems."
+  },
+  {
+    id:"court-forms",title:"National Federal Court Forms",url:"https://www.uscourts.gov/forms-rules/forms",icon:"F",
+    category:"Forms",description:"Search national federal court forms and locate court-specific local forms.",
+    note:"A national form may not replace a court-specific local form or filing instruction."
+  },
+  {
+    id:"pacer",title:"PACER Federal Court Records",url:"https://pacer.uscourts.gov/",icon:"P",
+    category:"Cases",description:"Access federal court dockets and filed records.",
+    note:"Registration and usage fees may apply. Confirm the current fee schedule before searching or downloading."
+  },
+  {
+    id:"supreme-court",title:"Supreme Court Opinions",url:"https://www.supremecourt.gov/opinions/opinions.aspx",icon:"SC",
+    category:"Cases",description:"Official opinions, orders, case documents, calendars, rules, and Court information.",
+    note:"Use the official opinion and docket materials for the most authoritative text."
+  },
+  {
+    id:"congress",title:"Congress.gov",url:"https://www.congress.gov/",icon:"C",
+    category:"Legislation",description:"Official federal legislative information, bills, laws, actions, committees, members, and Congressional Record materials.",
+    note:"A bill is not law unless enacted. Review status and actions carefully."
+  },
+  {
+    id:"us-code",title:"United States Code",url:"https://uscode.house.gov/",icon:"USC",
+    category:"Federal Law",description:"Official subject-matter codification of the general and permanent laws of the United States.",
+    note:"Check currency notes, amendments, effective dates, and related uncodified provisions."
+  },
+  {
+    id:"federal-register",title:"Federal Register",url:"https://www.federalregister.gov/",icon:"FR",
+    category:"Regulations",description:"Search proposed rules, final rules, notices, and presidential documents.",
+    note:"For legal reliance, verify the corresponding official PDF edition linked through GovInfo."
+  },
+  {
+    id:"regulations",title:"Regulations.gov",url:"https://www.regulations.gov/",icon:"R",
+    category:"Regulations",description:"Search federal rulemaking dockets, supporting documents, and open public-comment opportunities.",
+    note:"Check each docket's official deadline, instructions, and submission requirements."
+  },
+  {
+    id:"govinfo",title:"GovInfo",url:"https://www.govinfo.gov/",icon:"G",
+    category:"Government Publications",description:"Authenticated publications from all three branches of the United States Government.",
+    note:"Useful for official PDFs, authenticated documents, and publication packages."
+  },
+  {
+    id:"civil-rights",title:"DOJ Civil Rights Division",url:"https://civilrights.justice.gov/",icon:"CR",
+    category:"Civil Rights",description:"Learn about protected rights and report a possible federal civil-rights violation.",
+    note:"Submitting a report does not guarantee investigation, representation, or a particular outcome."
+  }
+];
+
+const NETWORK=[
+  {title:"Verve N Veda",url:"https://vervenveda.github.io/",mark:"V",description:"The public gateway to the complete Verve N Veda network."},
+  {title:"Firmament Law",url:"https://vervenveda.github.io/firmament.github.io/",mark:"⚖",description:"Return to the Firmament public legal and evidence repository."},
+  {title:"ProReSources",url:"https://vervenveda.github.io/proresource_hub.github.io/",mark:"P",description:"Professional drafting, evidence, archive, meeting, and document tools."},
+  {title:"ARSHIF Archives",url:"https://vervenveda.github.io/Arshif.github.io/",mark:"A",description:"Research, history, culture, public records, and deep-study collections."},
+  {title:"The Verifier",url:"https://vervenveda.github.io/theverifier.github.io/",mark:"✓",description:"Source comparison, information literacy, news, and verification pathways."},
+  {title:"PLERA Search",url:"https://vervenveda.github.io/PLERASearch.github.io/",mark:"⌕",description:"A visible search gateway for research and public-resource discovery."},
+  {title:"One Nation For All",url:"https://vervenveda.github.io/onenationforall.github.io/",mark:"ON",description:"Civic learning, policy, public participation, and government resources."},
+  {title:"Medicament Hub",url:"https://vervenveda.github.io/medicament-hub.github.io/",mark:"✚",description:"Health literacy, medical education, caregiver tools, and public-health sources."},
+  {title:"Khaemenes Academy",url:"https://vervenveda.github.io/Khaemenes_Academy.github.io/",mark:"K",description:"Education, curriculum, research, writing, and lifelong-learning portals."},
+  {title:"River to Road",url:"https://vervenveda.github.io/river_to_road.github.io/",mark:"R",description:"Environmental stewardship, service records, and community action."}
+];
+
+const WORKFLOW=[
+  {step:"01",title:"Intake & Questions",text:"Record people, events, dates, deadlines, goals, unanswered questions, and jurisdiction without drawing conclusions.",target:"Firmament Law or Legal Console"},
+  {step:"02",title:"Evidence & Sources",text:"Separate observations from assumptions; preserve provenance, quotations, copies, dates, and citation details.",target:"Evidence Analysis & Citation Studio"},
+  {step:"03",title:"Chronology & Organization",text:"Build a clear timeline, issue list, document index, contact log, and action plan.",target:"Legal Console & DailySpark"},
+  {step:"04",title:"Draft & Revise",text:"Prepare letters, statements, summaries, questions, reports, and supporting materials in a structured writing environment.",target:"PROSE Editorial Suite"},
+  {step:"05",title:"Review & Protect",text:"Check names, dates, citations, attachments, private information, export formats, and archive integrity before sharing.",target:"KhaeZip & qualified review"}
+];
+
 const QUICK=[
   {title:"Find Legal Help",icon:"LS",description:"Locate free or low-cost civil legal-aid pathways.",url:"https://www.usa.gov/legal-aid"},
-  {title:"Find a Federal Court",icon:"⚖",description:"Locate a court, rules, contact details, and local forms.",url:"https://www.uscourts.gov/court-locator"},
-  {title:"Search Federal Cases",icon:"P",description:"Open PACER for federal case records and docket access.",url:"https://pacer.uscourts.gov/"},
-  {title:"Find Court Forms",icon:"F",description:"Search national federal forms and court-specific resources.",url:"https://www.uscourts.gov/forms-rules/forms"},
+  {title:"Find a Federal Court",icon:"⚖",description:"Locate a federal court, rules, contact details, and local forms.",url:"https://www.uscourts.gov/court-locator"},
+  {title:"Search Federal Cases",icon:"P",description:"Open PACER for federal case records. Registration and fees may apply.",url:"https://pacer.uscourts.gov/"},
+  {title:"Find Federal Court Forms",icon:"F",description:"Search national federal forms and court-specific resources.",url:"https://www.uscourts.gov/forms-rules/forms"},
   {title:"Read Federal Law",icon:"USC",description:"Open the official United States Code by title and subject.",url:"https://uscode.house.gov/"},
   {title:"Report a Civil-Rights Concern",icon:"CR",description:"Learn about protected rights and federal reporting pathways.",url:"https://civilrights.justice.gov/"}
 ];
-const FAVORITES_KEY="firmamentLegalPortalFavoritesV2";
+
+const FAVORITES_KEY="firmamentLegalPortalFavoritesV3";
+const VERIFIED_STATUS="verified";
 const $=id=>document.getElementById(id);
 const roomLabels=Object.fromEntries(ROOMS.map(room=>[room.id,room.title]));
 let saved=loadSaved();
 
+const ALLOWED_INTERNAL_HOST="vervenveda.github.io";
+const ALLOWED_INTERNAL_PREFIXES=[
+  "/firmament.github.io/",
+  "/proresource_hub.github.io/",
+  "/Arshif.github.io/",
+  "/theverifier.github.io/",
+  "/PLERASearch.github.io/",
+  "/onenationforall.github.io/",
+  "/medicament-hub.github.io/",
+  "/Khaemenes_Academy.github.io/",
+  "/river_to_road.github.io/",
+  "/"
+];
+
+const ALLOWED_OFFICIAL_HOSTS=new Set([
+  "www.usa.gov",
+  "www.lsc.gov",
+  "help.flcourts.gov",
+  "www.uscourts.gov",
+  "pacer.uscourts.gov",
+  "www.supremecourt.gov",
+  "www.congress.gov",
+  "uscode.house.gov",
+  "www.federalregister.gov",
+  "www.regulations.gov",
+  "www.govinfo.gov",
+  "civilrights.justice.gov"
+]);
+
 function escapeHTML(value){
-  return String(value).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;");
+  return String(value)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
 }
-function localURL(app){return "./apps/"+encodeURIComponent(app.file)}
+
+function localURL(app){
+  if(app.status!==VERIFIED_STATUS)return "";
+  return "./apps/"+encodeURIComponent(app.file);
+}
+
+function isAllowedInternalURL(value){
+  try{
+    const url=new URL(value,location.href);
+    if(url.origin===location.origin && url.pathname.includes("/apps/"))return true;
+    if(url.protocol!=="https:" || url.hostname!==ALLOWED_INTERNAL_HOST)return false;
+    return ALLOWED_INTERNAL_PREFIXES.some(prefix=>prefix==="/" ? url.pathname==="/" : url.pathname.startsWith(prefix));
+  }catch{return false}
+}
+
+function isAllowedOfficialURL(value){
+  try{
+    const url=new URL(value);
+    return url.protocol==="https:" && ALLOWED_OFFICIAL_HOSTS.has(url.hostname);
+  }catch{return false}
+}
+
+function safeExternalLink(url,type){
+  if(type==="internal")return isAllowedInternalURL(url);
+  if(type==="official")return isAllowedOfficialURL(url);
+  return false;
+}
+
 function loadSaved(){
-  try{return new Set(JSON.parse(localStorage.getItem(FAVORITES_KEY)||"[]").filter(id=>APPS.some(app=>app.id===id)))}
-  catch{return new Set()}
+  try{
+    const ids=JSON.parse(localStorage.getItem(FAVORITES_KEY)||"[]");
+    return new Set(ids.filter(id=>APPS.some(app=>app.id===id && app.status===VERIFIED_STATUS)));
+  }catch{return new Set()}
 }
+
 function saveFavorites(){
   try{localStorage.setItem(FAVORITES_KEY,JSON.stringify([...saved]))}catch{}
 }
+
 function notify(message){
   const toast=$("toast");
-  toast.textContent=message;toast.classList.add("show");
-  clearTimeout(notify.timer);notify.timer=setTimeout(()=>toast.classList.remove("show"),2300);
+  toast.textContent=message;
+  toast.classList.add("show");
+  clearTimeout(notify.timer);
+  notify.timer=setTimeout(()=>toast.classList.remove("show"),2300);
 }
+
 function renderQuick(){
-  $("quickGrid").innerHTML=QUICK.map(item=>`<article class="quick-card"><div class="card-icon">${escapeHTML(item.icon)}</div><h3>${escapeHTML(item.title)}</h3><p>${escapeHTML(item.description)}</p><a class="inlay-button" href="${escapeHTML(item.url)}" target="_blank" rel="noopener noreferrer">Open official source ↗</a></article>`).join("");
-}
-function renderRooms(){
-  $("roomGrid").innerHTML=ROOMS.slice(1).map(room=>{
-    const count=APPS.filter(app=>app.room===room.id).length;
-    return `<article class="room-card"><div class="card-icon">${escapeHTML(room.icon)}</div><h3>${escapeHTML(room.title)}</h3><div class="room-count">${count} volume${count===1?"":"s"}</div><p>${escapeHTML(room.description)}</p><button class="inlay-button" type="button" data-room="${escapeHTML(room.id)}">Open this room</button></article>`;
+  $("quickGrid").innerHTML=QUICK.map(item=>{
+    const allowed=isAllowedOfficialURL(item.url);
+    return `<article class="quick-card">
+      <div class="card-icon">${escapeHTML(item.icon)}</div>
+      <h3>${escapeHTML(item.title)}</h3>
+      <p>${escapeHTML(item.description)}</p>
+      ${allowed
+        ? `<a class="inlay-button" href="${escapeHTML(item.url)}" target="_blank" rel="noopener noreferrer">Open official source ↗</a>`
+        : `<button class="inlay-button disabled" type="button" disabled>Source unavailable</button>`}
+    </article>`;
   }).join("");
+}
+
+function renderRooms(){
+  const verified=APPS.filter(app=>app.status===VERIFIED_STATUS);
+  $("roomGrid").innerHTML=ROOMS.slice(1).map(room=>{
+    const count=verified.filter(app=>app.room===room.id).length;
+    return `<article class="room-card">
+      <div class="card-icon">${escapeHTML(room.icon)}</div>
+      <h3>${escapeHTML(room.title)}</h3>
+      <div class="room-count">${count} verified volume${count===1?"":"s"}</div>
+      <p>${escapeHTML(room.description)}</p>
+      <button class="inlay-button" type="button" data-room="${escapeHTML(room.id)}">Open this room</button>
+    </article>`;
+  }).join("");
+
   document.querySelectorAll("[data-room]").forEach(button=>button.addEventListener("click",()=>{
     $("roomSelect").value=button.dataset.room;
+    $("statusSelect").value="verified";
     $("savedOnly").setAttribute("aria-pressed","false");
+    $("savedOnly").textContent="☆ Saved only";
     filterApps();
     $("catalog").scrollIntoView({behavior:"smooth"});
   }));
 }
-function renderApps(){
-  $("resourceGrid").innerHTML=APPS.map(app=>`<article class="resource-card" data-id="${escapeHTML(app.id)}" data-room="${escapeHTML(app.room)}" data-search="${escapeHTML(`${app.title} ${app.description} ${app.tags} ${roomLabels[app.room]}`.toLowerCase())}"><div class="resource-top"><span class="resource-icon">${escapeHTML(app.icon)}</span><button class="favorite" type="button" data-favorite="${escapeHTML(app.id)}" aria-label="${saved.has(app.id)?"Remove from":"Save to"} saved volumes" aria-pressed="${saved.has(app.id)}">${saved.has(app.id)?"★":"☆"}</button></div><span class="resource-label">${escapeHTML(roomLabels[app.room])}</span><h3>${escapeHTML(app.title)}</h3><p>${escapeHTML(app.description)}</p><div class="resource-tags">${escapeHTML(app.tags.split(" ").slice(0,6).join(" · "))}</div><div class="resource-actions"><a class="inlay-button" href="${localURL(app)}">Open volume</a><button class="copy-button" type="button" data-copy="${escapeHTML(app.id)}" aria-label="Copy link to ${escapeHTML(app.title)}">⧉</button></div></article>`).join("");
-  document.querySelectorAll("[data-favorite]").forEach(button=>button.addEventListener("click",()=>toggleFavorite(button.dataset.favorite)));
-  document.querySelectorAll("[data-copy]").forEach(button=>button.addEventListener("click",()=>copyLocalLink(button.dataset.copy)));
+
+function statusText(status){
+  return status==="verified" ? "Verified live" : status==="review" ? "Under review" : "Needs repair";
 }
+
+function renderApps(){
+  $("resourceGrid").innerHTML=APPS.map(app=>{
+    const verified=app.status===VERIFIED_STATUS;
+    const roomTitle=roomLabels[app.room] || "Review Ledger";
+    const statusClass=app.status==="verified" ? "" : ` ${app.status}`;
+    const openControl=verified
+      ? `<a class="inlay-button" href="${localURL(app)}">Open volume</a>`
+      : `<button class="inlay-button disabled" type="button" disabled>${app.status==="review"?"Under review":"Needs repair"}</button>`;
+
+    return `<article class="resource-card"
+      data-id="${escapeHTML(app.id)}"
+      data-room="${escapeHTML(app.room)}"
+      data-status="${escapeHTML(app.status)}"
+      data-search="${escapeHTML(`${app.title} ${app.description} ${app.tags} ${roomTitle} ${statusText(app.status)} ${app.note}`.toLowerCase())}">
+      <div class="resource-top">
+        <span class="resource-icon">${escapeHTML(app.icon)}</span>
+        <button class="favorite" type="button" data-favorite="${escapeHTML(app.id)}"
+          aria-label="${saved.has(app.id)?"Remove from":"Save to"} saved volumes"
+          aria-pressed="${saved.has(app.id)}" ${verified?"":"disabled"}>${saved.has(app.id)?"★":"☆"}</button>
+      </div>
+      <div>
+        <span class="resource-label">${escapeHTML(roomTitle)}</span>
+        <span class="status-label${statusClass}">${escapeHTML(statusText(app.status))}</span>
+      </div>
+      <h3>${escapeHTML(app.title)}</h3>
+      <p>${escapeHTML(app.description)}</p>
+      <div class="resource-tags">${escapeHTML(app.tags.split(" ").slice(0,7).join(" · "))}</div>
+      <div class="resource-note">${escapeHTML(app.note)}</div>
+      <div class="resource-actions">
+        ${openControl}
+        <button class="copy-button" type="button" data-copy="${escapeHTML(app.id)}"
+          aria-label="Copy link to ${escapeHTML(app.title)}" ${verified?"":"disabled"}>⧉</button>
+      </div>
+    </article>`;
+  }).join("");
+
+  document.querySelectorAll("[data-favorite]:not(:disabled)").forEach(button=>{
+    button.addEventListener("click",()=>toggleFavorite(button.dataset.favorite));
+  });
+  document.querySelectorAll("[data-copy]:not(:disabled)").forEach(button=>{
+    button.addEventListener("click",()=>copyLocalLink(button.dataset.copy));
+  });
+}
+
 function filterApps(){
   const query=$("searchInput").value.trim().toLowerCase();
   const room=$("roomSelect").value;
+  const status=$("statusSelect").value;
   const savedOnly=$("savedOnly").getAttribute("aria-pressed")==="true";
   let shown=0;
+
   document.querySelectorAll(".resource-card").forEach(card=>{
-    const visible=(room==="all"||card.dataset.room===room)&&(!query||card.dataset.search.includes(query))&&(!savedOnly||saved.has(card.dataset.id));
-    card.hidden=!visible;if(visible)shown++;
+    const visible=
+      (room==="all" || card.dataset.room===room) &&
+      (status==="all" || card.dataset.status===status) &&
+      (!query || card.dataset.search.includes(query)) &&
+      (!savedOnly || saved.has(card.dataset.id));
+    card.hidden=!visible;
+    if(visible)shown++;
   });
+
   $("resourceGrid").querySelector(".empty-state")?.remove();
-  if(!shown)$("resourceGrid").insertAdjacentHTML("beforeend",`<div class="empty-state">No Firmament volume matches this search.</div>`);
-  $("resultCount").textContent=`${shown} of ${APPS.length} Firmament tools shown.`;
+  if(!shown){
+    $("resourceGrid").insertAdjacentHTML("beforeend",`<div class="empty-state">No Firmament record matches this search and filter combination.</div>`);
+  }
+  $("resultCount").textContent=`${shown} of ${APPS.length} repository records shown.`;
 }
+
 function toggleFavorite(id){
-  saved.has(id)?saved.delete(id):saved.add(id);saveFavorites();
+  const app=APPS.find(item=>item.id===id);
+  if(!app || app.status!==VERIFIED_STATUS)return;
+  saved.has(id)?saved.delete(id):saved.add(id);
+  saveFavorites();
+
   document.querySelectorAll("[data-favorite]").forEach(button=>{
     const on=saved.has(button.dataset.favorite);
     button.setAttribute("aria-pressed",String(on));
     button.textContent=on?"★":"☆";
+    button.setAttribute("aria-label",`${on?"Remove from":"Save to"} saved volumes`);
   });
-  renderSaved();filterApps();
+
+  renderSaved();
+  filterApps();
 }
+
 function renderSaved(){
-  const items=[...saved].map(id=>APPS.find(app=>app.id===id)).filter(Boolean);
-  $("savedList").innerHTML=items.length?items.map(app=>`<a href="${localURL(app)}">${escapeHTML(app.icon)} ${escapeHTML(app.title)}</a>`).join(""):`<span style="color:var(--muted);font-size:.78rem">No volumes saved yet. Select ☆ on a catalog card.</span>`;
+  const items=[...saved]
+    .map(id=>APPS.find(app=>app.id===id && app.status===VERIFIED_STATUS))
+    .filter(Boolean);
+
+  $("savedList").innerHTML=items.length
+    ? items.map(app=>`<a href="${localURL(app)}">${escapeHTML(app.icon)} ${escapeHTML(app.title)}</a>`).join("")
+    : `<span style="color:var(--muted);font-size:.8rem">No verified volumes saved yet. Select ☆ on a live catalog card.</span>`;
 }
+
 async function copyLocalLink(id){
-  const app=APPS.find(item=>item.id===id);if(!app)return;
+  const app=APPS.find(item=>item.id===id && item.status===VERIFIED_STATUS);
+  if(!app)return;
   const url=new URL(localURL(app),location.href).href;
-  try{await navigator.clipboard.writeText(url);notify("Copied link to "+app.title)}
-  catch{prompt("Copy this link:",url)}
+  try{
+    await navigator.clipboard.writeText(url);
+    notify("Copied link to "+app.title);
+  }catch{
+    prompt("Copy this link:",url);
+  }
 }
+
+function renderReviewLedger(){
+  const items=APPS.filter(app=>app.status!=="verified");
+  $("reviewGrid").innerHTML=items.map(app=>`
+    <article class="review-card" data-status="${escapeHTML(app.status)}">
+      <div class="card-icon">${escapeHTML(app.icon)}</div>
+      <span class="status-label ${escapeHTML(app.status)}">${escapeHTML(statusText(app.status))}</span>
+      <h3>${escapeHTML(app.title)}</h3>
+      <p>${escapeHTML(app.description)}</p>
+      <div class="review-reason"><strong>Why it is offline:</strong><br>${escapeHTML(app.note)}</div>
+      <button class="inlay-button disabled" type="button" disabled>${app.status==="review"?"Review required":"Page repair required"}</button>
+    </article>
+  `).join("");
+}
+
 function renderProTools(){
-  $("proGrid").innerHTML=PRO_TOOLS.map(tool=>`<article class="pro-card"><div class="card-icon">${escapeHTML(tool.icon)}</div><div class="source-line">${escapeHTML(tool.category)} · ${escapeHTML(tool.source)}</div><h3>${escapeHTML(tool.title)}</h3><p>${escapeHTML(tool.description)}</p><a class="inlay-button" href="${escapeHTML(tool.url)}" target="_blank" rel="noopener noreferrer">Open professional tool ↗</a></article>`).join("");
+  const renderCard=tool=>{
+    const allowed=safeExternalLink(tool.url,"internal");
+    return `<article class="pro-card">
+      <div class="card-icon">${escapeHTML(tool.icon)}</div>
+      <div class="source-line">${escapeHTML(tool.category)} · ProReSources</div>
+      <h3>${escapeHTML(tool.title)}</h3>
+      <p>${escapeHTML(tool.description)}</p>
+      ${allowed
+        ? `<a class="inlay-button" href="${escapeHTML(tool.url)}" target="_blank" rel="noopener noreferrer">Open Verve N Veda tool ↗</a>`
+        : `<button class="inlay-button disabled" type="button" disabled>Path unavailable</button>`}
+    </article>`;
+  };
+
+  $("primaryProGrid").innerHTML=PRO_TOOLS.filter(tool=>tool.group==="primary").map(renderCard).join("");
+  $("technicalProGrid").innerHTML=PRO_TOOLS.filter(tool=>tool.group==="technical").map(renderCard).join("");
 }
+
 function renderWorkflow(){
-  $("workflowGrid").innerHTML=WORKFLOW.map(item=>`<article class="workflow-card"><div class="workflow-step">${escapeHTML(item.step)}</div><h3>${escapeHTML(item.title)}</h3><p>${escapeHTML(item.text)}</p><div class="workflow-target">${escapeHTML(item.target)}</div></article>`).join("");
+  $("workflowGrid").innerHTML=WORKFLOW.map(item=>`
+    <article class="workflow-card">
+      <div class="workflow-step">${escapeHTML(item.step)}</div>
+      <h3>${escapeHTML(item.title)}</h3>
+      <p>${escapeHTML(item.text)}</p>
+      <div class="workflow-target">${escapeHTML(item.target)}</div>
+    </article>
+  `).join("");
 }
+
 function renderOfficial(){
   const query=$("officialSearch").value.trim().toLowerCase();
   const category=$("officialCategory").value;
-  const items=OFFICIAL.filter(item=>(category==="all"||item.category===category)&&(!query||`${item.title} ${item.description} ${item.category} ${item.source}`.toLowerCase().includes(query)));
-  $("officialGrid").innerHTML=items.length?items.map(item=>`<article class="official-card"><div class="card-icon">${escapeHTML(item.icon)}</div><div class="source-line">${escapeHTML(item.category)}</div><h3>${escapeHTML(item.title)}</h3><p>${escapeHTML(item.description)}</p><div class="official-url">${escapeHTML(new URL(item.url).hostname)}</div><a class="inlay-button" href="${escapeHTML(item.url)}" target="_blank" rel="noopener noreferrer">Open authoritative source ↗</a></article>`).join(""):`<div class="empty-state">No official source matches this search.</div>`;
+
+  const items=OFFICIAL.filter(item=>
+    (category==="all" || item.category===category) &&
+    (!query || `${item.title} ${item.description} ${item.category} ${item.note}`.toLowerCase().includes(query))
+  );
+
+  $("officialGrid").innerHTML=items.length
+    ? items.map(item=>{
+        const allowed=isAllowedOfficialURL(item.url);
+        const hostname=allowed ? new URL(item.url).hostname : "Blocked destination";
+        return `<article class="official-card">
+          <div class="card-icon">${escapeHTML(item.icon)}</div>
+          <div class="source-line">${escapeHTML(item.category)}</div>
+          <h3>${escapeHTML(item.title)}</h3>
+          <p>${escapeHTML(item.description)}</p>
+          <div class="official-note">${escapeHTML(item.note)}</div>
+          <div class="official-url">${escapeHTML(hostname)}</div>
+          ${allowed
+            ? `<a class="inlay-button" href="${escapeHTML(item.url)}" target="_blank" rel="noopener noreferrer">Open authoritative source ↗</a>`
+            : `<button class="inlay-button disabled" type="button" disabled>Source blocked</button>`}
+        </article>`;
+      }).join("")
+    : `<div class="empty-state">No official source matches this search.</div>`;
 }
+
 function renderNetwork(){
-  $("networkGrid").innerHTML=NETWORK.map(item=>`<article class="network-card"><div class="card-icon">${escapeHTML(item.mark)}</div><h3>${escapeHTML(item.title)}</h3><p>${escapeHTML(item.description)}</p><a class="inlay-button" href="${escapeHTML(item.url)}" target="_blank" rel="noopener noreferrer">Open connected hall ↗</a></article>`).join("");
+  $("networkGrid").innerHTML=NETWORK.map(item=>{
+    const allowed=safeExternalLink(item.url,"internal");
+    return `<article class="network-card">
+      <div class="card-icon">${escapeHTML(item.mark)}</div>
+      <h3>${escapeHTML(item.title)}</h3>
+      <p>${escapeHTML(item.description)}</p>
+      ${allowed
+        ? `<a class="inlay-button" href="${escapeHTML(item.url)}" target="_blank" rel="noopener noreferrer">Open verified hall ↗</a>`
+        : `<button class="inlay-button disabled" type="button" disabled>Hall unavailable</button>`}
+    </article>`;
+  }).join("");
 }
+
 function setupNavigation(){
-  const button=$("menuButton"),nav=$("navLinks");
+  const button=$("menuButton");
+  const nav=$("navLinks");
+
   function closeMenu(returnFocus=false){
-    nav.classList.remove("open");button.setAttribute("aria-expanded","false");document.body.classList.remove("menu-open");
+    nav.classList.remove("open");
+    button.setAttribute("aria-expanded","false");
+    button.setAttribute("aria-label","Open navigation");
+    document.body.classList.remove("menu-open");
     if(returnFocus)button.focus();
   }
+
   button.addEventListener("click",()=>{
     const open=!nav.classList.contains("open");
-    nav.classList.toggle("open",open);button.setAttribute("aria-expanded",String(open));document.body.classList.toggle("menu-open",open);
+    nav.classList.toggle("open",open);
+    button.setAttribute("aria-expanded",String(open));
+    button.setAttribute("aria-label",open?"Close navigation":"Open navigation");
+    document.body.classList.toggle("menu-open",open);
   });
+
   nav.querySelectorAll("a,button").forEach(item=>item.addEventListener("click",()=>closeMenu()));
-  document.addEventListener("keydown",event=>{if(event.key==="Escape"&&nav.classList.contains("open"))closeMenu(true)});
-  document.addEventListener("click",event=>{if(nav.classList.contains("open")&&!nav.contains(event.target)&&!button.contains(event.target))closeMenu()});
-  window.addEventListener("resize",()=>{if(innerWidth>780)closeMenu()});
+  document.addEventListener("keydown",event=>{
+    if(event.key==="Escape" && nav.classList.contains("open"))closeMenu(true);
+  });
+  document.addEventListener("click",event=>{
+    if(nav.classList.contains("open") && !nav.contains(event.target) && !button.contains(event.target))closeMenu();
+  });
+  window.addEventListener("resize",()=>{
+    if(innerWidth>780)closeMenu();
+  });
 }
+
+function updateMetrics(){
+  $("verifiedCount").textContent=APPS.filter(app=>app.status==="verified").length;
+  $("proCount").textContent=PRO_TOOLS.length;
+  $("officialCount").textContent=OFFICIAL.length;
+  $("reviewCount").textContent=APPS.filter(app=>app.status!=="verified").length;
+}
+
 function auditFirmament(){
-  const duplicateIds=values=>values.filter((value,index)=>values.indexOf(value)!==index);
+  const duplicates=values=>[...new Set(values.filter((value,index)=>values.indexOf(value)!==index))];
+  const allURLs=[
+    ...PRO_TOOLS.map(item=>({kind:"internal",id:item.id,url:item.url})),
+    ...NETWORK.map(item=>({kind:"internal",id:item.title,url:item.url})),
+    ...OFFICIAL.map(item=>({kind:"official",id:item.id,url:item.url})),
+    ...QUICK.map(item=>({kind:"official",id:item.title,url:item.url}))
+  ];
+
+  const placeholderPattern=/(YOUR_|TODO|example\.com|javascript:|data:text\/html)/i;
   const report={
-    localTools:APPS.length,
-    readingRooms:ROOMS.length-1,
+    verifiedTools:APPS.filter(item=>item.status==="verified").length,
+    reviewRecords:APPS.filter(item=>item.status==="review").length,
+    repairRecords:APPS.filter(item=>item.status==="repair").length,
     professionalTools:PRO_TOOLS.length,
     officialSources:OFFICIAL.length,
     connectedHalls:NETWORK.length,
-    duplicateLocalIds:[...new Set(duplicateIds(APPS.map(item=>item.id)))],
-    duplicateLocalFiles:[...new Set(duplicateIds(APPS.map(item=>item.file)))],
-    duplicateProfessionalUrls:[...new Set(duplicateIds(PRO_TOOLS.map(item=>item.url)))],
-    duplicateOfficialUrls:[...new Set(duplicateIds(OFFICIAL.map(item=>item.url)))],
-    missingRoomAssignments:APPS.filter(item=>!ROOMS.some(room=>room.id===item.room)).map(item=>item.id)
+    duplicateAppIds:duplicates(APPS.map(item=>item.id)),
+    duplicateAppTitles:duplicates(APPS.map(item=>item.title)),
+    duplicateAppFiles:duplicates(APPS.map(item=>item.file)),
+    duplicateProfessionalUrls:duplicates(PRO_TOOLS.map(item=>item.url)),
+    duplicateOfficialUrls:duplicates(OFFICIAL.map(item=>item.url)),
+    missingStatuses:APPS.filter(item=>!["verified","review","repair"].includes(item.status)).map(item=>item.id),
+    missingRoomAssignments:APPS.filter(item=>item.status==="verified" && !ROOMS.some(room=>room.id===item.room)).map(item=>item.id),
+    launchableNonVerified:APPS.filter(item=>item.status!=="verified" && localURL(item)).map(item=>item.id),
+    placeholderData:APPS.filter(item=>placeholderPattern.test(JSON.stringify(item))).map(item=>item.id),
+    blockedUrls:allURLs.filter(item=>!safeExternalLink(item.url,item.kind)).map(item=>`${item.id}: ${item.url}`),
+    directGithubUrls:allURLs.filter(item=>/github\.com/i.test(item.url)).map(item=>item.url),
+    customInternalDomains:[...PRO_TOOLS,...NETWORK].filter(item=>new URL(item.url).hostname!=="vervenveda.github.io").map(item=>item.url),
+    metricMismatch:{
+      verified:Number($("verifiedCount").textContent)!==APPS.filter(item=>item.status==="verified").length,
+      professional:Number($("proCount").textContent)!==PRO_TOOLS.length,
+      official:Number($("officialCount").textContent)!==OFFICIAL.length,
+      review:Number($("reviewCount").textContent)!==APPS.filter(item=>item.status!=="verified").length
+    }
   };
-  console.table(report);return report;
+
+  report.passed=
+    !report.duplicateAppIds.length &&
+    !report.duplicateAppTitles.length &&
+    !report.duplicateAppFiles.length &&
+    !report.duplicateProfessionalUrls.length &&
+    !report.duplicateOfficialUrls.length &&
+    !report.missingStatuses.length &&
+    !report.missingRoomAssignments.length &&
+    !report.launchableNonVerified.length &&
+    !report.placeholderData.length &&
+    !report.blockedUrls.length &&
+    !report.directGithubUrls.length &&
+    !report.customInternalDomains.length &&
+    !Object.values(report.metricMismatch).some(Boolean);
+
+  console.table(report);
+  return report;
 }
 window.auditFirmament=auditFirmament;
 
 $("roomSelect").innerHTML=ROOMS.map(room=>`<option value="${escapeHTML(room.id)}">${escapeHTML(room.title)}</option>`).join("");
+$("statusSelect").innerHTML=[
+  ["verified","Verified live only"],
+  ["all","All repository records"],
+  ["review","Under review only"],
+  ["repair","Needs repair only"]
+].map(([value,label])=>`<option value="${value}">${label}</option>`).join("");
+
 const officialCategories=["all",...new Set(OFFICIAL.map(item=>item.category))];
-$("officialCategory").innerHTML=officialCategories.map(category=>`<option value="${escapeHTML(category)}">${category==="all"?"All official sources":escapeHTML(category)}</option>`).join("");
+$("officialCategory").innerHTML=officialCategories
+  .map(category=>`<option value="${escapeHTML(category)}">${category==="all"?"All official sources":escapeHTML(category)}</option>`)
+  .join("");
+
 $("searchInput").addEventListener("input",filterApps);
 $("roomSelect").addEventListener("change",filterApps);
+$("statusSelect").addEventListener("change",filterApps);
+
 $("savedOnly").addEventListener("click",()=>{
   const on=$("savedOnly").getAttribute("aria-pressed")!=="true";
-  $("savedOnly").setAttribute("aria-pressed",String(on));$("savedOnly").textContent=on?"★ Saved only":"☆ Saved only";filterApps();
+  $("savedOnly").setAttribute("aria-pressed",String(on));
+  $("savedOnly").textContent=on?"★ Saved only":"☆ Saved only";
+  if(on){
+    $("statusSelect").value="verified";
+    $("roomSelect").value="all";
+  }
+  filterApps();
 });
+
 $("clearFilters").addEventListener("click",()=>{
-  $("searchInput").value="";$("roomSelect").value="all";$("savedOnly").setAttribute("aria-pressed","false");$("savedOnly").textContent="☆ Saved only";filterApps();$("searchInput").focus();
+  $("searchInput").value="";
+  $("roomSelect").value="all";
+  $("statusSelect").value="verified";
+  $("savedOnly").setAttribute("aria-pressed","false");
+  $("savedOnly").textContent="☆ Saved only";
+  filterApps();
+  $("searchInput").focus();
 });
+
 $("focusSearch").addEventListener("click",()=>$("searchInput").focus());
 $("officialSearch").addEventListener("input",renderOfficial);
 $("officialCategory").addEventListener("change",renderOfficial);
-$("clearOfficial").addEventListener("click",()=>{$("officialSearch").value="";$("officialCategory").value="all";renderOfficial();$("officialSearch").focus()});
+$("clearOfficial").addEventListener("click",()=>{
+  $("officialSearch").value="";
+  $("officialCategory").value="all";
+  renderOfficial();
+  $("officialSearch").focus();
+});
 $("printButton").addEventListener("click",()=>print());
+
 document.addEventListener("keydown",event=>{
   const typing=["INPUT","TEXTAREA","SELECT"].includes(document.activeElement?.tagName);
-  if(event.key==="/"&&!typing){event.preventDefault();$("searchInput").focus()}
+  if(event.key==="/" && !typing){
+    event.preventDefault();
+    $("searchInput").focus();
+  }
 });
+
 $("year").textContent=new Date().getFullYear();
 
-renderQuick();renderRooms();renderApps();renderSaved();filterApps();renderProTools();renderWorkflow();renderOfficial();renderNetwork();setupNavigation();
+updateMetrics();
+renderQuick();
+renderRooms();
+renderApps();
+renderSaved();
+filterApps();
+renderReviewLedger();
+renderProTools();
+renderWorkflow();
+renderOfficial();
+renderNetwork();
+setupNavigation();
+auditFirmament();
 </script>
 </body>
 </html>
