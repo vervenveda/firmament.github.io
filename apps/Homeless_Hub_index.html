@@ -334,5 +334,6 @@ function buildLocalLinks(){const z=document.getElementById('zip').value.trim();c
 }; out.innerHTML=map[need].map(([label,url])=>`<div class="resultline"><b>${escapeHTML(label)}</b><a href="${url}" target="_blank" rel="noopener">Open</a></div>`).join('') + `<div class="notice" style="margin-top:0"><b>Tip:</b> When calling, say: “I am looking for ${escapeHTML(need)} help near ${escapeHTML(z)}. Can you connect me with the nearest open program today?”</div>`;}
 renderQuick();renderChecklist();render();
 </script>
+<script src="/assets/vnv-beta-link.js" defer></script>
 </body>
 </html>
