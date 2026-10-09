@@ -266,6 +266,25 @@ header{background:var(--nav);color:#fff}
 .card{border-color:#d1d1ca;box-shadow:var(--shadow)}
 input,select,button,textarea{border-radius:7px}
 a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #315f4c;outline-offset:2px}
+
+/* Senior-first navigation: calm choices and progressive disclosure */
+.seniorWelcome{margin:10px 0 18px;padding:clamp(18px,3vw,30px);border:1px solid #cbd5cd}
+.seniorWelcome h2{font-size:clamp(1.4rem,3vw,1.9rem);margin:6px 0 10px;color:#123e2e}
+.seniorWelcome p{max-width:68ch}
+.seniorKicker{font-weight:800;color:#234e3a}
+.seniorChoices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:20px 0}
+.seniorChoices button{min-height:112px;text-align:left;background:#fff;border:2px solid #35614a;border-radius:7px;padding:18px;color:#173e2d;font-size:1.15rem;font-weight:800;cursor:pointer}
+.seniorChoices button span{display:block;font-size:.91rem;font-weight:500;margin-top:8px;color:#42594b}
+.seniorChoices button:hover,.seniorChoices button:focus-visible{background:#e9f0e9;outline:3px solid #35614a;outline-offset:2px}
+.seniorHelp{font-size:.9rem;color:#42594b}
+.seniorOptions{background:#fafaf6;border:1px solid #d1d1ca;border-radius:7px;margin-bottom:18px;padding:14px 18px}
+.seniorOptions>summary{cursor:pointer;font-weight:800;color:#123e2e;font-size:1.02rem;padding:6px}
+.seniorOptions[open]>summary{margin-bottom:12px}
+.seniorOptions .controlsCard{box-shadow:none;margin:0}
+.seniorOptions .controls{grid-template-columns:repeat(3,minmax(0,1fr))}
+.rightCol .card{margin-bottom:10px}
+@media(max-width:980px){.seniorChoices{grid-template-columns:1fr}.seniorChoices button{min-height:90px}.seniorOptions .controls{grid-template-columns:1fr}}
+@media print{.seniorChoices,.seniorOptions{display:none}}
 </style>
 </head>
 <body>
@@ -283,6 +302,18 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 </header>
 
 <div class="wrap">
+  <section class="card seniorWelcome" aria-labelledby="welcomeTitle">
+    <p class="seniorKicker">Welcome · Simple steps, at your pace</p>
+    <h2 id="welcomeTitle">What would you like to do today?</h2>
+    <p>Choose one option. You can always return here. Nothing needs to be completed all at once.</p>
+    <div class="seniorChoices">
+      <button type="button" id="simpleFind">Find help or services<span>Health, housing, food and local support</span></button>
+      <button type="button" id="simpleDaily">See today's reminders<span>Read updates and your saved notes</span></button>
+      <button type="button" id="simpleCaregiver">I'm helping someone<span>Caregiver resources and additional options</span></button>
+    </div>
+    <p class="seniorHelp">Need urgent medical help? Call your local emergency number. This page is an information guide, not an emergency service.</p>
+  </section>
+  <details class="seniorOptions" id="seniorOptions"><summary>More options: search, filters and saved information</summary><div id="seniorOptionsContents"></div></details>
   <div class="grid two">
     <!-- LEFT -->
     <div class="grid">
@@ -1109,6 +1140,16 @@ function init(){
   loadSettings();
   renderDigest();
   renderResources();
+  // Move existing controls without cloning or changing their IDs, handlers or saved data.
+  const options = document.getElementById("seniorOptions");
+  document.getElementById("seniorOptionsContents").appendChild(document.querySelector(".controlsCard"));
+  const quickTools = document.querySelector(".rightCol");
+  if(quickTools) document.getElementById("seniorOptionsContents").appendChild(quickTools);
+  document.querySelector(".grid.two").style.gridTemplateColumns="minmax(0,1fr)";
+  const openOptions=()=>{options.open=true;options.scrollIntoView({behavior:"smooth",block:"start"});};
+  document.getElementById("simpleFind").addEventListener("click",()=>{openOptions();document.getElementById("search").focus({preventScroll:true});});
+  document.getElementById("simpleDaily").addEventListener("click",()=>{document.querySelector(".digestCard").scrollIntoView({behavior:"smooth",block:"start"});});
+  document.getElementById("simpleCaregiver").addEventListener("click",()=>{openOptions();const box=document.getElementById("familyMode");if(!box.checked){box.click();}box.focus({preventScroll:true});});
 }
 init();
 </script>
