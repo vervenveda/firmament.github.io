@@ -303,6 +303,12 @@ strong,b,[style*="font-weight"]{font-weight:400!important}
 #resourcesContainer .resourceTitle{font-family:"Cinzel","Trajan Pro",Georgia,serif;font-size:clamp(1.3rem,2.4vw,1.55rem);font-weight:400!important;line-height:1.45;letter-spacing:.008em;color:#123e2e;margin:0 0 8px}
 #resourcesContainer .resourceTitle+.meta{font-size:1rem;line-height:1.6;color:#45564d}
 @media print{#resourcesContainer .resourceTitle{font-size:1.45rem;color:#182722}}
+
+/* Quiet resource actions: clear links, not oversized heavy buttons */
+#resourcesContainer .resActions{gap:8px 18px;margin-top:12px;align-items:center}
+#resourcesContainer .resActions a,#resourcesContainer .resActions a.primary{background:transparent!important;color:#17563e!important;border:0!important;border-bottom:1px solid #a4b9ab!important;border-radius:0!important;box-shadow:none!important;padding:8px 2px!important;min-height:44px;font-family:"Brandon Grotesque","Brandon Text","Avenir Next",Avenir,Arial,sans-serif;font-size:1.02rem;font-weight:400!important;line-height:1.45;text-decoration:none!important}
+#resourcesContainer .resActions a:hover{color:#123e2e!important;border-bottom-color:#123e2e!important;background:#edf3ed!important}
+#resourcesContainer .resActions a:focus-visible{outline:3px solid #315f4c!important;outline-offset:3px}
 </style>
 </head>
 <body>
