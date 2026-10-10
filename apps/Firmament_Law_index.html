@@ -910,7 +910,7 @@ html,body{background:#f8f7f2!important}
       if(raw){
         const parsed = JSON.parse(raw);
         if(parsed && Array.isArray(parsed.files)){
-          cloud = parsed;
+          cloud = {files:parsed.files.filter(file=>file && typeof file==='object' && typeof file.id==='string' && typeof file.content==='string')};
         }
       }
     }catch(e){
