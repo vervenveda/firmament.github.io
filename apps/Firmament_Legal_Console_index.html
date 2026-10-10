@@ -5,7 +5,7 @@
   <title>Firmament Law – Sovereign Legal Console</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- Title fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Cinzel:wght@777;777&display=swap" rel="stylesheet">
+  
   
  <style>
 /* ============================
@@ -546,6 +546,14 @@ body::before{opacity:0}
   /* optional: tighten sidebar a touch on small screens */
   .sidebar{ width: 222px; }
 }
+
+/* Crisp Parchment legacy-console modernization; retains all document tools */
+:root{--midnight:#123e2e;--midnight-soft:#174b38;--parchment:#f8f7f2;--parchment-soft:#f1eee7;--gold:#456856;--gold-deep:#315c45;--gold-soft:#e5ede6;--radius:7px;--shadow-soft:0 3px 14px rgba(18,62,46,.06);--font-heading:"Cinzel","Trajan Pro",Georgia,serif;--font-body:"Brandon Grotesque","Brandon Text","Avenir Next",Avenir,Arial,sans-serif}
+html,body{background:#f8f7f2!important;color:#182722!important;font-family:var(--font-body)!important}
+body::before{display:none!important}
+h1,h2,h3,h4,.page-title{font-family:var(--font-heading)!important;font-weight:400!important}
+button,input,select,textarea,.btn{font-family:var(--font-body)!important;font-weight:400!important;border-radius:7px!important}
+a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid #315f4c;outline-offset:3px}
 </style>
 
 </style>
@@ -1328,9 +1336,11 @@ body::before{opacity:0}
       localStorage.setItem(STORAGE_KEY, JSON.stringify(cloud));
     } catch (e) {
       alert('Unable to save to local storage. Your browser may be blocking it.');
+      return false;
     }
     updateStats();
     renderCloudTable();
+    return true;
   }
 
   function formatDate(iso) {
@@ -1381,16 +1391,13 @@ body::before{opacity:0}
       .sort((a, b) => (b.createdAt || '').localeCompare(a.createdAt || ''))
       .forEach(file => {
         const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td>${file.title || 'Untitled Document'}</td>
-          <td><span class="tag">${file.type || 'Custom'}</span></td>
-          <td>${formatDate(file.createdAt)}</td>
-          <td>
-            <button class="btn secondary" data-action="view" data-id="${file.id}" style="padding:3px 8px;font-size:11px;">View</button>
-            <button class="btn secondary" data-action="download" data-id="${file.id}" style="padding:3px 8px;font-size:11px;">Download</button>
-            <button class="btn danger" data-action="delete" data-id="${file.id}" style="padding:3px 8px;font-size:11px;">Delete</button>
-          </td>
-        `;
+        const cell=(value)=>{const td=document.createElement('td');td.textContent=String(value ?? '');return td;};
+        tr.appendChild(cell(file.title || 'Untitled Document'));
+        const typeCell=document.createElement('td');const tag=document.createElement('span');tag.className='tag';tag.textContent=String(file.type || 'Custom');typeCell.appendChild(tag);tr.appendChild(typeCell);
+        tr.appendChild(cell(formatDate(file.createdAt)));
+        const actions=document.createElement('td');
+        for(const [action,label,kind] of [['view','View','secondary'],['download','Download','secondary'],['delete','Delete','danger']]){const btn=document.createElement('button');btn.type='button';btn.className='btn '+kind;btn.dataset.action=action;btn.dataset.id=String(file.id ?? '');btn.style.cssText='padding:7px 10px;font-size:14px;';btn.textContent=label;actions.appendChild(btn);}
+        tr.appendChild(actions);
         tbody.appendChild(tr);
       });
   }
@@ -1782,7 +1789,7 @@ with a qualified attorney.`;
       createdAt: new Date().toISOString()
     };
     cloud.files.push(file);
-    saveCloud();
+    if(!saveCloud()){cloud.files.pop();return;}
     alert('Saved to your Firmament Cloud in this browser.');
   }
 
@@ -1870,6 +1877,6 @@ with a qualified attorney.`;
   });
 })();
 </script>
-<script src="/assets/vnv-beta-link.js" defer></script>
+<script src="https://vervenveda.com/assets/vnv-beta-link.js" defer></script>
 </body>
 </html>
