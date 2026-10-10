@@ -1423,6 +1423,15 @@ with a qualified attorney.`;
   document.addEventListener('DOMContentLoaded', function(){
     handleNavClicks();
     loadCloud();
+    // The interview guide may deep-link to a drafting template. Never import form content via URL.
+    const requestedDraft=new URLSearchParams(window.location.search).get('draft');
+    if(requestedDraft){
+      const select=document.getElementById('doc-type');
+      if(select && Array.from(select.options).some(option=>option.value===requestedDraft)){
+        select.value=requestedDraft;
+        activateView('view-generator');
+      }
+    }
 
     const btnGen = document.getElementById('btn-generate');
     if(btnGen) btnGen.addEventListener('click', function(e){
