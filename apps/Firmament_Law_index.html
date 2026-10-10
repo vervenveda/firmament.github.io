@@ -979,16 +979,21 @@ html,body{background:#f8f7f2!important}
       .sort((a,b)=>(b.createdAt || '').localeCompare(a.createdAt || ''))
       .forEach(file=>{
         const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td>${file.title || 'Untitled Document'}</td>
-          <td><span class="tag">${file.type || 'Custom'}</span></td>
-          <td>${formatDate(file.createdAt)}</td>
-          <td>
-            <button class="btn-secondary" data-action="view" data-id="${file.id}" style="padding:3px 8px;font-size:11px;">View</button>
-            <button class="btn-secondary" data-action="download" data-id="${file.id}" style="padding:3px 8px;font-size:11px;">Download</button>
-            <button class="btn-danger" data-action="delete" data-id="${file.id}" style="padding:3px 8px;font-size:11px;">Delete</button>
-          </td>
-        `;
+        // Treat saved titles, types and IDs strictly as text, never HTML.
+        const textCell = (value) => { const td=document.createElement('td'); td.textContent=String(value ?? ''); return td; };
+        tr.appendChild(textCell(file.title || 'Untitled Document'));
+        const typeCell=document.createElement('td');
+        const tag=document.createElement('span'); tag.className='tag'; tag.textContent=String(file.type || 'Custom');
+        typeCell.appendChild(tag); tr.appendChild(typeCell);
+        tr.appendChild(textCell(formatDate(file.createdAt)));
+        const actions=document.createElement('td');
+        for(const [action,label,cls] of [['view','View','btn-secondary'],['download','Download','btn-secondary'],['delete','Delete','btn-danger']]){
+          const btn=document.createElement('button'); btn.type='button'; btn.className=cls;
+          btn.dataset.action=action; btn.dataset.id=String(file.id ?? '');
+          btn.style.cssText='padding:3px 8px;font-size:11px;'; btn.textContent=label;
+          actions.appendChild(btn);
+        }
+        tr.appendChild(actions);
         tbody.appendChild(tr);
       });
   }
