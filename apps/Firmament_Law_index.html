@@ -926,9 +926,11 @@ html,body{background:#f8f7f2!important}
       localStorage.setItem(STORAGE_KEY, JSON.stringify(cloud));
     }catch(e){
       alert('Unable to save to local storage. Your browser may be blocking it.');
+      return false;
     }
     updateStats();
     renderCloudTable();
+    return true;
   }
 
   function formatDate(iso){
@@ -1385,7 +1387,10 @@ with a qualified attorney.`;
       createdAt:new Date().toISOString()
     };
     cloud.files.push(file);
-    saveCloud();
+    if(!saveCloud()){
+      cloud.files.pop();
+      return;
+    }
     alert('Saved to your Firmament Cloud in this browser.');
   }
 
