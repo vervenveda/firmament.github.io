@@ -1,5 +1,5 @@
 # Beta Index Coverage
 
-- Added in this run: **3**
-- Already covered: **22**
+- Added in this run: **0**
+- Already covered: **25**
 - Skipped: **0**
