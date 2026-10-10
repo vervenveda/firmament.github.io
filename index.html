@@ -39,7 +39,7 @@
   --max:1280px;
   --radius:7px;
   --display:"Cinzel","Copperplate","Baskerville","Times New Roman",serif;
-  --sans:"Montserrat","Avenir Next","Segoe UI",Arial,sans-serif;
+  --sans:"Brandon Grotesque","Brandon Text","Avenir Next",Avenir,"Segoe UI",Arial,sans-serif;
   --reading:"Baskerville","Iowan Old Style",Georgia,serif;
 }
 *{box-sizing:border-box}
@@ -380,6 +380,16 @@ main{overflow:hidden}
   .resource-card,.pro-card,.official-card,.review-card,.notice-card{color:#111;background:#fff;border:1px solid #777;box-shadow:none;break-inside:avoid}
   .resource-card p,.pro-card p,.official-card p,.review-card p,.notice-card p,.notice-card li{color:#333}
 }
+
+/* Firmament final typography and centered parchment presentation */
+:root{--radius:7px}
+body{background:#f8f7f2!important;color:#182722!important;font-family:var(--sans)!important}
+.hero{background:#f8f7f2!important;color:#182722!important}
+.hero-inner{text-align:center!important;margin-inline:auto!important}
+.hero h1{font-family:var(--display)!important;color:#173d31!important;font-weight:400!important;text-shadow:none!important;text-transform:none!important}
+.hero h1 span{color:#45594c!important;font-family:var(--sans)!important;font-weight:400!important;letter-spacing:.035em!important;text-transform:none!important;font-size:clamp(.95rem,1.9vw,1.2rem)!important}
+.hero .kicker,.hero .hero-copy{color:#45594c!important;text-shadow:none!important}
+.hero-actions{justify-content:center!important}
 </style>
 </head>
 <body>
@@ -1411,6 +1421,6 @@ setupNavigation();
 auditFirmament();
 </script>
 <script src="https://vervenveda.com/assets/vnv-beta-link.js" defer></script>
-<script src="/assets/vnv-beta-link.js" defer></script>
+
 </body>
 </html>
