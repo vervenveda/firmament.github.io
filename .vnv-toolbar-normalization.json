@@ -1,0 +1,38 @@
+{
+  "schema": "vnv-toolbar-normalization-v1",
+  "counts": {
+    "html": 25,
+    "eligible": 22,
+    "already": 0,
+    "changed": 22,
+    "protected": 0,
+    "internal": 0,
+    "fragments": 3,
+    "legacyRemoved": 17,
+    "duplicatesCollapsed": 0
+  },
+  "changed": [
+    "apps/Collector_Hub_index.html",
+    "apps/Estate_Legacy_Elder_Care_index.html",
+    "apps/Evidence_Analysis_index.html",
+    "apps/Family_Hub_index.html",
+    "apps/Firmament_Law_index.html",
+    "apps/Firmament_Legal_Console_index.html",
+    "apps/Firmament_Questionaire_index.html",
+    "apps/Heritage_Census_index.html",
+    "apps/Heritage_KindredVault_v5_index.html",
+    "apps/Heritage_Quiz_index.html",
+    "apps/Homeless_Hub_index.html",
+    "apps/Insurance_Education_index.html",
+    "apps/LGBTQ+_Hub_index.html",
+    "apps/Law_Governance_hall_index.html",
+    "apps/PLERA_Search_Gate_index.html",
+    "apps/Senior_Golden_Path_index.html",
+    "apps/Senior_News_index.html",
+    "apps/Senior_Resource_Library_index.html",
+    "apps/Senior_Safety_Check_index.html",
+    "apps/Veterans_Hub_Florida_index.html",
+    "apps/Veterans_Hub_National_index.html",
+    "index.html"
+  ]
+}
