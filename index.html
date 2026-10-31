@@ -440,12 +440,12 @@ body{background:#f8f7f2!important;color:#182722!important;font-family:var(--sans
     </a>
 
     <nav class="nav-links" id="navLinks" aria-label="Primary navigation">
-      <a href="#pathways">Pathways</a>
-      <a href="#rooms">Reading Rooms</a>
-      <a href="#catalog">Verified Tools</a>
-      <a href="#review">Review Ledger</a>
-      <a href="#professional">Professional Desk</a>
-      <a href="#official">Official Sources</a>
+      <a href="#pathways" data-ticker>Pathways</a>
+      <a href="#rooms" data-ticker>Reading Rooms</a>
+      <a href="#catalog" data-ticker>Verified Tools</a>
+      <a href="#review" data-ticker>Review Ledger</a>
+      <a href="#professional" data-ticker>Professional Desk</a>
+      <a href="#official" data-ticker>Official Sources</a>
       <button type="button" id="printButton">Print Directory</button>
     </nav>
 
@@ -1454,6 +1454,8 @@ setupNavigation();
 auditFirmament();
 </script>
 <script src="https://vervenveda.com/assets/vnv-support.js" defer></script>
+<script src="https://vervenveda.com/assets/vnv-ticker-autopopulate.js" data-vnv-ticker-autopopulate></script>
+<script>VNV_TICKER.autoPopulate({label:"Firmament Quick Links",max:14});</script>
 <script src="https://vervenveda.com/assets/vnv-ecosystem-toolbar.js"></script>
 </body>
 </html>
