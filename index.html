@@ -390,6 +390,11 @@ body{background:#f8f7f2!important;color:#182722!important;font-family:var(--sans
 .hero h1 span{color:#45594c!important;font-family:var(--sans)!important;font-weight:400!important;letter-spacing:.035em!important;text-transform:none!important;font-size:clamp(.95rem,1.9vw,1.2rem)!important}
 .hero .kicker,.hero .hero-copy{color:#45594c!important;text-shadow:none!important}
 .hero-actions{justify-content:center!important}
+
+/* Firmament accessibility hardening */
+body{font-size:16px}
+button,input,select,textarea,.inlay-button,.btn,.tool-button{font-size:16px!important}
+:focus-visible{outline:3px solid #d8bd82!important;outline-offset:3px!important}
 </style>
 <style id="vnv-global-ecosystem-shell">
 .vnv-global-strip{position:relative;z-index:2147482000;min-height:38px;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:12px;padding:5px 12px;border-bottom:1px solid rgba(160,140,100,.28);background:#121918;color:#eee8dc;font:400 12px/1.2 "Avenir Next",Avenir,"Segoe UI",Arial,sans-serif}
@@ -431,7 +436,7 @@ body{background:#f8f7f2!important;color:#182722!important;font-family:var(--sans
 
 <header class="site-header">
   <div class="wrap header-inner">
-    <a class="brand" href="https://vervenveda.github.io/firmament.github.io/" aria-label="Firmament public landing page">
+    <a class="brand" href="https://vervenveda.com/firmament.github.io/" aria-label="Firmament public landing page">
       <span class="brand-seal" aria-hidden="true">⚖</span>
       <span class="brand-copy">
         <span class="brand-name">Firmament</span>
@@ -471,10 +476,10 @@ body{background:#f8f7f2!important;color:#182722!important;font-family:var(--sans
     </div>
 
     <div class="metrics" aria-label="Portal summary">
-      <div class="metric"><strong id="verifiedCount">0</strong><span>Verified internal tools</span></div>
-      <div class="metric"><strong id="proCount">0</strong><span>Professional tools</span></div>
-      <div class="metric"><strong id="officialCount">0</strong><span>Official gateways</span></div>
-      <div class="metric"><strong id="reviewCount">0</strong><span>Held for review</span></div>
+      <div class="metric"><strong id="verifiedCount">Available</strong><span>Verified internal tools</span></div>
+      <div class="metric"><strong id="proCount">Available</strong><span>Professional tools</span></div>
+      <div class="metric"><strong id="officialCount">Available</strong><span>Official gateways</span></div>
+      <div class="metric"><strong id="reviewCount">Review</strong><span>Status loads with directory</span></div>
     </div>
   </div>
 </section>
@@ -803,61 +808,61 @@ const ROOMS=[
 const PRO_TOOLS=[
   {
     id:"prose-suite",title:"PROSE™ Sovereign Editorial Suite",
-    url:"https://vervenveda.github.io/proresource_hub.github.io/Protools/PROSE%E2%84%A2%20editingsuite_index.html",
+    url:"https://vervenveda.com/proresource_hub.github.io/Protools/PROSE%E2%84%A2%20editingsuite_index.html",
     icon:"¶",category:"Drafting",group:"primary",
     description:"Draft, structure, revise, preserve, and export formal letters, statements, reports, and supporting documents."
   },
   {
     id:"prose-gateway",title:"PROSE™ Editorial Gateway",
-    url:"https://vervenveda.github.io/proresource_hub.github.io/Protools/PROSE_index.html",
+    url:"https://vervenveda.com/proresource_hub.github.io/Protools/PROSE_index.html",
     icon:"P",category:"Drafting",group:"primary",
     description:"Enter the PROSE writing environment and its organized professional-document pathways."
   },
   {
     id:"evidence-citation",title:"Evidence & Citation Studio",
-    url:"https://vervenveda.github.io/proresource_hub.github.io/Protools/Evidence_Citation_Studio/",
+    url:"https://vervenveda.com/proresource_hub.github.io/Protools/Evidence_Citation_Studio/",
     icon:"E",category:"Evidence",group:"primary",
     description:"Organize claims, quotations, sources, provenance, citation relationships, bibliographies, and portable research exports."
   },
   {
     id:"daily-spark",title:"DailySpark™ Task Studio",
-    url:"https://vervenveda.github.io/proresource_hub.github.io/Protools/DailySpark%E2%84%A2_task_studio_index.html",
+    url:"https://vervenveda.com/proresource_hub.github.io/Protools/DailySpark%E2%84%A2_task_studio_index.html",
     icon:"✦",category:"Case Planning",group:"primary",
     description:"Track deadlines, priorities, follow-up duties, filing preparation, appointments, and next actions."
   },
   {
     id:"khaezip",title:"KhaeZip™ Archive Studio",
-    url:"https://vervenveda.github.io/proresource_hub.github.io/Protools/KhaeZip%E2%84%A2_index.html",
+    url:"https://vervenveda.com/proresource_hub.github.io/Protools/KhaeZip%E2%84%A2_index.html",
     icon:"⬡",category:"Records",group:"primary",
     description:"Create, inspect, verify, split, join, encrypt, preserve, and recover local archive packages."
   },
   {
     id:"kansee",title:"KANSEE™ Meeting Rooms",
-    url:"https://vervenveda.github.io/proresource_hub.github.io/Protools/KANSEE%E2%84%A2%20333%20Meeting%20Rooms_index.html",
+    url:"https://vervenveda.com/proresource_hub.github.io/Protools/KANSEE%E2%84%A2%20333%20Meeting%20Rooms_index.html",
     icon:"K",category:"Meetings",group:"primary",
     description:"Prepare meeting rooms, participant views, invitations, room chat, and consent-based discussion spaces."
   },
   {
     id:"hollo",title:"HOLLO™ Direct Connect",
-    url:"https://vervenveda.github.io/proresource_hub.github.io/Protools/HOLLO%E2%84%A2%20333%20Direct%20Connect_index.html",
+    url:"https://vervenveda.com/proresource_hub.github.io/Protools/HOLLO%E2%84%A2%20333%20Direct%20Connect_index.html",
     icon:"◎",category:"Communication",group:"primary",
     description:"Maintain trusted contacts, consent-based invitations, direct messages, and private connection pathways."
   },
   {
     id:"plera-search-pro",title:"PLERA™ Search Gate",
-    url:"https://vervenveda.github.io/proresource_hub.github.io/Protools/PLERA%E2%84%A2%20Search%20Gate_index.html",
+    url:"https://vervenveda.com/proresource_hub.github.io/Protools/PLERA%E2%84%A2%20Search%20Gate_index.html",
     icon:"⌕",category:"Research",group:"primary",
     description:"Choose a visible research query, source lane, provider, and file focus before opening outside results."
   },
   {
     id:"khaeclean",title:"KhaeClean™ Code Inspection Studio",
-    url:"https://vervenveda.github.io/proresource_hub.github.io/Protools/KhaeClean%E2%84%A2_index.html",
+    url:"https://vervenveda.com/proresource_hub.github.io/Protools/KhaeClean%E2%84%A2_index.html",
     icon:"◇",category:"Technical Review",group:"technical",
     description:"Inspect, compare, preview, preserve, and export supporting HTML, CSS, and JavaScript records."
   },
   {
     id:"sixbit",title:"SixBit Bun™ Protected Asset Gateway",
-    url:"https://vervenveda.github.io/proresource_hub.github.io/Protools/SixBit_Bun_index.html",
+    url:"https://vervenveda.com/proresource_hub.github.io/Protools/SixBit_Bun_index.html",
     icon:"6",category:"Technical Assets",group:"technical",
     description:"Prepare protected image-to-code assets, manifests, SVG records, and KhaeZip-ready packages."
   }
@@ -932,16 +937,16 @@ const OFFICIAL=[
 ];
 
 const NETWORK=[
-  {title:"Verve N Veda",url:"https://vervenveda.github.io/",mark:"V",description:"The public gateway to the complete Verve N Veda network."},
-  {title:"Firmament Law",url:"https://vervenveda.github.io/firmament.github.io/",mark:"⚖",description:"Return to the Firmament public legal and evidence repository."},
-  {title:"ProReSources",url:"https://vervenveda.github.io/proresource_hub.github.io/",mark:"P",description:"Professional drafting, evidence, archive, meeting, and document tools."},
-  {title:"ARSHIF Archives",url:"https://vervenveda.github.io/Arshif.github.io/",mark:"A",description:"Research, history, culture, public records, and deep-study collections."},
-  {title:"The Verifier",url:"https://vervenveda.github.io/theverifier.github.io/",mark:"✓",description:"Source comparison, information literacy, news, and verification pathways."},
-  {title:"PLERA Search",url:"https://vervenveda.github.io/PLERASearch.github.io/",mark:"⌕",description:"A visible search gateway for research and public-resource discovery."},
-  {title:"One Nation For All",url:"https://vervenveda.github.io/onenationforall.github.io/",mark:"ON",description:"Civic learning, policy, public participation, and government resources."},
-  {title:"Medicament Hub",url:"https://vervenveda.github.io/medicament-hub.github.io/",mark:"✚",description:"Health literacy, medical education, caregiver tools, and public-health sources."},
-  {title:"Khaemenes Academy",url:"https://vervenveda.github.io/Khaemenes_Academy.github.io/",mark:"K",description:"Education, curriculum, research, writing, and lifelong-learning portals."},
-  {title:"River to Road",url:"https://vervenveda.github.io/river_to_road.github.io/",mark:"R",description:"Environmental stewardship, service records, and community action."}
+  {title:"Verve N Veda",url:"https://vervenveda.com/",mark:"V",description:"The public gateway to the complete Verve N Veda network."},
+  {title:"Firmament Law",url:"https://vervenveda.com/firmament.github.io/",mark:"⚖",description:"Return to the Firmament public legal and evidence repository."},
+  {title:"ProReSources",url:"https://vervenveda.com/proresource_hub.github.io/",mark:"P",description:"Professional drafting, evidence, archive, meeting, and document tools."},
+  {title:"ARSHIF Archives",url:"https://vervenveda.com/Arshif.github.io/",mark:"A",description:"Research, history, culture, public records, and deep-study collections."},
+  {title:"The Verifier",url:"https://vervenveda.com/theverifier.github.io/",mark:"✓",description:"Source comparison, information literacy, news, and verification pathways."},
+  {title:"PLERA Search",url:"https://vervenveda.com/PLERASearch.github.io/",mark:"⌕",description:"A visible search gateway for research and public-resource discovery."},
+  {title:"One Nation For All",url:"https://vervenveda.com/onenationforall.github.io/",mark:"ON",description:"Civic learning, policy, public participation, and government resources."},
+  {title:"Medicament Hub",url:"https://vervenveda.com/medicament-hub.github.io/",mark:"✚",description:"Health literacy, medical education, caregiver tools, and public-health sources."},
+  {title:"Khaemenes Academy",url:"https://vervenveda.com/Khaemenes_Academy.github.io/",mark:"K",description:"Education, curriculum, research, writing, and lifelong-learning portals."},
+  {title:"River to Road",url:"https://vervenveda.com/river_to_road.github.io/",mark:"R",description:"Environmental stewardship, service records, and community action."}
 ];
 
 const WORKFLOW=[
